@@ -10,9 +10,9 @@ export default defineConfig({
     strictPort: true,
     cors: true,
     hmr: {
-      host: 'localhost'
+      clientPort: 443,
+      host: '1da0-46-6-32-153.ngrok-free.app'
     },
-    proxy: {},
-    allowedHosts: ['all']
+    allowedHosts: ['1da0-46-6-32-153.ngrok-free.app']
   }
 })
