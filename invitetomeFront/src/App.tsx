@@ -1,5 +1,3 @@
-
-
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -264,7 +262,7 @@ function App() {
               transition: theme.transitions.create(['width', 'margin-left'], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,
-              }),
+              })
             }}
           >
             <Routes>

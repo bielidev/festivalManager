@@ -77,7 +77,7 @@ export const Template = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 900, mx: 'auto', pt: 2 }}>
+    <Box sx={{ width: '100%', pt: 2 }}>
       <Typography variant="h6" gutterBottom>
         Choose Email Template
       </Typography>
@@ -89,89 +89,165 @@ export const Template = () => {
               sx={{
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'row' },
-                height: { xs: 'auto', sm: '220px' },
-                transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                height: 'auto',
+                borderRadius: 2,
+                overflow: 'hidden',
+                transition: 'all 0.2s ease-in-out',
                 '&:hover': {
                   transform: 'translateY(-4px)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.12)'
                 }
               }}
             >
-              <Box sx={{ width: { xs: '100%', sm: '280px' }, flexShrink: 0 }}>
+              {/* Left side - Image */}
+              <Box sx={{ 
+                position: 'relative',
+                width: { xs: '100%', sm: '280px' },
+                minHeight: { xs: '180px', sm: 'auto' },
+                bgcolor: 'grey.50',
+                alignSelf: 'stretch',
+                display: 'flex'
+              }}>
                 <CardMedia
                   component="img"
                   sx={{
-                    height: { xs: '200px', sm: '200px' },
-                    objectFit: 'cover'
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    flexGrow: 1
                   }}
                   image={template.thumbnail}
                   alt={template.name}
                 />
+                {/* Overlay with category badge */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 12,
+                    left: 12,
+                    bgcolor: 'rgba(255,255,255,0.9)',
+                    borderRadius: '12px',
+                    px: 1.5,
+                    py: 0.5,
+                    backdropFilter: 'blur(4px)'
+                  }}
+                >
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      fontWeight: 600,
+                      color: 'primary.main',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}
+                  >
+                    {template.tags[0]}
+                  </Typography>
+                </Box>
               </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                <CardContent sx={{ flex: '1 0 auto', p: 3, pb: 2 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+
+              {/* Right side - Content */}
+              <Box sx={{ 
+                display: 'flex',
+                flexDirection: 'column',
+                flexGrow: 1,
+                p: 0
+              }}>
+                <CardContent sx={{ 
+                  flex: '1 0 auto',
+                  p: 3,
+                  '&:last-child': { pb: 3 }
+                }}>
+                  <Typography 
+                    variant="h6" 
+                    gutterBottom
+                    sx={{ 
+                      fontWeight: 600,
+                      mb: 1,
+                      color: 'text.primary'
+                    }}
+                  >
                     {template.name}
                   </Typography>
                   <Typography 
                     variant="body2" 
-                    color="text.secondary" 
+                    color="text.secondary"
                     sx={{ 
                       mb: 2,
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
+                      lineHeight: 1.6
                     }}
                   >
                     {template.description}
                   </Typography>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {template.tags.map((tag) => (
+                  <Box sx={{ 
+                    display: 'flex',
+                    gap: 1,
+                    flexWrap: 'wrap',
+                    mb: 2
+                  }}>
+                    {template.tags.slice(1).map((tag) => (
                       <Chip
                         key={tag}
                         label={tag}
                         size="small"
+                        variant="outlined"
                         sx={{ 
-                          textTransform: 'capitalize',
-                          bgcolor: 'rgba(37, 99, 235, 0.1)',
+                          borderRadius: '8px',
+                          borderColor: 'primary.light',
                           color: 'primary.main',
-                          fontWeight: 500
+                          bgcolor: 'primary.50',
+                          textTransform: 'capitalize',
+                          '& .MuiChip-label': {
+                            px: 1
+                          }
                         }}
                       />
                     ))}
                   </Box>
+                  <Box sx={{ 
+                    display: 'flex',
+                    gap: 2,
+                    mt: 'auto'
+                  }}>
+                    <Button
+                      startIcon={<PreviewIcon />}
+                      onClick={() => handlePreview(template)}
+                      size="small"
+                      variant="outlined"
+                      sx={{ 
+                        borderRadius: '8px',
+                        textTransform: 'none',
+                        px: 2,
+                        borderColor: 'grey.300',
+                        color: 'text.primary',
+                        '&:hover': {
+                          borderColor: 'primary.main',
+                          bgcolor: 'primary.50'
+                        }
+                      }}
+                    >
+                      Preview
+                    </Button>
+                    <Button
+                      startIcon={<EditIcon />}
+                      onClick={() => handleCustomize(template)}
+                      size="small"
+                      variant="contained"
+                      sx={{ 
+                        borderRadius: '8px',
+                        textTransform: 'none',
+                        px: 2,
+                        boxShadow: 'none',
+                        '&:hover': {
+                          boxShadow: 'none',
+                          bgcolor: 'primary.dark'
+                        }
+                      }}
+                    >
+                      Customize
+                    </Button>
+                  </Box>
                 </CardContent>
-                <Box sx={{ 
-                  px: 3, 
-                  pb: 3, 
-                  pt: 0, 
-                  mt: 'auto',
-                  display: 'flex', 
-                  gap: 1, 
-                  justifyContent: 'flex-end',
-                  bgcolor: 'background.paper',
-                  borderTop: '1px solid',
-                  borderColor: 'divider'
-                }}>
-                  <Button
-                    startIcon={<PreviewIcon />}
-                    onClick={() => handlePreview(template)}
-                    size="small"
-                    sx={{ minWidth: 100 }}
-                  >
-                    Preview
-                  </Button>
-                  <Button
-                    startIcon={<EditIcon />}
-                    onClick={() => handleCustomize(template)}
-                    variant="contained"
-                    size="small"
-                    sx={{ minWidth: 140 }}
-                  >
-                    Use & Customize
-                  </Button>
-                </Box>
               </Box>
             </Card>
           </Grid>

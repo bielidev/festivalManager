@@ -6,7 +6,6 @@ import {
   Grid,
   TextField,
   IconButton,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -15,7 +14,6 @@ import {
   TableRow,
   Chip
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface QuotaType {

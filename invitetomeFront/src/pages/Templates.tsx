@@ -1,5 +1,14 @@
 import { Box, Container, Typography, Paper, Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useState } from 'react';
+
+// Import template images
+import corporateImg from '../assets/templates/corporate.svg';
+import birthdayImg from '../assets/templates/birthday.svg';
+import weddingImg from '../assets/templates/wedding.svg';
+import conferenceImg from '../assets/templates/conference.svg';
+import workshopImg from '../assets/templates/workshop.svg';
+import graduationImg from '../assets/templates/graduation.svg';
 
 const Templates = () => {
   return (
@@ -54,6 +63,27 @@ interface TemplateCardProps {
 }
 
 const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) => {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const fallbackImage = `data:image/svg+xml,${encodeURIComponent(
+    `<svg width="200" height="160" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad-${title}" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#4f46e5;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grad-${title})"/>
+      <text x="50%" y="50%" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dy=".3em">
+        ${title.split(' ')[0]}
+      </text>
+    </svg>`
+  )}`;
+
   return (
     <Paper
       elevation={0}
@@ -88,9 +118,10 @@ const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) =>
         }}
       >
         <img 
-          src={image || `https://via.placeholder.com/200x160/${title.length % 2 ? '2563eb' : '4f46e5'}/ffffff?text=${title.split(' ')[0]}`} 
+          src={imageError ? fallbackImage : (image || fallbackImage)}
           alt={title}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          onError={handleImageError}
         />
       </Box>
       <Box sx={{ 
@@ -132,37 +163,37 @@ const templates = [
     title: 'Corporate Event',
     category: 'Business',
     preview: 'Professional design for corporate events with modern layout and branding options',
-    image: 'https://via.placeholder.com/200x160/2563eb/ffffff?text=Corporate',
+    image: corporateImg,
   },
   {
     title: 'Birthday Party',
     category: 'Personal',
     preview: 'Colorful and fun birthday invitation with customizable themes and RSVP tracking',
-    image: 'https://via.placeholder.com/200x160/4f46e5/ffffff?text=Birthday',
+    image: birthdayImg,
   },
   {
     title: 'Wedding',
     category: 'Personal',
     preview: 'Elegant wedding invitation design with guest management and digital RSVP',
-    image: 'https://via.placeholder.com/200x160/2563eb/ffffff?text=Wedding',
+    image: weddingImg,
   },
   {
     title: 'Conference',
     category: 'Business',
     preview: 'Clean and modern conference template with agenda and speaker highlights',
-    image: 'https://via.placeholder.com/200x160/4f46e5/ffffff?text=Conference',
+    image: conferenceImg,
   },
   {
     title: 'Workshop',
     category: 'Business',
     preview: 'Interactive workshop invitation with session details and materials access',
-    image: 'https://via.placeholder.com/200x160/2563eb/ffffff?text=Workshop',
+    image: workshopImg,
   },
   {
     title: 'Graduation',
     category: 'Personal',
     preview: 'Celebratory graduation template with photo gallery and achievement showcase',
-    image: 'https://via.placeholder.com/200x160/4f46e5/ffffff?text=Graduation',
+    image: graduationImg,
   },
 ];
 
