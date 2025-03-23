@@ -7,6 +7,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import EventIcon from '@mui/icons-material/Event';
 import TemplateIcon from '@mui/icons-material/Description';
 import MenuIcon from '@mui/icons-material/Menu';
+import ContactsIcon from '@mui/icons-material/Contacts';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
@@ -16,6 +17,7 @@ import Home from './pages/Home';
 import Events from './pages/Events';
 import Templates from './pages/Templates';
 import EventDetail from './components/EventDetails/EventDetail';
+import Contacts from './pages/Contacts';
 
 import './App.css'
 
@@ -73,6 +75,7 @@ function App() {
       { text: 'Home', icon: <HomeIcon />, path: '/' },
       { text: 'Events', icon: <EventIcon />, path: '/events' },
       { text: 'Templates', icon: <TemplateIcon />, path: '/templates' },
+      { text: 'Contacts', icon: <ContactsIcon />, path: '/contacts' },
     ];
 
     return (
@@ -270,6 +273,7 @@ function App() {
               <Route path="/events" element={<Events />} />
               <Route path="/templates" element={<Templates />} />
               <Route path="/event/new" element={<EventDetail />} />
+              <Route path="/contacts" element={<Contacts />} />
               <Route path="/event/:id" element={<EventDetail />} />
             </Routes>
           </Box>

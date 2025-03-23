@@ -5,14 +5,12 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true,
-    port: 3000,
-    strictPort: true,
-    cors: true,
+    host: 'localhost',
+    port: 5173,
     hmr: {
-      clientPort: 443,
-      host: '1da0-46-6-32-153.ngrok-free.app'
+      host: 'localhost',
+      port: 5173,
+      protocol: 'ws',
     },
-    allowedHosts: ['1da0-46-6-32-153.ngrok-free.app']
-  }
-})
+  },
+});

@@ -1,6 +1,7 @@
-import { Box, Container, Typography, Paper, Button, Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Container, Typography, Paper, Button, Grid, Dialog, DialogContent } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from 'react';
+import EmailTemplateCreator from '../components/CreateTemplate/EmailTemplateCreator';
 
 // Import template images
 import corporateImg from '../assets/templates/corporate.svg';
@@ -11,6 +12,11 @@ import workshopImg from '../assets/templates/workshop.svg';
 import graduationImg from '../assets/templates/graduation.svg';
 
 const Templates = () => {
+  const [createOpen, setCreateOpen] = useState(false);
+
+  // Debug re-renders (optional, remove in production)
+  console.log('Templates rendered, createOpen:', createOpen);
+
   return (
     <Box>
       <Container maxWidth="md">
@@ -30,6 +36,10 @@ const Templates = () => {
             <Button
               variant="contained"
               startIcon={<AddIcon />}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent event bubbling
+                setCreateOpen(true);
+              }}
               sx={{
                 borderRadius: '50px',
                 background: 'linear-gradient(45deg, #2563eb 30%, #4f46e5 90%)',
@@ -51,6 +61,54 @@ const Templates = () => {
           </Grid>
         </Box>
       </Container>
+
+      {/* Create Template Dialog */}
+      <Dialog
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        maxWidth={false}
+        fullScreen
+        PaperProps={{
+          sx: {
+            bgcolor: 'background.default',
+          },
+        }}
+      >
+        <DialogContent
+          sx={{
+            p: 0,
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              p: 2,
+              borderBottom: 1,
+              borderColor: 'divider',
+              bgcolor: 'background.paper',
+            }}
+          >
+            <Typography variant="h6">Create New Template</Typography>
+            <Button
+              onClick={() => setCreateOpen(false)}
+              variant="outlined"
+              color="inherit"
+              size="small"
+            >
+              Back to Templates
+            </Button>
+          </Box>
+          <Box sx={{ flex: 1, overflow: 'auto' }}>
+            <EmailTemplateCreator onClose={() => setCreateOpen(false)} />
+          </Box>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };
@@ -117,40 +175,46 @@ const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) =>
           overflow: 'hidden',
         }}
       >
-        <img 
+        <img
           src={imageError ? fallbackImage : (image || fallbackImage)}
           alt={title}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           onError={handleImageError}
         />
       </Box>
-      <Box sx={{ 
-          px: { xs: 2, sm: 3 }, 
-          py: { xs: 2, sm: 2.5 }, 
-          flexGrow: 1, 
-          display: 'flex', 
-          flexDirection: 'column', 
+      <Box
+        sx={{
+          px: { xs: 2, sm: 3 },
+          py: { xs: 2, sm: 2.5 },
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
-          overflow: 'hidden'
-        }}>
+          overflow: 'hidden',
+        }}
+      >
         <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.75, fontSize: '1.1rem' }}>
           {title}
         </Typography>
-        <Typography 
-          variant="body2" 
-          color="text.secondary" 
-          sx={{ 
-            mb: 1.5, 
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            mb: 1.5,
             lineHeight: 1.4,
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
-            textOverflow: 'ellipsis'
-          }}>
+            textOverflow: 'ellipsis',
+          }}
+        >
           {preview}
         </Typography>
-        <Typography variant="caption" sx={{ color: 'primary.main', textTransform: 'uppercase', letterSpacing: 1, fontWeight: 500 }}>
+        <Typography
+          variant="caption"
+          sx={{ color: 'primary.main', textTransform: 'uppercase', letterSpacing: 1, fontWeight: 500 }}
+        >
           {category}
         </Typography>
       </Box>
