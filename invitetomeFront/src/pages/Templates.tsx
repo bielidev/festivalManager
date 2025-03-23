@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Container, Typography, Paper, Button, Grid, Dialog, DialogContent } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EmailTemplateCreator from '../components/CreateTemplate/EmailTemplateCreator';

@@ -17,8 +17,6 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
   visibility,
   customFields,
   defaultFields,
-  language,
-  translations,
   onInputChange,
   onToggleVisibility,
 }) => {

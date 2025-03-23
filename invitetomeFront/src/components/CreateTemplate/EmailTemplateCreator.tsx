@@ -4,7 +4,7 @@ import EditorPanel from './EditorPanel';
 import PreviewPanel from './PreviewPanel';
 import ActionBar from './ActionBar';
 import languages from './email-default-languages.json';
-import { reducer, initialState, State, Action, Language } from './templateReducer';
+import { reducer, initialState, Language } from './templateReducer';
 
 // Memoize child components to prevent unnecessary re-renders
 const EditorPanelMemo = React.memo(EditorPanel);
@@ -15,7 +15,7 @@ interface EmailTemplateCreatorProps {
   onClose: () => void;
 }
 
-const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = ({ onClose }) => {
+const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const defaultFields = [

@@ -15,7 +15,6 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
   fields,
   visibility,
   customFields,
-  defaultFields,
   language,
   translations,
 }) => {
