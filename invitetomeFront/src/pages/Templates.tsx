@@ -94,11 +94,30 @@ const Templates = () => {
               bgcolor: 'background.paper',
             }}
           >
-            <Typography variant="h6">Create New Template</Typography>
+             <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 600,
+                background: 'linear-gradient(45deg, #2563eb 30%, #4f46e5 90%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Create New Template
+            </Typography>
             <Button
               onClick={() => setCreateOpen(false)}
               variant="outlined"
-              color="inherit"
+              sx={{
+                borderRadius: '50px',
+                borderColor: '#2563eb',
+                color: '#2563eb',
+                '&:hover': {
+                  borderColor: '#1d4ed8',
+                  color: '#1d4ed8',
+                  background: 'rgba(37, 99, 235, 0.1)',
+                },
+              }}
               size="small"
             >
               Back to Templates
