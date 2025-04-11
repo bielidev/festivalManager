@@ -25,6 +25,10 @@ export const GeneralInfo = () => {
       type: "GENERAL_DATA",
       payload: { ...generalInfoForm, [name]: value },
     });
+    setGeneralInfoForm((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleOnChangeTags = (newValue: string[], field : string) => {
