@@ -7,7 +7,7 @@ export interface Core {
       venueData: VenueData;
     };
     coreQuotas: {
-        /* Note to myself:
+      /* Note to myself:
               In step 4 of the stepper we create quotas/invitations types,
               and in step 5 we create bundles with those quotas/invitations types.
               In both steps we assing a quantity. Which one is the correct one?
@@ -21,7 +21,14 @@ export interface Core {
     coreStatus: {
       status: EventStatus;
     };
-    coreEventDates: string[]; // dates in ISO 8601 format
+    coreEventDates: {
+      /* Dates are in ISO 8601 format */
+      dates: string[];
+      startDate: string;
+      endDate: string;
+      openingTime: string; // Time in 24h format
+      scheduleNotes: string;
+    };
   };
 }
 
