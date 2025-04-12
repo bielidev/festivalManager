@@ -11,10 +11,7 @@ import {
 } from "@mui/material";
 import { useEventDetailContext } from "../EventContext/EventDetailContext";
 
-
-
 export const GeneralInfo = () => {
-
   const { currentEvent, dispatch } = useEventDetailContext();
   const [generalInfoForm, setGeneralInfoForm] = useState<GeneralInfoForm>({
     eventCode: currentEvent.data.coreData.generalData.eventCode,
@@ -27,12 +24,11 @@ export const GeneralInfo = () => {
   });
 
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
- 
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     dispatch({
-      type: "GENERAL_DATA",
+      type: "GENERAL_INFO",
       payload: { ...generalInfoForm, [name]: value },
     });
     setGeneralInfoForm((prevState) => ({
@@ -41,9 +37,9 @@ export const GeneralInfo = () => {
     }));
   };
 
-  const handleOnChangeTags = (newValue: string[], field : string) => {
+  const handleOnChangeTags = (newValue: string[], field: string) => {
     dispatch({
-      type: "GENERAL_DATA",
+      type: "GENERAL_INFO",
       payload: { ...generalInfoForm, [field]: newValue },
     });
     setGeneralInfoForm((prevState) => ({
@@ -158,7 +154,6 @@ export const GeneralInfo = () => {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            name="address"
             value={generalInfoForm.address}
             fullWidth
             label="Address"
@@ -167,6 +162,7 @@ export const GeneralInfo = () => {
             multiline
             rows={2}
             onChange={handleOnChange}
+            name="address"
           />
         </Grid>
         <Grid item xs={12}>
@@ -175,7 +171,9 @@ export const GeneralInfo = () => {
             options={[]}
             freeSolo
             value={generalInfoForm.gates}
-            onChange={(_event, newValue) => handleOnChangeTags(newValue, "gates")}
+            onChange={(_event, newValue) =>
+              handleOnChangeTags(newValue, "gates")
+            }
             renderTags={(value: string[], getTagProps) =>
               value.map((option, index) => (
                 <Chip
@@ -206,35 +204,40 @@ export const GeneralInfo = () => {
           <Typography variant="h6" sx={{ mb: 2, mt: 2 }}>
             Event Logo
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
             <Button variant="outlined" component="label" sx={{ mt: 1 }}>
               Upload Logo
-              <input type="file" hidden accept="image/*" onChange={handleLogoUpload} />
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={handleLogoUpload}
+              />
             </Button>
-            
+
             {/* Logo Preview */}
             {logoPreview && (
-              <Box 
-                sx={{ 
-                  mt: 1, 
-                  width: 100, 
-                  height: 100, 
-                  borderRadius: 1, 
-                  overflow: 'hidden',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
+              <Box
+                sx={{
+                  mt: 1,
+                  width: 100,
+                  height: 100,
+                  borderRadius: 1,
+                  overflow: "hidden",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <img 
-                  src={logoPreview} 
-                  alt="Event Logo Preview" 
+                <img
+                  src={logoPreview}
+                  alt="Event Logo Preview"
                   style={{
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    objectFit: 'contain'
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "contain",
                   }}
                 />
               </Box>

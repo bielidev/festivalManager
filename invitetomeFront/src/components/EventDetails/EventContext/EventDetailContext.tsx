@@ -71,11 +71,11 @@ export interface GeneralInfoForm {
 };
 
 /* Reducer for managing event details */
-type Action = { type: "GENERAL_DATA"; payload: GeneralInfoForm };
+type Action = { type: "GENERAL_INFO"; payload: GeneralInfoForm };
 
 const eventReducer = (state: Core, action: Action) => {
   switch (action.type) {
-    case "GENERAL_DATA":
+    case "GENERAL_INFO":
       return {
         ...state,
         data: {
@@ -102,7 +102,6 @@ const eventReducer = (state: Core, action: Action) => {
       return state;
   }
 };
-
 
 // Empty event core data for initialization
 const emptyEventData: Core = {
