@@ -1,14 +1,18 @@
 import React, { createContext, useContext, useState } from "react";
-import { EventData } from "../../../model/EventItemModel/sortKeys/EventData"; 
-import { mockEventsData } from "../../../model/EventItemModel/MockData";
+import { mockCoreOp } from "../../../model/EventItemModel/MockData";
+import { Core } from "../../../model/EventItemModel/Core";
+
+// Local storage key for storing event ids
+const EVENT_IDS_KEY = "eventIds";
+const CORE_KEY_SUFFIX = "#core";
 
 interface EventStorageContextType {
-  events: EventData[];
-  eventStorageApi: {
-    addEvent: (event: EventData) => void;
-    getEventById: (id: string) => EventData | undefined;
-    updateEvent: (event: EventData) => void;
-    removeEvent: (id: string) => void;
+  eventCores: Core[];
+  eventCoreStorageApi: {
+    addEventCore: (eventCore: Core) => void;
+    getEventCoreById: (id: string) => Core | undefined;
+    updateEventCore: (updatedEventCore: Core) => void;
+    removeEventCore: (id: string) => void;
   };
 }
 
@@ -29,72 +33,80 @@ export const useEventStorageContext = () => {
 const initializeEvents = () => {
   // Arrays of event ids stored in local storage
   const storedIds = JSON.parse(
-    localStorage.getItem("eventIds") || "[]"
+    localStorage.getItem(EVENT_IDS_KEY) || "[]"
   ) as string[];
   // If no ids are found, return mock data and store them in local storage
   if (storedIds.length === 0) {
-    const mockData = mockEventsData.map((event) => {
-      localStorage.setItem(event.eventId, JSON.stringify(event));
+    const idsArray = mockCoreOp.map((event) => {
+      // We create a key for accessing the event core operation "eventId#core"
+      localStorage.setItem(
+        event.eventId + CORE_KEY_SUFFIX,
+        JSON.stringify(event)
+      );
       return event.eventId;
     });
-    localStorage.setItem("eventIds", JSON.stringify(mockData));
-    return mockEventsData;
+    localStorage.setItem(EVENT_IDS_KEY, JSON.stringify(idsArray));
+    return mockCoreOp;
   }
   // If ids are found, retrieve the events from local storage
   return storedIds
     .map((id) => {
-      const eventData = localStorage.getItem(id);
-      return eventData ? JSON.parse(eventData) : null;
+      const eventCoreData = localStorage.getItem(id + CORE_KEY_SUFFIX);
+      return eventCoreData ? JSON.parse(eventCoreData) : null;
     })
-    .filter(Boolean) as EventData[];
+    .filter(Boolean) as Core[];
 };
 
 // Provider component
 export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [events, setEvents] = useState<EventData[]>(initializeEvents);
+  const [eventCores, setEventCores] = useState<Core[]>(initializeEvents);
 
-  const eventStorageApi = {
-    addEvent: (event: EventData) => {
-      setEvents((prevEvents) => {
-        const updatedEvents = [...prevEvents, event];
+  const eventCoreStorageApi = {
+    addEventCore: (eventCore: Core) => {
+      setEventCores((prevEventCores) => {
+        const updatedEvents = [...prevEventCores, eventCore];
         localStorage.setItem(
-          "eventIds",
+          EVENT_IDS_KEY,
           JSON.stringify(updatedEvents.map((e) => e.eventId))
         );
-        localStorage.setItem(event.eventId, JSON.stringify(event));
+        localStorage.setItem(
+          eventCore.eventId + CORE_KEY_SUFFIX,
+          JSON.stringify(eventCore)
+        );
         return updatedEvents;
       });
     },
-    getEventById: (id: string) => events.find((event) => event.eventId === id),
-    updateEvent: (updatedEvent: EventData) => {
-      setEvents((prevEvents) => {
-        const updatedEvents = prevEvents.map((event) =>
-          event.eventId === updatedEvent.eventId ? updatedEvent : event
+    getEventCoreById: (id: string) =>
+      eventCores.find((eventCore) => eventCore.eventId === id),
+    updateEventCore: (updatedEventCore: Core) => {
+      setEventCores((prevEventCores) => {
+        const updatedEventCores = prevEventCores.map((eventCore) =>
+          eventCore.eventId === updatedEventCore.eventId ? updatedEventCore : eventCore
         );
         localStorage.setItem(
-          updatedEvent.eventId,
-          JSON.stringify(updatedEvent)
+          updatedEventCore.eventId + CORE_KEY_SUFFIX,
+          JSON.stringify(updatedEventCore)
         );
-        return updatedEvents;
+        return updatedEventCores;
       });
     },
-    removeEvent: (id: string) => {
-      setEvents((prevEvents) => {
-        const updatedEvents = prevEvents.filter(
-          (event) => event.eventId !== id
+    removeEventCore: (id: string) => {
+      setEventCores((prevEventCores) => {
+        const updatedEventCores = prevEventCores.filter(
+          (eventCore) => eventCore.eventId !== id
         );
-        const updatedIds = updatedEvents.map((e) => e.eventId);
-        localStorage.setItem("eventIds", JSON.stringify(updatedIds));
+        const updatedIds = updatedEventCores.map((eventCore) => eventCore.eventId);
+        localStorage.setItem(EVENT_IDS_KEY, JSON.stringify(updatedIds));
         localStorage.removeItem(id);
-        return updatedEvents;
+        return updatedEventCores;
       });
     },
   };
 
   return (
-    <EventStorageContext.Provider value={{ events, eventStorageApi }}>
+    <EventStorageContext.Provider value={{ eventCores, eventCoreStorageApi }}>
       {children}
     </EventStorageContext.Provider>
   );
