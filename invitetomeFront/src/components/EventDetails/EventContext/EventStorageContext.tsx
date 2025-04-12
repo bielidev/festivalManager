@@ -89,6 +89,7 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
           updatedEventCore.eventId + CORE_KEY_SUFFIX,
           JSON.stringify(updatedEventCore)
         );
+        console.info("Updating event core data in storage");
         return updatedEventCores;
       });
     },

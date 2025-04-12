@@ -4,7 +4,7 @@ import { Core } from "../../../model/EventItemModel/Core";
 
 /* Context for managing event details */
 interface EventDetailContextType {
-  currentEvent: Core;
+  currentEvent: any;
   dispatch: React.Dispatch<Action>;
 }
 
@@ -22,6 +22,12 @@ export const useEventDetailContext = () => {
   return context;
 };
 
+interface CoreReducerState {
+  eventCore: Core;
+  lastAction: string;
+  lastPayload: GeneralInfoForm | any;
+}
+
 export const EventDetailProvider: React.FC<{
   children: React.ReactNode;
   id: string;
@@ -33,28 +39,42 @@ export const EventDetailProvider: React.FC<{
       const eventData = eventCoreStorageApi.getEventCoreById(id);
       if (eventData) {
         console.info("Loading event data into reducer", eventData);
-        return eventData;
+        return {
+          eventCore: eventData,
+          lastAction: "INIT",
+          lastPayload: {},
+        } as CoreReducerState;
       } else {
         console.error(
           "Failed to load event data, initializing empty event data"
         );
-        return emptyEventData;
+        return {
+          eventCore: emptyEventData,
+          lastAction: "INIT",
+          lastPayload: {},
+        } as CoreReducerState;
       }
     }
     console.info("No event data found, initializing empty event data");
-    return emptyEventData;
+    return {
+      eventCore: emptyEventData,
+      lastAction: "INIT",
+      lastPayload: {},
+    } as CoreReducerState;
   };
 
-  const [currentEvent, dispatch] = useReducer(eventReducer, {} as Core, () =>
+  const [eventCoreState, dispatch] = useReducer(eventReducer, {}, () =>
     initReducer(id)
   );
 
   useEffect(() => {
-    eventCoreStorageApi.updateEventCore(currentEvent);
-  }, [currentEvent]);
+    console.info("Last action:", eventCoreState.lastAction);
+    console.info("Last payload:", eventCoreState.lastPayload);
+    eventCoreStorageApi.updateEventCore(eventCoreState.eventCore);
+  }, [eventCoreState.lastAction, eventCoreState.lastPayload]);
 
   return (
-    <EventDetailContext.Provider value={{ currentEvent, dispatch }}>
+    <EventDetailContext.Provider value={{ currentEvent: eventCoreState.eventCore, dispatch }}>
       {children}
     </EventDetailContext.Provider>
   );
@@ -68,35 +88,39 @@ export interface GeneralInfoForm {
   city: string;
   address: string;
   gates: string[];
-};
+}
 
 /* Reducer for managing event details */
 type Action = { type: "GENERAL_INFO"; payload: GeneralInfoForm };
 
-const eventReducer = (state: Core, action: Action) => {
+const eventReducer = (state: CoreReducerState, action: Action) => {
   switch (action.type) {
     case "GENERAL_INFO":
       return {
-        ...state,
-        data: {
-          ...state.data,
-          coreData: {
-            ...state.data.coreData,
-            generalData: {
-              ...state.data.coreData.generalData,
-              eventCode: action.payload.eventCode,
-              eventName: action.payload.name,
-              tags: action.payload.tags,
-            },
-            venueData: {
-              ...state.data.coreData.venueData,
-              venueName: action.payload.venue,
-              city: action.payload.city,
-              address: action.payload.address,
-              gates: action.payload.gates,
+        eventCore: {
+          ...state.eventCore,
+          data: {
+            ...state.eventCore.data,
+            coreData: {
+              ...state.eventCore.data.coreData,
+              generalData: {
+                ...state.eventCore.data.coreData.generalData,
+                eventCode: action.payload.eventCode,
+                eventName: action.payload.name,
+                tags: action.payload.tags,
+              },
+              venueData: {
+                ...state.eventCore.data.coreData.venueData,
+                venueName: action.payload.venue,
+                city: action.payload.city,
+                address: action.payload.address,
+                gates: action.payload.gates,
+              },
             },
           },
         },
+        lastAction: action.type,
+        lastPayload: action.payload as GeneralInfoForm,
       };
     default:
       return state;
