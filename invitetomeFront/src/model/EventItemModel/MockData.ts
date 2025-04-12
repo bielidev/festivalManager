@@ -30,6 +30,7 @@ const mockCoreOp: Core[] = [
       coreData: {
         generalData: {
           eventName: "Primavera Sound 2025",
+          eventCode: "PS2025",
           description: "One of Europe's biggest music festivals",
           type: "CONCERT",
           edition: "2025 Edition",
@@ -103,6 +104,7 @@ const mockCoreOp: Core[] = [
       coreData: {
         generalData: {
           eventName: "Modern Art Exhibition",
+          eventCode: "MAE2025",
           description: "Exhibition featuring contemporary art pieces",
           type: "EXHIBITION",
           edition: "Spring 2025",
@@ -175,6 +177,7 @@ const mockCoreOp: Core[] = [
       coreData: {
         generalData: {
           eventName: "Cruïlla Festival",
+          eventCode: "CRU2025",
           description: "Music and arts festival with diverse lineup",
           type: "CONCERT",
           edition: "2025 Edition",
@@ -245,6 +248,7 @@ const mockCoreOp: Core[] = [
       coreData: {
         generalData: {
           eventName: "Contemporary Art Show",
+          eventCode: "CAS2025",
           description:
             "Contemporary art exhibition showcasing emerging artists",
           type: "EXHIBITION",
@@ -313,6 +317,7 @@ const mockCoreOp: Core[] = [
       coreData: {
         generalData: {
           eventName: "Electronic Music Night",
+          eventCode: "EMN2025",
           description: "A night of electronic music with top DJs",
           type: "CONCERT",
           edition: "Spring 2025",
@@ -373,6 +378,7 @@ const mockCoreOp: Core[] = [
       coreData: {
         generalData: {
           eventName: "Art Workshop Series",
+          eventCode: "AWS2025",
           description: "Series of art workshops for aspiring artists",
           type: "WORKSHOP",
           edition: "Spring 2025",

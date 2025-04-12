@@ -41,6 +41,7 @@ export type EventStatus =
 
 export interface GeneralData {
   eventName: string;
+  eventCode: string;
   description: string;
   type: string;
   edition: string;
