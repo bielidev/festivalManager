@@ -62,7 +62,7 @@ export interface VenueData {
 }
 
 export interface Quota {
-  quotaType: string;
+  quotaType: string; // e.g. "VIP", "Backstage"
   quotaQuantity: number;
   color: string; // color in hexadecimal
   description: string;
