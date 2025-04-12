@@ -2,9 +2,7 @@ export interface Sync {
   eventId: string;
   operation: "sync";
   data: {
-    syncData: {
       timestamps: Timestamps;
-    };
   };
 }
 
