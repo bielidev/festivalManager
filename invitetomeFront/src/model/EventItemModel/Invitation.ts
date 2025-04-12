@@ -3,13 +3,13 @@ export interface Invitation {
   operation: string; // "e.g. invitation#INV001"
   data: {
     event: any;
-    eventDates: any; // Attending dates?
+    eventDates: any;
     invitationContact: InvitationContact;
     invitationData: InvitationData;
-    invitationDates: any; // sent, opened email dates?
+    invitationDates: any;
     invitationQrData: InvitationQrData;
     invitationTemplate: InvitationTemplate;
-    invitationStatus: any; // only invitation status or invitation, email and qr status?
+    invitationStatus: any;
   };
 }
 
@@ -23,10 +23,10 @@ export interface InvitationContact {
 }
 
 export interface InvitationData {
-    description: string;
-    bundle: string; // Bundle operation
-    createdBy: string;
-    modifiedBy: string;
+  description: string;
+  bundle: string; // Bundle operation
+  createdBy: string;
+  modifiedBy: string;
 }
 
 export interface InvitationQrData {
@@ -35,7 +35,7 @@ export interface InvitationQrData {
 }
 
 export interface InvitationTemplate {
-    id: string;
-    subject: string;
-    body: string;
+  id: string;
+  subject: string;
+  body: string;
 }
