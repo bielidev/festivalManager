@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GeneralData } from "../../../model/EventDataModel/sortKeys/CoreData";
+import { GeneralData } from "../../../model/EventItemModel/sortKeys/CoreData";
 import {
   Box,
   TextField,

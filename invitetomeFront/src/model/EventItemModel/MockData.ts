@@ -1,4 +1,4 @@
-import { EventData } from "./EventData";
+import { EventData } from "./sortKeys/EventData";
 
 // Structured EventData array based on simple mockEvents
 export const mockEventsData: EventData[] = [

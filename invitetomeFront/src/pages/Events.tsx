@@ -9,7 +9,7 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { useState } from 'react';
 import { useEventStorageContext } from '../components/EventDetails/EventContext/EventStorageContext';
-import { EventStatus } from '../model/EventDataModel/sortKeys/CoreData';
+import { EventStatus } from '../model/EventItemModel/sortKeys/CoreData';
 
 function parseDate(dateString: string) {
   const date = new Date(dateString);

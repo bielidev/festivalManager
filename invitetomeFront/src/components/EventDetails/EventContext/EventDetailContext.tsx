@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import { EventData } from "../../../model/EventDataModel/EventData";
+import { EventData } from "../../../model/EventItemModel/sortKeys/EventData";
 import { useEventStorageContext } from "./EventStorageContext";
-import { GeneralData } from "../../../model/EventDataModel/sortKeys/CoreData";
+import { GeneralData } from "../../../model/EventItemModel/sortKeys/CoreData";
 
 /* Context for managing event details */
 interface EventDetailContextType {
