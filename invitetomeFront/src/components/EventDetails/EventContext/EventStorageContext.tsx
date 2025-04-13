@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { mockCoreOp } from "../../../model/EventItemModel/MockData";
 import { Core } from "../../../model/EventItemModel/Core";
+import { getItem, setItem, removeItem } from "../../../utils/localStorage";
 
 // Local storage key for storing event ids
 const EVENT_IDS_KEY = "eventIds";
@@ -32,27 +33,22 @@ export const useEventStorageContext = () => {
 
 const initializeEvents = () => {
   // Arrays of event ids stored in local storage
-  const storedIds = JSON.parse(
-    localStorage.getItem(EVENT_IDS_KEY) || "[]"
-  ) as string[];
+  const storedIds = getItem(EVENT_IDS_KEY) || [];
   // If no ids are found, return mock data and store them in local storage
   if (storedIds.length === 0) {
     const idsArray = mockCoreOp.map((event) => {
       // We create a key for accessing the event core operation "eventId#core"
-      localStorage.setItem(
-        event.eventId + CORE_KEY_SUFFIX,
-        JSON.stringify(event)
-      );
+      setItem(event.eventId + CORE_KEY_SUFFIX, event);
       return event.eventId;
     });
-    localStorage.setItem(EVENT_IDS_KEY, JSON.stringify(idsArray));
+    setItem(EVENT_IDS_KEY, idsArray);
     return mockCoreOp;
   }
   // If ids are found, retrieve the events from local storage
   return storedIds
-    .map((id) => {
-      const eventCoreData = localStorage.getItem(id + CORE_KEY_SUFFIX);
-      return eventCoreData ? JSON.parse(eventCoreData) : null;
+    .map((id: string) => {
+      const eventCoreData = getItem(id + CORE_KEY_SUFFIX);
+      return eventCoreData || null;
     })
     .filter(Boolean) as Core[];
 };
@@ -67,14 +63,11 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
     addEventCore: (eventCore: Core) => {
       const updatedEvents = [...eventCores, eventCore];
 
-      localStorage.setItem(
+      setItem(
         EVENT_IDS_KEY,
-        JSON.stringify(updatedEvents.map((e) => e.eventId))
+        updatedEvents.map((e) => e.eventId)
       );
-      localStorage.setItem(
-        eventCore.eventId + CORE_KEY_SUFFIX,
-        JSON.stringify(eventCore)
-      );
+      setItem(eventCore.eventId + CORE_KEY_SUFFIX, eventCore);
 
       setEventCores(updatedEvents);
     },
@@ -88,10 +81,7 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
       );
 
       console.info("Updating event core data in storage");
-      localStorage.setItem(
-        updatedEventCore.eventId + CORE_KEY_SUFFIX,
-        JSON.stringify(updatedEventCore)
-      );
+      setItem(updatedEventCore.eventId + CORE_KEY_SUFFIX, updatedEventCore);
 
       setEventCores(updatedEventCores);
     },
@@ -103,8 +93,8 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
         (eventCore) => eventCore.eventId
       );
 
-      localStorage.setItem(EVENT_IDS_KEY, JSON.stringify(updatedIds));
-      localStorage.removeItem(id + CORE_KEY_SUFFIX);
+      setItem(EVENT_IDS_KEY, updatedIds);
+      removeItem(id + CORE_KEY_SUFFIX);
 
       setEventCores(updatedEventCores);
     },
