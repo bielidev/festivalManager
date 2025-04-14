@@ -139,12 +139,9 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       };
 
-      const updatedEventCores = eventCores.map((eCore) => {
-        if (eventCore.eventId === id) {
-          return eventCore;
-        }
-        return eCore;
-      });
+      const updatedEventCores = eventCores.map((eventCoreItem) =>
+        eventCoreItem.eventId === id ? eventCore : eventCoreItem
+      );
 
       setItem(id + CORE_KEY_SUFFIX, eventCore);
 
