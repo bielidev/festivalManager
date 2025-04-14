@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useReducer } from "react";
 import {
   Box,
   Typography,
@@ -21,6 +21,14 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Quota } from "../../../model/EventItemModel/Core";
+import { 
+  quotaReducer, 
+  QuotaState, 
+  addNewQuota, 
+  changeTotalInvitations, 
+  deleteQuota, 
+  changeQuotaQuantity 
+} from "./quotaReducer";
 
 const defaultQuotas: Quota[] = [
   {
@@ -50,8 +58,15 @@ const defaultQuotas: Quota[] = [
 ];
 
 export const Quotas = () => {
-  const [quotas, setQuotas] = useState<Quota[]>(defaultQuotas);
-  const [totalInvitations, setTotalInvitations] = useState<number>(0);
+  const pageBottomRef = useRef<HTMLDivElement>(null);
+  // Initialize reducer with default state
+  const initialQuotaState: QuotaState = {
+    quotas: defaultQuotas,
+    totalInvitations: 0,
+    remainingInvitations: 0
+  };
+  const [quotaState, dispatch] = useReducer(quotaReducer, initialQuotaState);
+  
   const [accordionExpanded, setAccordionExpanded] = useState<boolean>(false);
   const [newQuota, setNewQuota] = useState<Quota>({
     invitationType: "",
@@ -59,35 +74,32 @@ export const Quotas = () => {
     color: "#4caf50",
     description: "",
   });
-  const pageBottomRef = useRef<HTMLDivElement>(null);
 
-  const handleQuotaChange = (invitationType: string, value: number) => {
-    setQuotas(
-      quotas.map((quota) =>
-        quota.invitationType === invitationType
-          ? { ...quota, quotaQuantity: value }
-          : quota
-      )
-    );
+  /* Functions to handle changes in the new quota form */
+  const handleNewQuotaChange = (field: keyof Quota, value: string | number) => {
+    setNewQuota({
+      ...newQuota,
+      [field]: value,
+    });
   };
-
-  const handleTotalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newTotal = parseInt(event.target.value) || 0;
-    setTotalInvitations(newTotal);
-  };
-
-  const getQuotasSum = () =>
-    quotas.reduce((sum, quota) => sum + quota.quotaQuantity, 0);
-
-  const getRemainingQuota = () => totalInvitations - getQuotasSum();
 
   const handleAccordionToggle = () => {
     setAccordionExpanded(!accordionExpanded);
   };
 
+  /* Functions to handle changes in the reducer */
+  const handleQuotaChange = (invitationType: string, value: number) => {
+    dispatch(changeQuotaQuantity(invitationType, value));
+  };
+
+  const handleTotalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newTotal = parseInt(event.target.value) || 0;
+    dispatch(changeTotalInvitations(newTotal));
+  };
+
   const handleAddQuota = () => {
     if (newQuota.invitationType && newQuota.description) {
-      setQuotas([...quotas, { ...newQuota }]);
+      dispatch(addNewQuota({ ...newQuota }));
       setNewQuota({
         invitationType: "",
         quotaQuantity: 0,
@@ -100,16 +112,7 @@ export const Quotas = () => {
   };
 
   const handleDeleteQuota = (invitationType: string) => {
-    setQuotas(
-      quotas.filter((quota) => quota.invitationType !== invitationType)
-    );
-  };
-
-  const handleNewQuotaChange = (field: keyof Quota, value: string | number) => {
-    setNewQuota({
-      ...newQuota,
-      [field]: value,
-    });
+    dispatch(deleteQuota(invitationType));
   };
 
   return (
@@ -122,7 +125,7 @@ export const Quotas = () => {
         <TextField
           type="number"
           label="Total Invitations"
-          value={totalInvitations}
+          value={quotaState.totalInvitations}
           onChange={handleTotalChange}
           fullWidth
           InputProps={{ inputProps: { min: 0 } }}
@@ -192,7 +195,6 @@ export const Quotas = () => {
                 />
               </Grid>
 
-              {/* Quota Quantity and Color in the same row */}
               <Grid item xs={6}>
                 <TextField
                   type="number"
@@ -208,6 +210,7 @@ export const Quotas = () => {
                   InputProps={{ inputProps: { min: 0 } }}
                 />
               </Grid>
+              
               <Grid item xs={6}>
                 <TextField
                   label="Color"
@@ -266,7 +269,7 @@ export const Quotas = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {quotas.map((quota) => (
+              {quotaState.quotas.map((quota) => (
                 <TableRow key={quota.invitationType}>
                   <TableCell>
                     <Chip
@@ -316,24 +319,24 @@ export const Quotas = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
               <Typography variant="subtitle2">Total Capacity</Typography>
-              <Typography variant="h6">{totalInvitations}</Typography>
+              <Typography variant="h6">{quotaState.totalInvitations}</Typography>
             </Grid>
             <Grid item xs={12} md={4}>
               <Typography variant="subtitle2">Allocated</Typography>
               <Typography
                 variant="h6"
-                color={getQuotasSum() > totalInvitations ? "error" : "inherit"}
+                color={quotaState.totalInvitations - quotaState.remainingInvitations > quotaState.totalInvitations ? "error" : "inherit"}
               >
-                {getQuotasSum()}
+                {quotaState.totalInvitations - quotaState.remainingInvitations}
               </Typography>
             </Grid>
             <Grid item xs={12} md={4}>
               <Typography variant="subtitle2">Remaining</Typography>
               <Typography
                 variant="h6"
-                color={getRemainingQuota() < 0 ? "error" : "inherit"}
+                color={quotaState.remainingInvitations < 0 ? "error" : "inherit"}
               >
-                {getRemainingQuota()}
+                {quotaState.remainingInvitations}
               </Typography>
             </Grid>
           </Grid>
