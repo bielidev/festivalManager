@@ -1,49 +1,171 @@
-import { useState } from 'react';
-import { Box, Grid, Typography, TextField } from '@mui/material';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { useState } from "react";
+import { Box, Grid, Typography, TextField, Paper } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
+import { isSameDay } from "date-fns";
+
+// Define the DateTimeForm interface
+interface DateTimeForm {
+  selectedDates: Date[];
+  openingTime: string;
+  scheduleNotes: string;
+}
 
 export const Calendar = () => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  // Unified state for all date and time related data
+  const [dateTimeForm, setDateTimeForm] = useState<DateTimeForm>({
+    selectedDates: [],
+    openingTime: "09:00",
+    scheduleNotes: "",
+  });
+
+  // Handle day click - toggle selection of the date
+  const handleDateSelect = (date: Date) => {
+    const dateExists = dateTimeForm.selectedDates.some((selectedDate) =>
+      isSameDay(selectedDate, date)
+    );
+
+    if (dateExists) {
+      // Remove the date if it's already selected
+      setDateTimeForm({
+        ...dateTimeForm,
+        selectedDates: dateTimeForm.selectedDates.filter(
+          (selectedDate) => !isSameDay(selectedDate, date)
+        ),
+      });
+    } else {
+      // Add the date if it's not selected
+      setDateTimeForm({
+        ...dateTimeForm,
+        selectedDates: [...dateTimeForm.selectedDates, date],
+      });
+    }
+  };
+
+  // Handle text field changes
+  const handleFormChange = (
+    field: keyof Omit<DateTimeForm, "selectedDates">,
+    value: string
+  ) => {
+    setDateTimeForm({
+      ...dateTimeForm,
+      [field]: value,
+    });
+  };
+
+  // Custom day renderer to highlight selected days
+  const renderDay = (props: PickersDayProps<Date>) => {
+    const { day, outsideCurrentMonth, ...other } = props;
+
+    const isSelected = dateTimeForm.selectedDates.some((selectedDate) =>
+      isSameDay(selectedDate, day)
+    );
+
+    return (
+      <PickersDay
+        {...other}
+        day={day}
+        outsideCurrentMonth={outsideCurrentMonth}
+        selected={isSelected}
+        onClick={() => handleDateSelect(day)}
+        sx={{
+          "&.Mui-selected": {
+            backgroundColor: "primary.main",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "primary.dark",
+            },
+            "&:focus": {
+              backgroundColor: "primary.dark",
+            },
+          },
+        }}
+      />
+    );
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box sx={{ maxWidth: 600, mx: 'auto', pt: 2 }}>
+      <Box sx={{ maxWidth: 800, mx: "auto", pt: 2 }}>
         <Typography variant="h6" gutterBottom>
           Event Schedule
         </Typography>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
-            <DateTimePicker
-              label="Start Date & Time"
-              value={startDate}
-              onChange={(newValue: Date | null) => setStartDate(newValue)}
-              sx={{ width: '100%' }}
-            />
+          <Grid item xs={12}>
+            <Paper
+              elevation={0}
+              sx={{
+                p: 2,
+                border: "1px solid rgba(0,0,0,0.12)",
+                borderRadius: 2,
+              }}
+            >
+              <Typography variant="subtitle1" sx={{ mb: 2 }}>
+                Select Event Date(s)
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Click on dates to select/deselect multiple days for your event
+              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <DateCalendar
+                  slots={{
+                    day: renderDay,
+                  }}
+                />
+              </Box>
+            </Paper>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <DateTimePicker
-              label="End Date & Time"
-              value={endDate}
-              onChange={(newValue: Date | null) => setEndDate(newValue)}
-              minDateTime={startDate || undefined}
-              sx={{ width: '100%' }}
-            />
-          </Grid>
-          
+          {/* Selected Dates Summary */}
+          {dateTimeForm.selectedDates.length > 0 && (
+            <Grid item xs={12}>
+              <Paper
+                elevation={0}
+                sx={{ p: 2, mt: 2, bgcolor: "primary.50", borderRadius: 2 }}
+              >
+                <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                  Selected Event Dates: {dateTimeForm.selectedDates.length}
+                </Typography>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                  {dateTimeForm.selectedDates
+                    .sort((a, b) => a.getTime() - b.getTime())
+                    .map((date, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          bgcolor: "primary.main",
+                          color: "white",
+                          px: 1.5,
+                          py: 0.5,
+                          borderRadius: "16px",
+                          fontSize: "0.875rem",
+                        }}
+                      >
+                        {date.toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </Box>
+                    ))}
+                </Box>
+              </Paper>
+            </Grid>
+          )}
           {/* Additional Schedule Information */}
           <Grid item xs={12}>
-            <Typography variant="subtitle1" sx={{ mt: 4, mb: 2 }}>
+            <Typography variant="subtitle1" sx={{ mt: 2, mb: 2 }}>
               Additional Schedule Details
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <TextField
               fullWidth
               label="Doors Open Time"
               type="time"
+              value={dateTimeForm.openingTime}
+              onChange={(e) => handleFormChange("openingTime", e.target.value)}
               InputLabelProps={{ shrink: true }}
               inputProps={{ step: 300 }}
             />
@@ -54,6 +176,10 @@ export const Calendar = () => {
               multiline
               rows={4}
               label="Schedule Notes"
+              value={dateTimeForm.scheduleNotes}
+              onChange={(e) =>
+                handleFormChange("scheduleNotes", e.target.value)
+              }
               placeholder="Add any additional schedule information or special timing instructions..."
             />
           </Grid>
