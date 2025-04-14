@@ -5,21 +5,42 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
 import { isSameDay } from "date-fns";
+import { useParams } from "react-router-dom";
+import { useEventStorageContext } from "../EventContext/EventStorageContext";
 
 // Define the DateTimeForm interface
-interface DateTimeForm {
+export interface DateTimeForm {
   selectedDates: Date[];
   openingTime: string;
   scheduleNotes: string;
 }
 
 export const Calendar = () => {
+  const { eventCoreStorageApi } = useEventStorageContext();
+  const { id } = useParams();
+  const eventId = id || '';
+  
+  // Define initFormState before using it
+  const initFormState = (): DateTimeForm => {
+    const eventCore = eventCoreStorageApi.getEventCoreById(eventId);
+    if (eventCore) {
+      const { openingTime, scheduleNotes, dates } = eventCore.data.coreEventDates;
+      return {
+        selectedDates: dates.map((date) => new Date(date)),
+        openingTime: openingTime,
+        scheduleNotes: scheduleNotes,
+      };
+    }
+    // Provide default values when eventCore is not available
+    return {
+      selectedDates: [],
+      openingTime: '',
+      scheduleNotes: ''
+    };
+  }
+  
   // Unified state for all date and time related data
-  const [dateTimeForm, setDateTimeForm] = useState<DateTimeForm>({
-    selectedDates: [],
-    openingTime: "09:00",
-    scheduleNotes: "",
-  });
+  const [dateTimeForm, setDateTimeForm] = useState<DateTimeForm>(initFormState);
 
   // Handle day click - toggle selection of the date
   const handleDateSelect = (date: Date) => {
