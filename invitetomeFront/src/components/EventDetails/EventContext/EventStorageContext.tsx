@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { mockCoreOp } from "../../../model/EventItemModel/MockData";
 import { Core } from "../../../model/EventItemModel/Core";
 import { getItem, setItem, removeItem } from "../../../utils/localStorage";
+import { DateTimeForm } from "../Steps/Calendar";
 
 // Local storage key for storing event ids
 const EVENT_IDS_KEY = "eventIds";
@@ -14,6 +15,7 @@ interface EventStorageContextType {
     getEventCoreById: (id: string) => Core | undefined;
     updateEventCore: (updatedEventCore: Core) => void;
     removeEventCore: (id: string) => void;
+    updateTimeDates: (id: string, dateTimeForm: DateTimeForm) => void;
   };
 }
 
@@ -80,7 +82,6 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
           : eventCore
       );
 
-      console.info("Updating event core data in storage");
       setItem(updatedEventCore.eventId + CORE_KEY_SUFFIX, updatedEventCore);
 
       setEventCores(updatedEventCores);
@@ -95,6 +96,57 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
 
       setItem(EVENT_IDS_KEY, updatedIds);
       removeItem(id + CORE_KEY_SUFFIX);
+
+      setEventCores(updatedEventCores);
+    },
+    updateTimeDates: (id: string, dateTimeForm: DateTimeForm) => {
+      let eventCore = eventCores.find((eventCore) => eventCore.eventId === id);
+      if (!eventCore) {
+        console.error("Event core not found for id:", id);
+        return;
+      }
+
+      // Preserve the day by creating ISO strings without timezone offset
+      const datesIsoformatted = dateTimeForm.selectedDates.map((date) => {
+        // Create a date string that preserves the selected day regardless of timezone
+        return new Date(
+          Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            10,
+            0,
+            0
+          )
+        ).toISOString();
+      });
+      const startDate = datesIsoformatted[0];
+      const endDate = datesIsoformatted[datesIsoformatted.length - 1];
+
+      // Update the event core with the new dates and times
+      eventCore = {
+        ...eventCore,
+        data: {
+          ...eventCore.data,
+          coreEventDates: {
+            ...eventCore.data.coreEventDates,
+            dates: datesIsoformatted,
+            openingTime: dateTimeForm.openingTime,
+            scheduleNotes: dateTimeForm.scheduleNotes,
+            startDate: startDate,
+            endDate: endDate,
+          },
+        },
+      };
+
+      const updatedEventCores = eventCores.map((eCore) => {
+        if (eventCore.eventId === id) {
+          return eventCore;
+        }
+        return eCore;
+      });
+
+      setItem(id + CORE_KEY_SUFFIX, eventCore);
 
       setEventCores(updatedEventCores);
     },

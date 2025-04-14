@@ -18,13 +18,14 @@ export interface DateTimeForm {
 export const Calendar = () => {
   const { eventCoreStorageApi } = useEventStorageContext();
   const { id } = useParams();
-  const eventId = id || '';
-  
+  const eventId = id || "";
+
   // Define initFormState before using it
   const initFormState = (): DateTimeForm => {
     const eventCore = eventCoreStorageApi.getEventCoreById(eventId);
     if (eventCore) {
-      const { openingTime, scheduleNotes, dates } = eventCore.data.coreEventDates;
+      const { openingTime, scheduleNotes, dates } =
+        eventCore.data.coreEventDates;
       return {
         selectedDates: dates.map((date) => new Date(date)),
         openingTime: openingTime,
@@ -34,11 +35,11 @@ export const Calendar = () => {
     // Provide default values when eventCore is not available
     return {
       selectedDates: [],
-      openingTime: '',
-      scheduleNotes: ''
+      openingTime: "",
+      scheduleNotes: "",
     };
-  }
-  
+  };
+
   // Unified state for all date and time related data
   const [dateTimeForm, setDateTimeForm] = useState<DateTimeForm>(initFormState);
 
@@ -47,22 +48,29 @@ export const Calendar = () => {
     const dateExists = dateTimeForm.selectedDates.some((selectedDate) =>
       isSameDay(selectedDate, date)
     );
+    let updatedDateTimeForm;
 
     if (dateExists) {
       // Remove the date if it's already selected
-      setDateTimeForm({
+      const updatedSelectedDates = dateTimeForm.selectedDates
+        .filter((selectedDate) => !isSameDay(selectedDate, date))
+        .sort((a, b) => a.getTime() - b.getTime());
+
+      updatedDateTimeForm = {
         ...dateTimeForm,
-        selectedDates: dateTimeForm.selectedDates.filter(
-          (selectedDate) => !isSameDay(selectedDate, date)
-        ),
-      });
+        selectedDates: updatedSelectedDates,
+      };
     } else {
       // Add the date if it's not selected
-      setDateTimeForm({
+      updatedDateTimeForm = {
         ...dateTimeForm,
-        selectedDates: [...dateTimeForm.selectedDates, date],
-      });
+        selectedDates: [...dateTimeForm.selectedDates, date].sort(
+          (a, b) => a.getTime() - b.getTime()
+        ),
+      };
     }
+    eventCoreStorageApi.updateTimeDates(eventId, updatedDateTimeForm);
+    setDateTimeForm(updatedDateTimeForm);
   };
 
   // Handle text field changes
@@ -70,10 +78,12 @@ export const Calendar = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setDateTimeForm({
+    const updatedDateTimeForm = {
       ...dateTimeForm,
       [name]: value,
-    });
+    };
+    eventCoreStorageApi.updateTimeDates(eventId, updatedDateTimeForm);
+    setDateTimeForm(updatedDateTimeForm);
   };
 
   // Custom day renderer to highlight selected days
