@@ -55,19 +55,19 @@ const mockCoreOp: Core[] = [
       coreQuotas: {
         quotas: [
           {
-            quotaType: "GENERAL",
+            invitationType: "GENERAL",
             quotaQuantity: 1000,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
           },
           {
-            quotaType: "VIP",
+            invitationType: "VIP",
             quotaQuantity: 300,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
           },
           {
-            quotaType: "BACKSTAGE",
+            invitationType: "BACKSTAGE",
             quotaQuantity: 200,
             color: generateRandomColor("BACKSTAGE"),
             description: "BACKSTAGE ticket quota",
@@ -129,13 +129,13 @@ const mockCoreOp: Core[] = [
       coreQuotas: {
         quotas: [
           {
-            quotaType: "GENERAL",
+            invitationType: "GENERAL",
             quotaQuantity: 400,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
           },
           {
-            quotaType: "VIP",
+            invitationType: "VIP",
             quotaQuantity: 100,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
@@ -202,19 +202,19 @@ const mockCoreOp: Core[] = [
       coreQuotas: {
         quotas: [
           {
-            quotaType: "GENERAL",
+            invitationType: "GENERAL",
             quotaQuantity: 600,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
           },
           {
-            quotaType: "VIP",
+            invitationType: "VIP",
             quotaQuantity: 150,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
           },
           {
-            quotaType: "BACKSTAGE",
+            invitationType: "BACKSTAGE",
             quotaQuantity: 50,
             color: generateRandomColor("BACKSTAGE"),
             description: "BACKSTAGE ticket quota",
@@ -274,13 +274,13 @@ const mockCoreOp: Core[] = [
       coreQuotas: {
         quotas: [
           {
-            quotaType: "GENERAL",
+            invitationType: "GENERAL",
             quotaQuantity: 250,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
           },
           {
-            quotaType: "VIP",
+            invitationType: "VIP",
             quotaQuantity: 50,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
@@ -342,13 +342,13 @@ const mockCoreOp: Core[] = [
       coreQuotas: {
         quotas: [
           {
-            quotaType: "GENERAL",
+            invitationType: "GENERAL",
             quotaQuantity: 350,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
           },
           {
-            quotaType: "VIP",
+            invitationType: "VIP",
             quotaQuantity: 50,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
@@ -403,13 +403,13 @@ const mockCoreOp: Core[] = [
       coreQuotas: {
         quotas: [
           {
-            quotaType: "PARTICIPANT",
+            invitationType: "PARTICIPANT",
             quotaQuantity: 60,
             color: generateRandomColor("PARTICIPANT"),
             description: "PARTICIPANT ticket quota",
           },
           {
-            quotaType: "OBSERVER",
+            invitationType: "OBSERVER",
             quotaQuantity: 15,
             color: generateRandomColor("OBSERVER"),
             description: "OBSERVER ticket quota",
