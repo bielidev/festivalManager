@@ -19,6 +19,9 @@ export const Calendar = () => {
   const { eventCoreStorageApi } = useEventStorageContext();
   const { id } = useParams();
   const eventId = id || "";
+  
+  // State to track the month being displayed
+  const [calendarMonth, setCalendarMonth] = useState<Date | null>(null);
 
   // Define initFormState before using it
   const initFormState = (): DateTimeForm => {
@@ -26,8 +29,16 @@ export const Calendar = () => {
     if (eventCore) {
       const { openingTime, scheduleNotes, dates } =
         eventCore.data.coreEventDates;
+      
+      const parsedDates = dates.map((date) => new Date(date));
+      
+      // Set the calendar to display the first selected date's month
+      if (parsedDates.length > 0) {
+        setCalendarMonth(parsedDates[0]);
+      }
+      
       return {
-        selectedDates: dates.map((date) => new Date(date)),
+        selectedDates: parsedDates,
         openingTime: openingTime,
         scheduleNotes: scheduleNotes,
       };
@@ -60,14 +71,27 @@ export const Calendar = () => {
         ...dateTimeForm,
         selectedDates: updatedSelectedDates,
       };
+      
+      // If the removed date was the first one and we have other dates, update calendar month
+      if (updatedSelectedDates.length > 0 && 
+          isSameDay(dateTimeForm.selectedDates[0], date)) {
+        setCalendarMonth(updatedSelectedDates[0]);
+      }
     } else {
       // Add the date if it's not selected
+      const updatedSelectedDates = [...dateTimeForm.selectedDates, date].sort(
+        (a, b) => a.getTime() - b.getTime()
+      );
+      
       updatedDateTimeForm = {
         ...dateTimeForm,
-        selectedDates: [...dateTimeForm.selectedDates, date].sort(
-          (a, b) => a.getTime() - b.getTime()
-        ),
+        selectedDates: updatedSelectedDates,
       };
+      
+      // If this is the first date being added, set it as the calendar month
+      if (dateTimeForm.selectedDates.length === 0) {
+        setCalendarMonth(date);
+      }
     }
     eventCoreStorageApi.updateTimeDates(eventId, updatedDateTimeForm);
     setDateTimeForm(updatedDateTimeForm);
@@ -143,6 +167,18 @@ export const Calendar = () => {
                 <DateCalendar
                   slots={{
                     day: renderDay,
+                  }}
+                  defaultValue={calendarMonth}
+                  value={calendarMonth}
+                  onChange={(newDate) => {
+                    // We don't want to change selected dates on month change,
+                    // so we just update the displayed month
+                    if (newDate) {
+                      setCalendarMonth(newDate);
+                    }
+                  }}
+                  onMonthChange={(month) => {
+                    setCalendarMonth(month);
                   }}
                 />
               </Box>
