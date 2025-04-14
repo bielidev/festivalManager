@@ -3,6 +3,7 @@ import { mockCoreOp } from "../../../model/EventItemModel/MockData";
 import { Core } from "../../../model/EventItemModel/Core";
 import { getItem, setItem, removeItem } from "../../../utils/localStorage";
 import { DateTimeForm } from "../Steps/Calendar";
+import { QuotaStateForm } from "../Steps/quotaReducer";
 
 // Local storage key for storing event ids
 const EVENT_IDS_KEY = "eventIds";
@@ -16,6 +17,10 @@ interface EventStorageContextType {
     updateEventCore: (updatedEventCore: Core) => void;
     removeEventCore: (id: string) => void;
     updateTimeDates: (id: string, dateTimeForm: DateTimeForm) => void;
+    updateInvitationQuotas: (
+      id: string,
+      invitationQuotaData: QuotaStateForm
+    ) => void;
   };
 }
 
@@ -135,6 +140,38 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
             scheduleNotes: dateTimeForm.scheduleNotes,
             startDate: startDate,
             endDate: endDate,
+          },
+        },
+      };
+
+      const updatedEventCores = eventCores.map((eventCoreItem) =>
+        eventCoreItem.eventId === id ? eventCore : eventCoreItem
+      );
+
+      setItem(id + CORE_KEY_SUFFIX, eventCore);
+
+      setEventCores(updatedEventCores);
+    },
+    updateInvitationQuotas: (
+      id: string,
+      invitationQuotaData: QuotaStateForm
+    ) => {
+      let eventCore = eventCores.find((eventCore) => eventCore.eventId === id);
+      if (!eventCore) {
+        console.error("Event core not found for id:", id);
+        return;
+      }
+
+      // Update the event core with the new quotas
+      eventCore = {
+        ...eventCore,
+        data: {
+          ...eventCore.data,
+          coreQuotas: {
+            ...eventCore.data.coreQuotas,
+            quotas: invitationQuotaData.quotas,
+            totalInvitations: invitationQuotaData.totalInvitations,
+            remainingInvitations: invitationQuotaData.remainingInvitations,
           },
         },
       };

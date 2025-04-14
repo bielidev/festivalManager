@@ -1,7 +1,7 @@
 import { Quota } from "../../../model/EventItemModel/Core";
 
 // State interface
-export interface QuotaState {
+export interface QuotaStateForm {
   quotas: Quota[];
   totalInvitations: number;
   remainingInvitations: number;
@@ -59,9 +59,9 @@ const calculateRemainingInvitations = (
 
 // Reducer function
 export const quotaReducer = (
-  state: QuotaState,
+  state: QuotaStateForm,
   action: QuotaAction
-): QuotaState => {
+): QuotaStateForm => {
   switch (action.type) {
     case QUOTA_ACTIONS.NEW_QUOTA: {
       const updatedQuotas = [...state.quotas, action.payload];

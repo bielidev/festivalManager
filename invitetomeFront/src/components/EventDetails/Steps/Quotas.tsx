@@ -1,4 +1,4 @@
-import { useState, useRef, useReducer } from "react";
+import { useState, useRef, useReducer, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -23,7 +23,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Quota } from "../../../model/EventItemModel/Core";
 import {
   quotaReducer,
-  QuotaState,
+  QuotaStateForm,
   addNewQuota,
   changeTotalInvitations,
   deleteQuota,
@@ -59,7 +59,7 @@ const defaultQuotas: Quota[] = [
   },
 ];
 
-const initialQuotaState: QuotaState = {
+const initialQuotaState: QuotaStateForm = {
   quotas: defaultQuotas,
   totalInvitations: 0,
   remainingInvitations: 0,
@@ -71,7 +71,7 @@ export const Quotas = () => {
   const { id } = useParams();
   const eventId = id || "";
 
-  const initReducer = (): QuotaState => {
+  const initReducer = (): QuotaStateForm => {
     const eventCore = eventCoreStorageApi.getEventCoreById(eventId);
     if (eventCore) {
       const { quotas, totalInvitations, remainingInvitations } =
@@ -138,6 +138,11 @@ export const Quotas = () => {
   const handleDeleteQuota = (invitationType: string) => {
     dispatch(deleteQuota(invitationType));
   };
+
+  useEffect(() => {
+    console.log("Quota state updated:", quotaState);
+    eventCoreStorageApi.updateInvitationQuotas(eventId, quotaState);
+  }, [quotaState]);
 
   return (
     <Box sx={{ maxWidth: 800, mx: "auto", pt: 2 }}>
