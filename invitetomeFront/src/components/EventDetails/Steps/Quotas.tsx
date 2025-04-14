@@ -21,14 +21,16 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Quota } from "../../../model/EventItemModel/Core";
-import { 
-  quotaReducer, 
-  QuotaState, 
-  addNewQuota, 
-  changeTotalInvitations, 
-  deleteQuota, 
-  changeQuotaQuantity 
+import {
+  quotaReducer,
+  QuotaState,
+  addNewQuota,
+  changeTotalInvitations,
+  deleteQuota,
+  changeQuotaQuantity,
 } from "./quotaReducer";
+import { useEventStorageContext } from "../EventContext/EventStorageContext";
+import { useParams } from "react-router-dom";
 
 const defaultQuotas: Quota[] = [
   {
@@ -57,16 +59,38 @@ const defaultQuotas: Quota[] = [
   },
 ];
 
+const initialQuotaState: QuotaState = {
+  quotas: defaultQuotas,
+  totalInvitations: 0,
+  remainingInvitations: 0,
+};
+
 export const Quotas = () => {
   const pageBottomRef = useRef<HTMLDivElement>(null);
-  // Initialize reducer with default state
-  const initialQuotaState: QuotaState = {
-    quotas: defaultQuotas,
-    totalInvitations: 0,
-    remainingInvitations: 0
+  const { eventCoreStorageApi } = useEventStorageContext();
+  const { id } = useParams();
+  const eventId = id || "";
+
+  const initReducer = (): QuotaState => {
+    const eventCore = eventCoreStorageApi.getEventCoreById(eventId);
+    if (eventCore) {
+      const { quotas, totalInvitations, remainingInvitations } =
+        eventCore.data.coreQuotas;
+      return {
+        quotas: quotas.length > 0 ? quotas : defaultQuotas,
+        totalInvitations: totalInvitations,
+        remainingInvitations: remainingInvitations,
+      };
+    }
+    return initialQuotaState;
   };
-  const [quotaState, dispatch] = useReducer(quotaReducer, initialQuotaState);
-  
+
+  const [quotaState, dispatch] = useReducer(
+    quotaReducer,
+    initialQuotaState,
+    initReducer
+  );
+
   const [accordionExpanded, setAccordionExpanded] = useState<boolean>(false);
   const [newQuota, setNewQuota] = useState<Quota>({
     invitationType: "",
@@ -210,7 +234,7 @@ export const Quotas = () => {
                   InputProps={{ inputProps: { min: 0 } }}
                 />
               </Grid>
-              
+
               <Grid item xs={6}>
                 <TextField
                   label="Color"
@@ -319,13 +343,21 @@ export const Quotas = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
               <Typography variant="subtitle2">Total Capacity</Typography>
-              <Typography variant="h6">{quotaState.totalInvitations}</Typography>
+              <Typography variant="h6">
+                {quotaState.totalInvitations}
+              </Typography>
             </Grid>
             <Grid item xs={12} md={4}>
               <Typography variant="subtitle2">Allocated</Typography>
               <Typography
                 variant="h6"
-                color={quotaState.totalInvitations - quotaState.remainingInvitations > quotaState.totalInvitations ? "error" : "inherit"}
+                color={
+                  quotaState.totalInvitations -
+                    quotaState.remainingInvitations >
+                  quotaState.totalInvitations
+                    ? "error"
+                    : "inherit"
+                }
               >
                 {quotaState.totalInvitations - quotaState.remainingInvitations}
               </Typography>
@@ -334,7 +366,9 @@ export const Quotas = () => {
               <Typography variant="subtitle2">Remaining</Typography>
               <Typography
                 variant="h6"
-                color={quotaState.remainingInvitations < 0 ? "error" : "inherit"}
+                color={
+                  quotaState.remainingInvitations < 0 ? "error" : "inherit"
+                }
               >
                 {quotaState.remainingInvitations}
               </Typography>
