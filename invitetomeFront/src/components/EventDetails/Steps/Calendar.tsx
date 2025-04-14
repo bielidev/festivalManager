@@ -46,12 +46,12 @@ export const Calendar = () => {
 
   // Handle text field changes
   const handleFormChange = (
-    field: keyof Omit<DateTimeForm, "selectedDates">,
-    value: string
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    const { name, value } = e.target;
     setDateTimeForm({
       ...dateTimeForm,
-      [field]: value,
+      [name]: value,
     });
   };
 
@@ -164,8 +164,9 @@ export const Calendar = () => {
               fullWidth
               label="Doors Open Time"
               type="time"
+              name="openingTime"
               value={dateTimeForm.openingTime}
-              onChange={(e) => handleFormChange("openingTime", e.target.value)}
+              onChange={handleFormChange}
               InputLabelProps={{ shrink: true }}
               inputProps={{ step: 300 }}
             />
@@ -176,10 +177,9 @@ export const Calendar = () => {
               multiline
               rows={4}
               label="Schedule Notes"
+              name="scheduleNotes"
               value={dateTimeForm.scheduleNotes}
-              onChange={(e) =>
-                handleFormChange("scheduleNotes", e.target.value)
-              }
+              onChange={handleFormChange}
               placeholder="Add any additional schedule information or special timing instructions..."
             />
           </Grid>
