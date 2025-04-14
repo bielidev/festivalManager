@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Box,
   Typography,
@@ -59,6 +59,7 @@ export const Quotas = () => {
     color: "#4caf50",
     description: "",
   });
+  const pageBottomRef = useRef<HTMLDivElement>(null);
 
   const handleQuotaChange = (invitationType: string, value: number) => {
     setQuotas(
@@ -94,6 +95,7 @@ export const Quotas = () => {
         description: "",
       });
       setAccordionExpanded(false);
+      pageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -337,6 +339,7 @@ export const Quotas = () => {
           </Grid>
         </Box>
       </Paper>
+      <div ref={pageBottomRef}></div>
     </Box>
   );
 };
