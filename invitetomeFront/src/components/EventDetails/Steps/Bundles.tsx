@@ -53,6 +53,11 @@ export const Bundles = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
+  const remainingQuotas = availableQuotas.reduce(
+    (acc, quota) => acc + (quota.quotaQuantity - quota.assignedQuotas),
+    0
+  );
+
   useEffect(() => {
     const getBundles = () => {
       return eventBundlesStorageApi.getEventBundles(eventId);
@@ -72,6 +77,7 @@ export const Bundles = () => {
     getAvailableQuotas();
   }, []);
 
+  /* Dialog logic */
   const handleOpenDialog = (bundle?: Bundle) => {
     if (bundle) {
       setCurrentBundle(bundle);
@@ -100,11 +106,6 @@ export const Bundles = () => {
     setOpenDialog(false);
     setCurrentBundle(null);
   };
-
-  const remainingQuotas = availableQuotas.reduce(
-    (acc, quota) => acc + (quota.quotaQuantity - quota.assignedQuotas),
-    0
-  );
 
   const handleOnChangeAssignedQuota = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -149,6 +150,7 @@ export const Bundles = () => {
     });
   };
 
+  /* Bundle logic */
   const handleSaveBundle = () => {
     if (currentBundle) {
       if (bundles.find((b) => b.id === currentBundle.id)) {
@@ -165,16 +167,15 @@ export const Bundles = () => {
   const handleDeleteBundle = (id: string) => {
     const bundleToDelete = bundles.find((b) => b.id === id);
     if (bundleToDelete) {
-      
-      const assignedQuotas : number[] = bundleToDelete.assignedQuotas.map(
+      const assignedQuotas: number[] = bundleToDelete.assignedQuotas.map(
         (quota) => quota.assignedQuotaQty
       );
       const updatedAvailableQuotas = availableQuotas.map((quota, index) => ({
         ...quota,
         assignedQuotas: quota.assignedQuotas - assignedQuotas[index],
       }));
+
       setAvailableQuotas(updatedAvailableQuotas);
-      
       setBundles(bundles.filter((b) => b.id !== id));
     }
   };
