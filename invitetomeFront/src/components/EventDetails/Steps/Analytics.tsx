@@ -39,7 +39,7 @@ interface TimelineDataPoint {
   opened: number;
   responded: number;
   checkedIn: number;
-  notShow: number;
+  noShow: number;
 }
 
 interface QuotaAllocationDataPoint {
@@ -48,10 +48,10 @@ interface QuotaAllocationDataPoint {
   vip: number;
   compromis: number;
   backstage: number;
-  generalNotShow: number;
-  vipNotShow: number;
-  compromisNotShow: number;
-  backstageNotShow: number;
+  generalNoShow: number;
+  vipNoShow: number;
+  compromisNoShow: number;
+  backstageNoShow: number;
 }
 
 interface QuotaDataPoint extends ChartDataPoint {
@@ -72,7 +72,7 @@ const dailyQuotaDistribution: QuotaDataPoint[] = [
   { name: "BACKSTAGE", value: 12.5, color: "#ff9800" },
 ];
 
-const notShowQuotaDistribution: QuotaDataPoint[] = [
+const noShowQuotaDistribution: QuotaDataPoint[] = [
   { name: "GENERAL", value: 132, color: "#2196f3" },
   { name: "VIP", value: 44, color: "#f50057" },
   { name: "COMPROMIS", value: 22, color: "#9c27b0" },
@@ -86,10 +86,10 @@ const quotaAllocationData: QuotaAllocationDataPoint[] = [
     vip: 50,
     compromis: 25,
     backstage: 25,
-    generalNotShow: 60,
-    vipNotShow: 15,
-    compromisNotShow: 7.5,
-    backstageNotShow: 7.5,
+    generalNoShow: 60,
+    vipNoShow: 15,
+    compromisNoShow: 7.5,
+    backstageNoShow: 7.5,
   },
   {
     name: "Day 2",
@@ -97,10 +97,10 @@ const quotaAllocationData: QuotaAllocationDataPoint[] = [
     vip: 25,
     compromis: 12.5,
     backstage: 12.5,
-    generalNotShow: 12.5,
-    vipNotShow: 6.25,
-    compromisNotShow: 3.125,
-    backstageNotShow: 3.125,
+    generalNoShow: 12.5,
+    vipNoShow: 6.25,
+    compromisNoShow: 3.125,
+    backstageNoShow: 3.125,
   },
   {
     name: "Day 3",
@@ -108,10 +108,10 @@ const quotaAllocationData: QuotaAllocationDataPoint[] = [
     vip: 12.5,
     compromis: 6.25,
     backstage: 6.25,
-    generalNotShow: 10,
-    vipNotShow: 5,
-    compromisNotShow: 2.5,
-    backstageNotShow: 2.5,
+    generalNoShow: 10,
+    vipNoShow: 5,
+    compromisNoShow: 2.5,
+    backstageNoShow: 2.5,
   },
   {
     name: "Day 4",
@@ -119,10 +119,10 @@ const quotaAllocationData: QuotaAllocationDataPoint[] = [
     vip: 12.5,
     compromis: 6.25,
     backstage: 6.25,
-    generalNotShow: 7.5,
-    vipNotShow: 3.75,
-    compromisNotShow: 1.875,
-    backstageNotShow: 1.875,
+    generalNoShow: 7.5,
+    vipNoShow: 3.75,
+    compromisNoShow: 1.875,
+    backstageNoShow: 1.875,
   },
 ];
 
@@ -133,7 +133,7 @@ const timelineData: TimelineDataPoint[] = [
     opened: 112,
     responded: 84,
     checkedIn: 70,
-    notShow: 70,
+    noShow: 70,
   },
   {
     name: "Day 2",
@@ -141,7 +141,7 @@ const timelineData: TimelineDataPoint[] = [
     opened: 104,
     responded: 78,
     checkedIn: 65,
-    notShow: 65,
+    noShow: 65,
   },
   {
     name: "Day 3",
@@ -149,7 +149,7 @@ const timelineData: TimelineDataPoint[] = [
     opened: 96,
     responded: 72,
     checkedIn: 60,
-    notShow: 60,
+    noShow: 60,
   },
   {
     name: "Day 4",
@@ -157,7 +157,7 @@ const timelineData: TimelineDataPoint[] = [
     opened: 88,
     responded: 66,
     checkedIn: 55,
-    notShow: 55,
+    noShow: 55,
   },
 ];
 
@@ -230,7 +230,7 @@ export const Analytics = () => {
           <CardContent>
             <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
               <CancelIcon color="primary" sx={{ mr: 1 }} />
-              <Typography variant="h6">Not Show</Typography>
+              <Typography variant="h6">No Show</Typography>
             </Box>
             <Typography variant="h5">220</Typography>
             <Typography variant="body2" color="text.secondary">
@@ -262,7 +262,7 @@ export const Analytics = () => {
                   <Bar dataKey="opened" fill="#4caf50" name="Opened" />
                   <Bar dataKey="responded" fill="#ff9800" name="Responded" />
                   <Bar dataKey="checkedIn" fill="#9c27b0" name="Checked In" />
-                  <Bar dataKey="notShow" fill="#f50057" name="Not Show" />
+                  <Bar dataKey="noShow" fill="#f50057" name="No Show" />
                 </BarChart>
               </ResponsiveContainer>
             </Box>
@@ -275,7 +275,7 @@ export const Analytics = () => {
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
-              Quota Allocation by Day & Not Show
+              Quota Allocation by Day & No Show
             </Typography>
             <Box sx={{ height: 300 }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -290,27 +290,27 @@ export const Analytics = () => {
                   <Legend />
                   <Bar dataKey="general" fill="#2196f3" name="General" />
                   <Bar
-                    dataKey="generalNotShow"
+                    dataKey="generalNoShow"
                     fill="#6ab7f5"
-                    name="General Not Show"
+                    name="General No Show"
                   />
                   <Bar dataKey="vip" fill="#f50057" name="VIP" />
                   <Bar
-                    dataKey="vipNotShow"
+                    dataKey="vipNoShow"
                     fill="#f6668b"
-                    name="VIP Not Show"
+                    name="VIP No Show"
                   />
                   <Bar dataKey="compromis" fill="#9c27b0" name="Compromis" />
                   <Bar
-                    dataKey="compromisNotShow"
+                    dataKey="compromisNoShow"
                     fill="#b552c7"
-                    name="Compromis Not Show"
+                    name="Compromis No Show"
                   />
                   <Bar dataKey="backstage" fill="#ff9800" name="Backstage" />
                   <Bar
-                    dataKey="backstageNotShow"
+                    dataKey="backstageNoShow"
                     fill="#ffbb4d"
-                    name="Backstage Not Show"
+                    name="Backstage No Show"
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -392,13 +392,13 @@ export const Analytics = () => {
         <Grid item xs={12} md={4}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
-              Not Show Quota Distribution
+              No Show Quota Distribution
             </Typography>
             <Box sx={{ height: 300 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={notShowQuotaDistribution}
+                    data={noShowQuotaDistribution}
                     cx="50%"
                     cy="50%"
                     labelLine={false}
@@ -413,7 +413,7 @@ export const Analytics = () => {
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {notShowQuotaDistribution.map((entry, index) => (
+                    {noShowQuotaDistribution.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
