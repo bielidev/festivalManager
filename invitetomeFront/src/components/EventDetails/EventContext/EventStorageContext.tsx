@@ -1,13 +1,18 @@
 import React, { createContext, useContext, useState } from "react";
-import { mockCoreOp } from "../../../model/EventItemModel/MockData";
+import {
+  mockBundlesOp,
+  mockCoreOp,
+} from "../../../model/EventItemModel/MockData";
 import { Core } from "../../../model/EventItemModel/Core";
 import { getItem, setItem, removeItem } from "../../../utils/localStorage";
 import { DateTimeForm } from "../Steps/Calendar";
 import { QuotaStateForm } from "../Steps/quotaReducer";
+import { Bundles } from "../../../model/EventItemModel/Bundles";
 
 // Local storage key for storing event ids
 const EVENT_IDS_KEY = "eventIds";
 const CORE_KEY_SUFFIX = "#core";
+const BUNDLES_KEY_SUFFIX = "#bundles";
 
 interface EventStorageContextType {
   eventCores: Core[];
@@ -21,6 +26,11 @@ interface EventStorageContextType {
       id: string,
       invitationQuotaData: QuotaStateForm
     ) => void;
+  };
+  eventBundlesStorageApi: {
+    setEventBundles: (eventId: string, bundles: Bundles) => void;
+    getEventBundles: (eventId: string) => Bundles | undefined;
+    removeEventBundles: (eventId: string) => void;
   };
 }
 
@@ -186,8 +196,42 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
     },
   };
 
+  const eventBundlesStorageApi = {
+    setEventBundles: (eventId: string, bundles: Bundles) => {
+      setItem(eventId + BUNDLES_KEY_SUFFIX, bundles);
+    },
+    getEventBundles: (eventId: string) => {
+      if (!eventId) {
+        console.error("Event ID is required to get event bundles.");
+        return;
+      }
+      // Check if there are events with the same ID
+      const eventExists = getItem(EVENT_IDS_KEY).includes(eventId);
+      if (!eventExists) {
+        console.error("Event ID does not exist in local storage.");
+        return;
+      }
+      const bundles = getItem(eventId + BUNDLES_KEY_SUFFIX);
+      // Event exists, but bundles are not in local storage
+      if (!bundles) {
+        const bundlesData = mockBundlesOp.find(
+          (bundle) => bundle.eventId === eventId
+        );
+
+        setItem(eventId + BUNDLES_KEY_SUFFIX, bundlesData);
+        return bundlesData;
+      }
+      return bundles;
+    },
+    removeEventBundles: (eventId: string) => {
+      removeItem(eventId + BUNDLES_KEY_SUFFIX);
+    },
+  };
+
   return (
-    <EventStorageContext.Provider value={{ eventCores, eventCoreStorageApi }}>
+    <EventStorageContext.Provider
+      value={{ eventCores, eventCoreStorageApi, eventBundlesStorageApi }}
+    >
       {children}
     </EventStorageContext.Provider>
   );
