@@ -1,6 +1,4 @@
 /* Bundle operation (individual), do not confuse with Bundles */
-import { Quota } from "./Core";
-
 export interface Bundle {
   eventId: string;
   operation: string; // "e.g. bundle#01#cocacola"
@@ -34,10 +32,14 @@ export interface BundleData {
 }
 
 export interface BundleQuotas {
-  quotas: Quota[];
-  totalInvitations: number;
-  sentInvitations: number;
-  acceptedInvitations: number;
+  quotas: AssignedQuota[];
+  totalAssignedQuota: number; // summation of all assigned quotas
+}
+
+export interface AssignedQuota {
+  invitationType: string; // e.g. "VIP", "Backstage"
+  assignedQuotaQty: number;
+  color: string; // color in hexadecimal
 }
 
 export const defaultBundle: Bundle = {
@@ -57,9 +59,7 @@ export const defaultBundle: Bundle = {
     },
     bundleQuotas: {
       quotas: [],
-      totalInvitations: 0,
-      sentInvitations: 0,
-      acceptedInvitations: 0,
+      totalAssignedQuota: 0,
     },
     bundleStatus: {
       statusCode: "Draft",

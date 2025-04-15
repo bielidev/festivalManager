@@ -30,12 +30,13 @@ import ShareIcon from "@mui/icons-material/Share";
 import { useEventStorageContext } from "../EventContext/EventStorageContext";
 import { useParams } from "react-router-dom";
 import { Quota } from "../../../model/EventItemModel/Core";
+import { AssignedQuota } from "../../../model/EventItemModel/Bundle";
 
 interface Bundle {
   id: string;
   sponsorName: string;
   email: string;
-  quotas: Quota[];
+  assignedQuotas: AssignedQuota[];
   totalInvitations: number;
 }
 
@@ -82,11 +83,12 @@ export const Bundles = () => {
         sponsorName: "",
         email: "",
         // Set existing quotas in the bundle or initialize them
-        quotas: currentBundle?.quotas
-          ? currentBundle.quotas
+        assignedQuotas: currentBundle?.assignedQuotas
+          ? currentBundle.assignedQuotas
           : availableQuotas.map((quota) => ({
-              ...quota,
-              quotaQuantity: 0,
+              invitationType: quota.invitationType,
+              color: quota.color,
+              assignedQuotaQty: 0,
             })),
         totalInvitations: 0,
       });
@@ -166,11 +168,11 @@ export const Bundles = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {bundle.quotas.map((quota) => (
+                      {bundle.assignedQuotas.map((quota) => (
                         <TableRow key={quota.invitationType}>
                           <TableCell>{quota.invitationType}</TableCell>
                           <TableCell align="right">
-                            {quota.quotaQuantity}
+                            {quota.assignedQuotaQty}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -263,7 +265,7 @@ export const Bundles = () => {
                 Quota Allocation
               </Typography>
               <Stack spacing={2}>
-                {currentBundle?.quotas.map((quota, index) => (
+                {currentBundle?.assignedQuotas.map((quota, index) => (
                   <Box
                     key={quota.invitationType}
                     sx={{ display: "flex", gap: 2, alignItems: "center" }}
@@ -279,20 +281,20 @@ export const Bundles = () => {
                     <TextField
                       type="number"
                       label="Quantity"
-                      value={quota.quotaQuantity}
+                      value={quota.assignedQuotaQty}
                       onChange={(e) => {
-                        const newQuotas = [...(currentBundle?.quotas || [])];
+                        const newQuotas = [...(currentBundle?.assignedQuotas || [])];
                         newQuotas[index] = {
                           ...quota,
-                          quotaQuantity: parseInt(e.target.value) || 0,
+                          assignedQuotaQty: parseInt(e.target.value) || 0,
                         };
                         setCurrentBundle((curr) =>
                           curr
                             ? {
                                 ...curr,
-                                quotas: newQuotas,
+                                assignedQuotas: newQuotas,
                                 totalInvitations: newQuotas.reduce(
-                                  (sum, q) => sum + q.quotaQuantity,
+                                  (sum, q) => sum + q.assignedQuotaQty,
                                   0
                                 ),
                               }

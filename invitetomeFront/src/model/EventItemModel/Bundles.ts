@@ -1,8 +1,6 @@
 /* Bundles operation (all bundles) , do not confuse with Bundle */
-import { BundleData, BundleStatus } from "./Bundle";
+import { AssignedQuota, BundleData, BundleStatus } from "./Bundle";
 import { defaultBundle } from "./Bundle";
-import { Quota } from "./Core";
-
 export interface Bundles {
   eventId: string;
   operation: "bundles";
@@ -11,8 +9,8 @@ export interface Bundles {
       /* key = Bundle operation, e.g. bundle#01#cocacola */
       [key: string]: {
         bundleData: BundleData;
-        quotas: Quota[];
-        statusCode: BundleStatus
+        quotas: AssignedQuota[];
+        statusCode: BundleStatus;
       };
     };
     bundlesMetadata: BundleMetadata;
@@ -24,10 +22,7 @@ interface BundleMetadata {
   sentInvitations: number;
   acceptedInvitations: number;
   totalBundles: number;
-  activeBundles: number;
-  draftBundles: number;
-  archivedBundles: number;
-  inProgressBundles: number;
+  totalAssignedQuotas: number; // summation of all assigned quotas per bundle
 }
 
 export const defaultBundles: Bundles = {
@@ -47,10 +42,7 @@ export const defaultBundles: Bundles = {
       sentInvitations: 0,
       acceptedInvitations: 0,
       totalBundles: 0,
-      activeBundles: 0,
-      draftBundles: 0,
-      archivedBundles: 0,
-      inProgressBundles: 0,
+      totalAssignedQuotas: 0,
     },
   },
 };
