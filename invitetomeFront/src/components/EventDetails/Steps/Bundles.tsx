@@ -68,7 +68,7 @@ export const Bundles = () => {
       return quotas;
     };
 
-    //getBundles();
+    getBundles();
     getAvailableQuotas();
   }, []);
 
