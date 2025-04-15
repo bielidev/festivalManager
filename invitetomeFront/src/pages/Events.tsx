@@ -9,7 +9,7 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { useState } from 'react';
 import { useEventStorageContext } from '../components/EventDetails/EventContext/EventStorageContext';
-import { EventStatus } from '../model/EventDataModel/sortKeys/CoreData';
+import { EventStatus } from '../model/EventItemModel/Core';
 
 function parseDate(dateString: string) {
   const date = new Date(dateString);
@@ -21,7 +21,7 @@ function parseDate(dateString: string) {
 const Events = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<EventStatus>('Active');
-  const { events } = useEventStorageContext();
+  const { eventCores } = useEventStorageContext();
 
   const handleCreateEvent = () => {
     navigate('/event/new');
@@ -31,7 +31,7 @@ const Events = () => {
     navigate(`/event/${eventId}`);
   };
 
-  const filteredEvents = events.filter(event => event.core.status === activeTab);
+  const filteredEventCores = eventCores.filter(eventCore => eventCore.data.coreStatus.status === activeTab);
 
   return (
     <Box>
@@ -91,7 +91,7 @@ const Events = () => {
                     <PlayArrowIcon sx={{ fontSize: 20 }} />
                     <span>Active</span>
                     <Chip 
-                      label={events.filter(e => e.core.status === 'Active').length} 
+                      label={eventCores.filter(e => e.data.coreStatus.status === 'Active').length} 
                       size="small" 
                       sx={{ 
                         ml: 1, 
@@ -109,7 +109,7 @@ const Events = () => {
                     <AccessTimeIcon sx={{ fontSize: 20 }} />
                     <span>Upcoming</span>
                     <Chip 
-                      label={events.filter(e => e.core.status === 'Upcoming').length} 
+                      label={eventCores.filter(e => e.data.coreStatus.status === 'Upcoming').length} 
                       size="small" 
                       sx={{ 
                         ml: 1, 
@@ -127,7 +127,7 @@ const Events = () => {
                     <EditIcon sx={{ fontSize: 20 }} />
                     <span>Draft</span>
                     <Chip 
-                      label={events.filter(e => e.core.status === 'Draft').length} 
+                      label={eventCores.filter(e => e.data.coreStatus.status === 'Draft').length} 
                       size="small" 
                       sx={{ 
                         ml: 1, 
@@ -151,17 +151,17 @@ const Events = () => {
               minHeight: 400,
             }}
           >
-            {filteredEvents.map((event) => (
+            {filteredEventCores.map((eventCore) => (
               <EventCard
-                key={event.eventId}
-                id={event.eventId}
-                title={event.core.generalData.name}
-                date={parseDate(event.core.generalData.startDate)}
+                key={eventCore.eventId}
+                id={eventCore.eventId}
+                title={eventCore.data.coreData.generalData.eventName}
+                date={parseDate(eventCore.data.coreEventDates.startDate)}
                 guests={0} // Placeholder for guests count
-                status={event.core.status}
-                image={event.core.generalData.previewImageUrl}
-                type={event.core.generalData.type}
-                location={`${event.core.generalData.city}, ${event.core.generalData.country}`}
+                status={eventCore.data.coreStatus.status}
+                image={eventCore.data.coreData.generalData.previewImageUrl}
+                type={eventCore.data.coreData.generalData.type}
+                location={`${eventCore.data.coreData.venueData.city}, ${eventCore.data.coreData.venueData.country}`}
                 onClick={handleEventClick}
               />
             ))}
@@ -179,7 +179,7 @@ interface EventCardProps {
   guests: number;
   status: EventStatus;
   image: string;
-  type: 'music' | 'art' | 'conference' | any; // To Do: Define event types
+  type: string;
   location: string;
   onClick: (id: string) => void;
 }

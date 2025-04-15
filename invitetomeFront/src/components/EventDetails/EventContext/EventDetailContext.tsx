@@ -1,11 +1,10 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import { EventData } from "../../../model/EventDataModel/EventData";
 import { useEventStorageContext } from "./EventStorageContext";
-import { GeneralData } from "../../../model/EventDataModel/sortKeys/CoreData";
+import { Core, emptyEventData } from "../../../model/EventItemModel/Core";
 
 /* Context for managing event details */
 interface EventDetailContextType {
-  currentEvent: EventData;
+  currentEvent: any;
   dispatch: React.Dispatch<Action>;
 }
 
@@ -23,123 +22,108 @@ export const useEventDetailContext = () => {
   return context;
 };
 
+interface CoreReducerState {
+  eventCore: Core;
+  lastAction: string;
+  lastPayload: GeneralInfoForm | any;
+}
+
 export const EventDetailProvider: React.FC<{
   children: React.ReactNode;
   id: string;
 }> = ({ children, id }) => {
-  const { eventStorageApi } = useEventStorageContext();
+  const { eventCoreStorageApi } = useEventStorageContext();
 
   const initReducer = (id: string) => {
     if (id) {
-      const eventData = eventStorageApi.getEventById(id);
+      const eventData = eventCoreStorageApi.getEventCoreById(id);
       if (eventData) {
         console.info("Loading event data into reducer", eventData);
-        return eventData;
+        return {
+          eventCore: eventData,
+          lastAction: "INIT",
+          lastPayload: {},
+        } as CoreReducerState;
       } else {
         console.error(
           "Failed to load event data, initializing empty event data"
         );
-        return emptyEventData;
+        return {
+          eventCore: emptyEventData,
+          lastAction: "INIT",
+          lastPayload: {},
+        } as CoreReducerState;
       }
     }
     console.info("No event data found, initializing empty event data");
-    return emptyEventData;
+    return {
+      eventCore: emptyEventData,
+      lastAction: "INIT",
+      lastPayload: {},
+    } as CoreReducerState;
   };
 
-  const [currentEvent, dispatch] = useReducer(
-    eventReducer,
-    {} as EventData,
-    () => initReducer(id)
+  const [eventCoreState, dispatch] = useReducer(eventReducer, {}, () =>
+    initReducer(id)
   );
 
   useEffect(() => {
-     eventStorageApi.updateEvent(currentEvent);
-  }, [currentEvent]);
+    console.info("Last action:", eventCoreState.lastAction);
+    console.info("Last payload:", eventCoreState.lastPayload);
+    eventCoreStorageApi.updateEventCore(eventCoreState.eventCore);
+  }, [eventCoreState.lastAction, eventCoreState.lastPayload]);
 
   return (
-    <EventDetailContext.Provider value={{ currentEvent, dispatch }}>
+    <EventDetailContext.Provider value={{ currentEvent: eventCoreState.eventCore, dispatch }}>
       {children}
     </EventDetailContext.Provider>
   );
 };
 
-/* Reducer for managing event details */
-type Action = { type: "GENERAL_DATA"; payload: GeneralData };
+export interface GeneralInfoForm {
+  eventCode: string;
+  name: string;
+  tags: string[];
+  venue: string;
+  city: string;
+  address: string;
+  gates: string[];
+}
 
-const eventReducer = (state: EventData, action: Action) => {
+/* Reducer for managing event details */
+type Action = { type: "GENERAL_INFO"; payload: GeneralInfoForm };
+
+const eventReducer = (state: CoreReducerState, action: Action) => {
   switch (action.type) {
-    case "GENERAL_DATA":
+    case "GENERAL_INFO":
       return {
-        ...state,
-        core: {
-          ...state.core,
-          generalData: {
-            ...state.core.generalData,
-            ...action.payload,
+        eventCore: {
+          ...state.eventCore,
+          data: {
+            ...state.eventCore.data,
+            coreData: {
+              ...state.eventCore.data.coreData,
+              generalData: {
+                ...state.eventCore.data.coreData.generalData,
+                eventCode: action.payload.eventCode,
+                eventName: action.payload.name,
+                tags: action.payload.tags,
+              },
+              venueData: {
+                ...state.eventCore.data.coreData.venueData,
+                venueName: action.payload.venue,
+                city: action.payload.city,
+                address: action.payload.address,
+                gates: action.payload.gates,
+              },
+            },
           },
         },
-        sync: {
-          ...state.sync,
-          timestamps: {
-            ...state.sync.timestamps,
-            core: new Date().toISOString(),
-          },
-        }
+        lastAction: action.type,
+        lastPayload: action.payload as GeneralInfoForm,
       };
     default:
       return state;
   }
 };
 
-// Empty event data for initialization
-const emptyEventData: EventData = {
-  eventId: "",
-  core: {
-    generalData: {
-      country: "",
-      venue: "",
-      address: "",
-      city: "",
-      endDate: "",
-      postalCode: "",
-      description: "",
-      edition: "",
-      daysQty: 0,
-      type: "",
-      logoUrl: "",
-      createdBy: "",
-      phone: "",
-      websiteUrl: "",
-      yearEdition: 0,
-      name: "",
-      modifiedBy: "",
-      tags: [],
-      startDate: "",
-      eventCode: "",
-      previewImageUrl: "",
-      gates: [],
-    },
-    eventDates: [],
-    quotes: {},
-    status: "Draft",
-  },
-  artists: {
-    artists: [],
-    artistsQty: 0,
-  },
-  statistics: {
-    statisticsData: {
-      openRate: 0,
-      totalScans: 0,
-      attendanceRate: 0,
-    },
-  },
-  sync: {
-    timestamps: {
-      core: "",
-      bundles: "",
-      artists: "",
-      statistics: "",
-    },
-  },
-};
