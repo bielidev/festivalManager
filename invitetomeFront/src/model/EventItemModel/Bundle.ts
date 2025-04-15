@@ -12,7 +12,7 @@ export interface Bundle {
     };
     bundleQuotas: BundleQuotas;
     bundleStatus: {
-      status: BundleStatus;
+      statusCode: BundleStatus;
     };
   };
   gsiPK: "BUNDLES";
@@ -62,7 +62,7 @@ export const defaultBundle: Bundle = {
       acceptedInvitations: 0,
     },
     bundleStatus: {
-      status: "Draft",
+      statusCode: "Draft",
     },
   },
   gsiPK: "BUNDLES",
