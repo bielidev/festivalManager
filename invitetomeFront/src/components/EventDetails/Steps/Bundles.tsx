@@ -45,11 +45,11 @@ export const Bundles = () => {
     useEventStorageContext();
   const { id } = useParams();
   const eventId = id || "";
-  
+
   const [availableQuotas, setAvailableQuotas] = useState<Quota[]>([]);
   const [bundles, setBundles] = useState<Bundle[]>([]);
   const [currentBundle, setCurrentBundle] = useState<Bundle | null>(null);
-  
+
   const [openDialog, setOpenDialog] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -101,6 +101,55 @@ export const Bundles = () => {
     setCurrentBundle(null);
   };
 
+  const remainingQuotas = availableQuotas.reduce(
+    (acc, quota) =>
+      acc + (quota.quotaQuantity - quota.assignedQuotas),
+    0
+  );
+
+  const handleOnChangeAssignedQuota = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    quota: AssignedQuota,
+    index: number
+  ) => {
+    const { value } = e.target;
+
+    const newQuotas = [...(currentBundle?.assignedQuotas ?? [])];
+    newQuotas[index] = {
+      ...quota,
+      assignedQuotaQty: parseInt(value) || 0,
+    };
+    setAvailableQuotas ((prevQuotas) =>
+      prevQuotas.map((prevQuota) =>
+        prevQuota.invitationType === quota.invitationType
+          ? {
+              ...prevQuota,
+              assignedQuotas: 
+                prevQuota.assignedQuotas +
+                (parseInt(value) || 0) -
+                quota.assignedQuotaQty,
+            }
+          : prevQuota
+      )
+    );
+    setCurrentBundle({
+      ...currentBundle!,
+      assignedQuotas: newQuotas,
+      totalInvitations: newQuotas.reduce(
+        (sum, q) => sum + q.assignedQuotaQty,
+        0
+      ),
+    });
+  };
+
+  const handleOnChangeTextField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCurrentBundle({
+      ...currentBundle!,
+      [name]: value,
+    });
+  };
+
   const handleSaveBundle = () => {
     if (currentBundle) {
       if (bundles.find((b) => b.id === currentBundle.id)) {
@@ -142,6 +191,9 @@ export const Bundles = () => {
           Create Bundle
         </Button>
       </Box>
+      <Typography variant="subtitle1" gutterBottom>
+        Total Invitations Remaining: {remainingQuotas}
+      </Typography>
 
       <Grid container spacing={3}>
         {bundles.map((bundle) => (
@@ -227,36 +279,20 @@ export const Bundles = () => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
+                name="sponsorName"
                 label="Sponsor Name"
                 value={currentBundle?.sponsorName || ""}
-                onChange={(e) =>
-                  setCurrentBundle((curr) =>
-                    curr
-                      ? {
-                          ...curr,
-                          sponsorName: e.target.value,
-                        }
-                      : null
-                  )
-                }
+                onChange={handleOnChangeTextField}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
+                name="email"
                 label="Sponsor Email"
                 type="email"
                 value={currentBundle?.email || ""}
-                onChange={(e) =>
-                  setCurrentBundle((curr) =>
-                    curr
-                      ? {
-                          ...curr,
-                          email: e.target.value,
-                        }
-                      : null
-                  )
-                }
+                onChange={handleOnChangeTextField}
               />
             </Grid>
 
@@ -282,28 +318,17 @@ export const Bundles = () => {
                       type="number"
                       label="Quantity"
                       value={quota.assignedQuotaQty}
-                      onChange={(e) => {
-                        const newQuotas = [...(currentBundle?.assignedQuotas || [])];
-                        newQuotas[index] = {
-                          ...quota,
-                          assignedQuotaQty: parseInt(e.target.value) || 0,
-                        };
-                        setCurrentBundle((curr) =>
-                          curr
-                            ? {
-                                ...curr,
-                                assignedQuotas: newQuotas,
-                                totalInvitations: newQuotas.reduce(
-                                  (sum, q) => sum + q.assignedQuotaQty,
-                                  0
-                                ),
-                              }
-                            : null
-                        );
-                      }}
+                      onChange={(e) =>
+                        handleOnChangeAssignedQuota(e, quota, index)
+                      }
                       size="small"
                       InputProps={{ inputProps: { min: 0 } }}
                     />
+                    <Typography variant="body2">
+                      Invitations remaining:{" "}
+                      {availableQuotas[index].quotaQuantity -
+                        availableQuotas[index].assignedQuotas}
+                    </Typography>
                   </Box>
                 ))}
               </Stack>
