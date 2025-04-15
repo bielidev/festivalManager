@@ -140,7 +140,6 @@ export const Quotas = () => {
   };
 
   useEffect(() => {
-    console.log("Quota state updated:", quotaState);
     eventCoreStorageApi.updateInvitationQuotas(eventId, quotaState);
   }, [quotaState]);
 
