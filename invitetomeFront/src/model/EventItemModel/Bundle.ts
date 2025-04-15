@@ -29,6 +29,7 @@ export interface BundleData {
   bundleName: string;
   sponsorName: string;
   sponsorEmail: string;
+  sponsorContactName: string;
   bundleDescription: string;
 }
 
