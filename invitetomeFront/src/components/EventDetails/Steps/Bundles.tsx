@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useReducer, useState, useEffect } from "react";
 import {
   Box,
   Typography,
-  Paper,
   Button,
   Dialog,
   DialogTitle,
@@ -22,6 +21,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -31,80 +31,111 @@ import { useEventStorageContext } from "../EventContext/EventStorageContext";
 import { useParams } from "react-router-dom";
 import { Quota } from "../../../model/EventItemModel/Core";
 import { AssignedQuota } from "../../../model/EventItemModel/Bundle";
-
-interface Bundle {
-  id: string;
-  sponsorName: string;
-  email: string;
-  assignedQuotas: AssignedQuota[];
-  totalInvitations: number;
-}
+import { 
+  Bundle,
+  BundleStateForm,
+  bundleReducer,
+  initializeState,
+  setCurrentBundle,
+  clearCurrentBundle,
+  updateBundleField,
+  updateQuotaAllocation,
+  saveBundle,
+  deleteBundle
+} from "./bundleReducer";
 
 export const Bundles = () => {
-  const { eventCoreStorageApi, eventBundlesStorageApi } =
-    useEventStorageContext();
+  const { eventCoreStorageApi, eventBundlesStorageApi } = useEventStorageContext();
   const { id } = useParams();
   const eventId = id || "";
 
-  const [availableQuotas, setAvailableQuotas] = useState<Quota[]>([]);
-  const [bundles, setBundles] = useState<Bundle[]>([]);
-  const [currentBundle, setCurrentBundle] = useState<Bundle | null>(null);
+  // Initial state for data
+  const initialState: BundleStateForm = {
+    bundles: [],
+    availableQuotas: [],
+    currentBundle: null,
+  };
 
-  const [openDialog, setOpenDialog] = useState(false);
+  // Local component state for UI
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const remainingQuotas = availableQuotas.reduce(
+  // Use reducer for data state
+  const [state, dispatch] = useReducer(bundleReducer, initialState);
+  
+  // Calculate remaining quotas
+  const remainingQuotas = state.availableQuotas.reduce(
     (acc, quota) => acc + (quota.quotaQuantity - quota.assignedQuotas),
     0
   );
 
+  // Load data on component mount
   useEffect(() => {
-    const getBundles = () => {
-      return eventBundlesStorageApi.getEventBundles(eventId);
-    };
-
-    const getAvailableQuotas = () => {
+    const loadBundlesData = async () => {
+      // Get available quotas
       const eventCore = eventCoreStorageApi.getEventCoreById(eventId);
       let quotas: Quota[] = [];
       if (eventCore) {
         quotas = eventCore.data.coreQuotas.quotas;
-        setAvailableQuotas(quotas);
       }
-      return quotas;
+      
+      // Get bundles data (implement actual data fetching logic)
+      const bundlesData = eventBundlesStorageApi.getEventBundles(eventId);
+      let bundles: Bundle[] = [];
+      if (bundlesData) {
+        // Transform bundlesData to Bundle[] array if needed
+        // This would depend on how your data is structured
+      }
+      
+      // Initialize state
+      dispatch(initializeState(quotas, bundles));
     };
 
-    getBundles();
-    getAvailableQuotas();
-  }, []);
+    loadBundlesData();
+  }, [eventId]);
 
-  /* Dialog logic */
+  // Save bundles when they change
+  useEffect(() => {
+    if (state.bundles.length > 0) {
+      // Here you would convert state.bundles to your storage format
+      // and save to your storage API
+    }
+  }, [state.bundles]);
+
+  // Event handlers
   const handleOpenDialog = (bundle?: Bundle) => {
     if (bundle) {
-      setCurrentBundle(bundle);
+      // Edit existing bundle
+      dispatch(setCurrentBundle(bundle));
       setIsEditMode(true);
     } else {
-      setIsEditMode(false);
-      setCurrentBundle({
+      // Create new bundle
+      const newBundle: Bundle = {
         id: Date.now().toString(),
         sponsorName: "",
         email: "",
-        // Set existing quotas in the bundle or initialize them
-        assignedQuotas: currentBundle?.assignedQuotas
-          ? currentBundle.assignedQuotas
-          : availableQuotas.map((quota) => ({
-              invitationType: quota.invitationType,
-              color: quota.color,
-              assignedQuotaQty: 0,
-            })),
+        assignedQuotas: state.availableQuotas.map((quota) => ({
+          invitationType: quota.invitationType,
+          color: quota.color || "#6B7280", // default gray color
+          assignedQuotaQty: 0,
+        })),
         totalInvitations: 0,
-      });
+      };
+      
+      dispatch(setCurrentBundle(newBundle));
+      setIsEditMode(false);
     }
-    setOpenDialog(true);
+    setIsDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setCurrentBundle(null);
+    setIsDialogOpen(false);
+    dispatch(clearCurrentBundle());
+  };
+
+  const handleOnChangeTextField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch(updateBundleField(name, value));
   };
 
   const handleOnChangeAssignedQuota = (
@@ -112,76 +143,20 @@ export const Bundles = () => {
     quota: AssignedQuota,
     index: number
   ) => {
-    const { value } = e.target;
-
-    const newQuotas = [...(currentBundle?.assignedQuotas ?? [])];
-    newQuotas[index] = {
-      ...quota,
-      assignedQuotaQty: parseInt(value) || 0,
-    };
-    setAvailableQuotas((prevQuotas) =>
-      prevQuotas.map((prevQuota) =>
-        prevQuota.invitationType === quota.invitationType
-          ? {
-              ...prevQuota,
-              assignedQuotas:
-                prevQuota.assignedQuotas +
-                (parseInt(value) || 0) -
-                quota.assignedQuotaQty,
-            }
-          : prevQuota
-      )
-    );
-    setCurrentBundle({
-      ...currentBundle!,
-      assignedQuotas: newQuotas,
-      totalInvitations: newQuotas.reduce(
-        (sum, q) => sum + q.assignedQuotaQty,
-        0
-      ),
-    });
+    dispatch(updateQuotaAllocation(quota, index, e.target.value));
   };
 
-  const handleOnChangeTextField = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCurrentBundle({
-      ...currentBundle!,
-      [name]: value,
-    });
-  };
-
-  /* Bundle logic */
   const handleSaveBundle = () => {
-    if (currentBundle) {
-      if (bundles.find((b) => b.id === currentBundle.id)) {
-        setBundles(
-          bundles.map((b) => (b.id === currentBundle.id ? currentBundle : b))
-        );
-      } else {
-        setBundles([...bundles, currentBundle]);
-      }
-    }
-    handleCloseDialog();
+    dispatch(saveBundle());
+    setIsDialogOpen(false);
   };
 
   const handleDeleteBundle = (id: string) => {
-    const bundleToDelete = bundles.find((b) => b.id === id);
-    if (bundleToDelete) {
-      const assignedQuotas: number[] = bundleToDelete.assignedQuotas.map(
-        (quota) => quota.assignedQuotaQty
-      );
-      const updatedAvailableQuotas = availableQuotas.map((quota, index) => ({
-        ...quota,
-        assignedQuotas: quota.assignedQuotas - assignedQuotas[index],
-      }));
-
-      setAvailableQuotas(updatedAvailableQuotas);
-      setBundles(bundles.filter((b) => b.id !== id));
-    }
+    dispatch(deleteBundle(id));
   };
 
   const handleShareBundle = (bundle: Bundle) => {
-    // Here we'll implement sharing functionality
+    // Implement sharing functionality
     console.log("Share bundle with:", bundle.email);
   };
 
@@ -209,7 +184,7 @@ export const Bundles = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        {bundles.map((bundle) => (
+        {state.bundles.map((bundle) => (
           <Grid item xs={12} md={6} key={bundle.id}>
             <Card>
               <CardContent>
@@ -279,7 +254,7 @@ export const Bundles = () => {
 
       {/* Create/Edit Bundle Dialog */}
       <Dialog
-        open={openDialog}
+        open={isDialogOpen}
         onClose={handleCloseDialog}
         maxWidth="md"
         fullWidth
@@ -294,7 +269,7 @@ export const Bundles = () => {
                 fullWidth
                 name="sponsorName"
                 label="Sponsor Name"
-                value={currentBundle?.sponsorName || ""}
+                value={state.currentBundle?.sponsorName || ""}
                 onChange={handleOnChangeTextField}
               />
             </Grid>
@@ -304,7 +279,7 @@ export const Bundles = () => {
                 name="email"
                 label="Sponsor Email"
                 type="email"
-                value={currentBundle?.email || ""}
+                value={state.currentBundle?.email || ""}
                 onChange={handleOnChangeTextField}
               />
             </Grid>
@@ -314,7 +289,7 @@ export const Bundles = () => {
                 Quota Allocation
               </Typography>
               <Stack spacing={2}>
-                {currentBundle?.assignedQuotas.map((quota, index) => (
+                {state.currentBundle?.assignedQuotas.map((quota, index) => (
                   <Box
                     key={quota.invitationType}
                     sx={{ display: "flex", gap: 2, alignItems: "center" }}
@@ -339,8 +314,8 @@ export const Bundles = () => {
                     />
                     <Typography variant="body2">
                       Invitations remaining:{" "}
-                      {availableQuotas[index].quotaQuantity -
-                        availableQuotas[index].assignedQuotas}
+                      {state.availableQuotas[index]?.quotaQuantity -
+                        state.availableQuotas[index]?.assignedQuotas || 0}
                     </Typography>
                   </Box>
                 ))}
