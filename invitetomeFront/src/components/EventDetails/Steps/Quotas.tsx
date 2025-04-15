@@ -38,24 +38,28 @@ const defaultQuotas: Quota[] = [
     quotaQuantity: 0,
     color: "#2196f3",
     description: "Standard admission",
+    assignedQuotas: 0,
   },
   {
     invitationType: "VIP",
     quotaQuantity: 0,
     color: "#f50057",
     description: "VIP access and benefits",
+    assignedQuotas: 0,
   },
   {
     invitationType: "COMPROMIS",
     quotaQuantity: 0,
     color: "#9c27b0",
     description: "Reserved for partners",
+    assignedQuotas: 0,
   },
   {
     invitationType: "BACKSTAGE",
     quotaQuantity: 0,
     color: "#ff9800",
     description: "Backstage access",
+    assignedQuotas: 0,
   },
 ];
 
@@ -74,12 +78,16 @@ export const Quotas = () => {
   const initReducer = (): QuotaStateForm => {
     const eventCore = eventCoreStorageApi.getEventCoreById(eventId);
     if (eventCore) {
-      const { quotas, totalInvitations, remainingInvitations } =
+      const { quotas, totalInvitations } =
         eventCore.data.coreQuotas;
+      const unallocatedQuota = totalInvitations - quotas.reduce(
+        (sum, quota) => sum + quota.quotaQuantity,
+        0
+      );
       return {
         quotas: quotas.length > 0 ? quotas : defaultQuotas,
         totalInvitations: totalInvitations,
-        remainingInvitations: remainingInvitations,
+        remainingInvitations: unallocatedQuota,
       };
     }
     return initialQuotaState;
@@ -97,6 +105,7 @@ export const Quotas = () => {
     quotaQuantity: 0,
     color: "#4caf50",
     description: "",
+    assignedQuotas: 0,
   });
 
   /* Functions to handle changes in the new quota form */
@@ -129,6 +138,7 @@ export const Quotas = () => {
         quotaQuantity: 0,
         color: "#4caf50",
         description: "",
+        assignedQuotas: 0,
       });
       setAccordionExpanded(false);
       pageBottomRef.current?.scrollIntoView({ behavior: "smooth" });

@@ -2,7 +2,7 @@ import { Core } from "./Core";
 import { Artists } from "./Artists";
 import { Statistics } from "./Statistics";
 import { Sync } from "./Sync";
-import { Bundles , defaultBundles} from "./Bundles";
+import { Bundles, defaultBundles } from "./Bundles";
 
 // Helper function to generate random colors for quotas
 function generateRandomColor(seed: string): string {
@@ -57,25 +57,28 @@ const mockCoreOp: Core[] = [
         quotas: [
           {
             invitationType: "GENERAL",
-            quotaQuantity: 1000,
+            quotaQuantity: 100,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
+            assignedQuotas: 0,
           },
           {
             invitationType: "VIP",
-            quotaQuantity: 300,
+            quotaQuantity: 30,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
+            assignedQuotas: 0,
           },
           {
             invitationType: "BACKSTAGE",
-            quotaQuantity: 200,
+            quotaQuantity: 20,
             color: generateRandomColor("BACKSTAGE"),
             description: "BACKSTAGE ticket quota",
+            assignedQuotas: 0,
           },
         ],
-        totalInvitations: 1500, // 1000 + 300 + 200
-        remainingInvitations: 1500,
+        totalInvitations: 150, 
+        remainingInvitations: 150,
       },
       coreStatus: {
         status: "Upcoming",
@@ -134,12 +137,14 @@ const mockCoreOp: Core[] = [
             quotaQuantity: 400,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
+            assignedQuotas: 0,
           },
           {
             invitationType: "VIP",
             quotaQuantity: 100,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
+            assignedQuotas: 0,
           },
         ],
         totalInvitations: 500, // 400 + 100
@@ -207,18 +212,21 @@ const mockCoreOp: Core[] = [
             quotaQuantity: 600,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
+            assignedQuotas: 0,
           },
           {
             invitationType: "VIP",
             quotaQuantity: 150,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
+            assignedQuotas: 0,
           },
           {
             invitationType: "BACKSTAGE",
             quotaQuantity: 50,
             color: generateRandomColor("BACKSTAGE"),
             description: "BACKSTAGE ticket quota",
+            assignedQuotas: 0,
           },
         ],
         totalInvitations: 800, // 600 + 150 + 50
@@ -279,12 +287,14 @@ const mockCoreOp: Core[] = [
             quotaQuantity: 250,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
+            assignedQuotas: 0,
           },
           {
             invitationType: "VIP",
             quotaQuantity: 50,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
+            assignedQuotas: 0,
           },
         ],
         totalInvitations: 300, // 250 + 50
@@ -347,12 +357,14 @@ const mockCoreOp: Core[] = [
             quotaQuantity: 350,
             color: generateRandomColor("GENERAL"),
             description: "GENERAL ticket quota",
+            assignedQuotas: 0,
           },
           {
             invitationType: "VIP",
             quotaQuantity: 50,
             color: generateRandomColor("VIP"),
             description: "VIP ticket quota",
+            assignedQuotas: 0,
           },
         ],
         totalInvitations: 400, // 350 + 50
@@ -408,12 +420,14 @@ const mockCoreOp: Core[] = [
             quotaQuantity: 60,
             color: generateRandomColor("PARTICIPANT"),
             description: "PARTICIPANT ticket quota",
+            assignedQuotas: 0,
           },
           {
             invitationType: "OBSERVER",
             quotaQuantity: 15,
             color: generateRandomColor("OBSERVER"),
             description: "OBSERVER ticket quota",
+            assignedQuotas: 0,
           },
         ],
         totalInvitations: 75, // 60 + 15
@@ -766,7 +780,7 @@ const mockSyncOP: Sync[] = [
   },
 ];
 
-const mockBundlesOp : Bundles[] = [
+const mockBundlesOp: Bundles[] = [
   // EVENT_001 Bundles object
   {
     ...defaultBundles,
@@ -797,7 +811,13 @@ const mockBundlesOp : Bundles[] = [
     ...defaultBundles,
     eventId: "EVENT_006",
   },
-]
+];
 
 // Export the arrays for use in the application
-export { mockCoreOp, mockArtistsOp, mockStatisticsOp, mockSyncOP, mockBundlesOp };
+export {
+  mockCoreOp,
+  mockArtistsOp,
+  mockStatisticsOp,
+  mockSyncOP,
+  mockBundlesOp,
+};

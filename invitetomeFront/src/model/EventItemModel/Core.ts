@@ -8,8 +8,8 @@ export interface Core {
     };
     coreQuotas: {
       quotas: Quota[];
-      totalInvitations: number;
-      remainingInvitations: number;
+      totalInvitations: number; // total invitations quota available
+      remainingInvitations: number; // total invitations - sum of all assigned quotas
     };
     coreStatus: {
       status: EventStatus;
@@ -57,9 +57,10 @@ export interface VenueData {
 
 export interface Quota {
   invitationType: string; // e.g. "VIP", "Backstage"
-  quotaQuantity: number;
+  quotaQuantity: number; // allocated quota to this type of invitation
   color: string; // color in hexadecimal
   description: string;
+  assignedQuotas: number; // Number of invitations assigned to this quota type
 }
 
 // Empty event core data for initialization
@@ -97,6 +98,7 @@ export const emptyEventData: Core = {
           quotaQuantity: 0,
           description: "",
           color: "#000000",
+          assignedQuotas: 0,
         },
       ],
       totalInvitations: 0,

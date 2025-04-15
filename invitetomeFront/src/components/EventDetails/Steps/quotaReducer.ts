@@ -4,7 +4,7 @@ import { Quota } from "../../../model/EventItemModel/Core";
 export interface QuotaStateForm {
   quotas: Quota[];
   totalInvitations: number;
-  remainingInvitations: number;
+  remainingInvitations: number; // Invitations left to allocate
 }
 
 // Action types

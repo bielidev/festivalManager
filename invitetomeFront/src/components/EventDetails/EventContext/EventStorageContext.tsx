@@ -181,7 +181,7 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
             ...eventCore.data.coreQuotas,
             quotas: invitationQuotaData.quotas,
             totalInvitations: invitationQuotaData.totalInvitations,
-            remainingInvitations: invitationQuotaData.remainingInvitations,
+            //remainingInvitations: invitationQuotaData.remainingInvitations,
           },
         },
       };
