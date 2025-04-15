@@ -157,7 +157,7 @@ export const Bundles = () => {
       {/* Create/Edit Bundle Dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
         <DialogTitle>
-          {currentBundle?.sponsorName ? 'Edit Bundle' : 'Create New Bundle'}
+          {currentBundle? 'Edit Bundle' : 'Create New Bundle'}
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={3} sx={{ mt: 1 }}>

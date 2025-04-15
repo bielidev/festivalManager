@@ -1,5 +1,5 @@
 /* Bundles operation (all bundles) , do not confuse with Bundle */
-import { BundleData } from "./Bundle";
+import { BundleData, BundleStatus } from "./Bundle";
 import { defaultBundle } from "./Bundle";
 import { Quota } from "./Core";
 
@@ -12,6 +12,7 @@ export interface Bundles {
       [key: string]: {
         bundleData: BundleData;
         quotas: Quota[];
+        statusCode: BundleStatus
       };
     };
     bundlesMetadata: BundleMetadata;
@@ -38,6 +39,7 @@ export const defaultBundles: Bundles = {
       "bundle#01#FastTrack": {
         bundleData: defaultBundle.data.bundleData,
         quotas: defaultBundle.data.bundleQuotas.quotas,
+        statusCode: defaultBundle.data.bundleStatus.statusCode,
       },
     },
     bundlesMetadata: {
