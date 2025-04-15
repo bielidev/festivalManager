@@ -102,8 +102,7 @@ export const Bundles = () => {
   };
 
   const remainingQuotas = availableQuotas.reduce(
-    (acc, quota) =>
-      acc + (quota.quotaQuantity - quota.assignedQuotas),
+    (acc, quota) => acc + (quota.quotaQuantity - quota.assignedQuotas),
     0
   );
 
@@ -119,12 +118,12 @@ export const Bundles = () => {
       ...quota,
       assignedQuotaQty: parseInt(value) || 0,
     };
-    setAvailableQuotas ((prevQuotas) =>
+    setAvailableQuotas((prevQuotas) =>
       prevQuotas.map((prevQuota) =>
         prevQuota.invitationType === quota.invitationType
           ? {
               ...prevQuota,
-              assignedQuotas: 
+              assignedQuotas:
                 prevQuota.assignedQuotas +
                 (parseInt(value) || 0) -
                 quota.assignedQuotaQty,
@@ -164,7 +163,20 @@ export const Bundles = () => {
   };
 
   const handleDeleteBundle = (id: string) => {
-    setBundles(bundles.filter((b) => b.id !== id));
+    const bundleToDelete = bundles.find((b) => b.id === id);
+    if (bundleToDelete) {
+      
+      const assignedQuotas : number[] = bundleToDelete.assignedQuotas.map(
+        (quota) => quota.assignedQuotaQty
+      );
+      const updatedAvailableQuotas = availableQuotas.map((quota, index) => ({
+        ...quota,
+        assignedQuotas: quota.assignedQuotas - assignedQuotas[index],
+      }));
+      setAvailableQuotas(updatedAvailableQuotas);
+      
+      setBundles(bundles.filter((b) => b.id !== id));
+    }
   };
 
   const handleShareBundle = (bundle: Bundle) => {
