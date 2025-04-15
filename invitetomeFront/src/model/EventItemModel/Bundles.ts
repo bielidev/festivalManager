@@ -36,7 +36,7 @@ export const defaultBundles: Bundles = {
   data: {
     bundlesData: {
       /* key = Bundle operation, e.g. bundle#01#cocacola */
-      "bundle#01#FastTrack": {
+      "bundle#00#fasttrack": {
         bundleData: defaultBundle.data.bundleData,
         quotas: defaultBundle.data.bundleQuotas.quotas,
         statusCode: defaultBundle.data.bundleStatus.statusCode,

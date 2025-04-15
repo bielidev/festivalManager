@@ -42,15 +42,15 @@ export interface BundleQuotas {
 
 export const defaultBundle: Bundle = {
   eventId: "",
-  operation: "bundle#01#FastTrack",
+  operation: "bundle#00#fasttrack",
   contacts: [],
   data: {
     bundleData: {
-      bundleName: "",
+      bundleName: "Fast Track",
       sponsorName: "",
       sponsorEmail: "",
       sponsorContactName: "",
-      bundleDescription: "",
+      bundleDescription: "Default bundle",
     },
     bundleDates: {
       dates: [],
