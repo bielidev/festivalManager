@@ -24,6 +24,7 @@ import Contacts from "./Steps/Contacts";
 import Template from "./Steps/Template";
 import Analytics from "./Steps/Analytics";
 import Artists from "./Steps/Artists";
+import Invitations from "./Steps/Invitations";
 
 const steps = [
   "General Information",
@@ -33,7 +34,8 @@ const steps = [
   "Sponsor Bundles",
   "Guest Management",
   "Email Template",
-  "Analytics & Send",
+  "Send Invitations",
+  "Analytics",
 ];
 
 const drawerWidth = 340;
@@ -114,7 +116,8 @@ export const EventDetail = () => {
             {activeStep === 4 && <Bundles />}
             {activeStep === 5 && <Contacts />}
             {activeStep === 6 && <Template />}
-            {activeStep === 7 && <Analytics />}
+            {activeStep === 7 && <Invitations />}
+            {activeStep === 8 && <Analytics />}
           </Paper>
         </EventDetailProvider>
       </Box>
