@@ -2,6 +2,7 @@ import { Core } from "./Core";
 import { Artists } from "./Artists";
 import { Statistics } from "./Statistics";
 import { Sync } from "./Sync";
+import { Bundles , defaultBundles} from "./Bundles";
 
 // Helper function to generate random colors for quotas
 function generateRandomColor(seed: string): string {
@@ -765,5 +766,38 @@ const mockSyncOP: Sync[] = [
   },
 ];
 
+const mockBundlesOp : Bundles[] = [
+  // EVENT_001 Bundles object
+  {
+    ...defaultBundles,
+    eventId: "EVENT_001",
+  },
+  // EVENT_002 Bundles object
+  {
+    ...defaultBundles,
+    eventId: "EVENT_002",
+  },
+  // EVENT_003 Bundles object
+  {
+    ...defaultBundles,
+    eventId: "EVENT_003",
+  },
+  // EVENT_004 Bundles object
+  {
+    ...defaultBundles,
+    eventId: "EVENT_004",
+  },
+  // EVENT_005 Bundles object
+  {
+    ...defaultBundles,
+    eventId: "EVENT_005",
+  },
+  // EVENT_006 Bundles object
+  {
+    ...defaultBundles,
+    eventId: "EVENT_006",
+  },
+]
+
 // Export the arrays for use in the application
-export { mockCoreOp, mockArtistsOp, mockStatisticsOp, mockSyncOP };
+export { mockCoreOp, mockArtistsOp, mockStatisticsOp, mockSyncOP, mockBundlesOp };
