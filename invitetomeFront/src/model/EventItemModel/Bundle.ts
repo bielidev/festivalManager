@@ -39,3 +39,32 @@ export interface BundleQuotas {
   sentInvitations: number;
   acceptedInvitations: number;
 }
+
+export const defaultBundle: Bundle = {
+  eventId: "",
+  operation: "bundle#01#FastTrack",
+  contacts: [],
+  data: {
+    bundleData: {
+      bundleName: "",
+      sponsorName: "",
+      sponsorEmail: "",
+      sponsorContactName: "",
+      bundleDescription: "",
+    },
+    bundleDates: {
+      dates: [],
+    },
+    bundleQuotas: {
+      quotas: [],
+      totalInvitations: 0,
+      sentInvitations: 0,
+      acceptedInvitations: 0,
+    },
+    bundleStatus: {
+      status: "Draft",
+    },
+  },
+  gsiPK: "BUNDLES",
+  invitations: [],
+};
