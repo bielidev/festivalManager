@@ -61,3 +61,56 @@ export interface Quota {
   color: string; // color in hexadecimal
   description: string;
 }
+
+// Empty event core data for initialization
+export const emptyEventData: Core = {
+  eventId: "",
+  operation: "core",
+  data: {
+    coreData: {
+      generalData: {
+        eventName: "",
+        eventCode: "",
+        description: "",
+        type: "",
+        edition: "",
+        yearEdition: 0,
+        websiteUrl: "",
+        logoUrl: "",
+        previewImageUrl: "",
+        phone: "",
+        tags: [],
+      },
+      venueData: {
+        venueName: "",
+        address: "",
+        city: "",
+        country: "",
+        postalCode: "",
+        gates: [],
+      },
+    },
+    coreQuotas: {
+      quotas: [
+        {
+          invitationType: "Fast Track",
+          quotaQuantity: 0,
+          description: "",
+          color: "#000000",
+        },
+      ],
+      totalInvitations: 0,
+      remainingInvitations: 0,
+    },
+    coreStatus: {
+      status: "Draft",
+    },
+    coreEventDates: {
+      dates: [],
+      startDate: "",
+      endDate: "",
+      openingTime: "",
+      scheduleNotes: "",
+    },
+  },
+};
