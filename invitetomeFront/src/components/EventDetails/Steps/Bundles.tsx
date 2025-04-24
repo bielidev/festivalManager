@@ -31,8 +31,8 @@ import { useEventStorageContext } from "../EventContext/EventStorageContext";
 import { useParams } from "react-router-dom";
 import { Quota } from "../../../model/EventItemModel/Core";
 import { AssignedQuota } from "../../../model/EventItemModel/Bundle";
-import { 
-  Bundle,
+import {
+  StepperBundle,
   BundleStateForm,
   bundleReducer,
   initializeState,
@@ -41,11 +41,12 @@ import {
   updateBundleField,
   updateQuotaAllocation,
   saveBundle,
-  deleteBundle
+  deleteBundle,
 } from "./bundleReducer";
 
 export const Bundles = () => {
-  const { eventCoreStorageApi, eventBundlesStorageApi } = useEventStorageContext();
+  const { eventCoreStorageApi, eventBundlesStorageApi } =
+    useEventStorageContext();
   const { id } = useParams();
   const eventId = id || "";
 
@@ -62,7 +63,7 @@ export const Bundles = () => {
 
   // Use reducer for data state
   const [state, dispatch] = useReducer(bundleReducer, initialState);
-  
+
   // Calculate remaining quotas
   const remainingQuotas = state.availableQuotas.reduce(
     (acc, quota) => acc + (quota.quotaQuantity - quota.assignedQuotas),
@@ -78,15 +79,14 @@ export const Bundles = () => {
       if (eventCore) {
         quotas = eventCore.data.coreQuotas.quotas;
       }
-      
+
       // Get bundles data (implement actual data fetching logic)
       const bundlesData = eventBundlesStorageApi.getEventBundles(eventId);
-      let bundles: Bundle[] = [];
+      let bundles: StepperBundle[] = [];
       if (bundlesData) {
-        // Transform bundlesData to Bundle[] array if needed
-        // This would depend on how your data is structured
+        
       }
-      
+
       // Initialize state
       dispatch(initializeState(quotas, bundles));
     };
@@ -103,14 +103,14 @@ export const Bundles = () => {
   }, [state.bundles]);
 
   // Event handlers
-  const handleOpenDialog = (bundle?: Bundle) => {
+  const handleOpenDialog = (bundle?: StepperBundle) => {
     if (bundle) {
       // Edit existing bundle
       dispatch(setCurrentBundle(bundle));
       setIsEditMode(true);
     } else {
       // Create new bundle
-      const newBundle: Bundle = {
+      const newBundle: StepperBundle = {
         id: Date.now().toString(),
         sponsorName: "",
         email: "",
@@ -121,7 +121,7 @@ export const Bundles = () => {
         })),
         totalInvitations: 0,
       };
-      
+
       dispatch(setCurrentBundle(newBundle));
       setIsEditMode(false);
     }
@@ -155,7 +155,7 @@ export const Bundles = () => {
     dispatch(deleteBundle(id));
   };
 
-  const handleShareBundle = (bundle: Bundle) => {
+  const handleShareBundle = (bundle: StepperBundle) => {
     // Implement sharing functionality
     console.log("Share bundle with:", bundle.email);
   };

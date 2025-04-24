@@ -2,7 +2,7 @@ import { Quota } from "../../../model/EventItemModel/Core";
 import { AssignedQuota } from "../../../model/EventItemModel/Bundle";
 
 // Bundle interface
-export interface Bundle {
+export interface StepperBundle {
   id: string;
   sponsorName: string;
   email: string;
@@ -12,9 +12,9 @@ export interface Bundle {
 
 // State interface - removed UI state properties
 export interface BundleStateForm {
-  bundles: Bundle[];
+  bundles: StepperBundle[];
   availableQuotas: Quota[];
-  currentBundle: Bundle | null;
+  currentBundle: StepperBundle | null;
 }
 
 // Action types - removed UI related actions
@@ -33,13 +33,13 @@ export interface InitializeStateAction {
   type: typeof BUNDLE_ACTIONS.INITIALIZE_STATE;
   payload: {
     availableQuotas: Quota[];
-    bundles?: Bundle[];
+    bundles?: StepperBundle[];
   };
 }
 
 export interface SetCurrentBundleAction {
   type: typeof BUNDLE_ACTIONS.SET_CURRENT_BUNDLE;
-  payload: Bundle | null;
+  payload: StepperBundle | null;
 }
 
 export interface ClearCurrentBundleAction {
@@ -89,8 +89,8 @@ const calculateTotalInvitations = (assignedQuotas: AssignedQuota[]): number => {
 // Helper function to update available quotas
 const updateAvailableQuotas = (
   availableQuotas: Quota[],
-  oldBundle: Bundle | null,
-  newBundle: Bundle | null
+  oldBundle: StepperBundle | null,
+  newBundle: StepperBundle | null
 ): Quota[] => {
   const result = [...availableQuotas];
   
@@ -201,7 +201,7 @@ export const bundleReducer = (
       if (!state.currentBundle) return state;
 
       const { currentBundle } = state;
-      let updatedBundles: Bundle[];
+      let updatedBundles: StepperBundle[];
 
       // Either update existing bundle or add new one
       if (state.bundles.some((b) => b.id === currentBundle.id)) {
@@ -245,13 +245,13 @@ export const bundleReducer = (
 // Action creators
 export const initializeState = (
   availableQuotas: Quota[],
-  bundles?: Bundle[]
+  bundles?: StepperBundle[]
 ): InitializeStateAction => ({
   type: BUNDLE_ACTIONS.INITIALIZE_STATE,
   payload: { availableQuotas, bundles },
 });
 
-export const setCurrentBundle = (bundle: Bundle | null): SetCurrentBundleAction => ({
+export const setCurrentBundle = (bundle: StepperBundle | null): SetCurrentBundleAction => ({
   type: BUNDLE_ACTIONS.SET_CURRENT_BUNDLE,
   payload: bundle,
 });
