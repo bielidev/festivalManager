@@ -49,9 +49,9 @@ export const defaultBundle: Bundle = {
   data: {
     bundleData: {
       bundleName: "Fast Track",
-      sponsorName: "",
-      sponsorEmail: "",
-      sponsorContactName: "",
+      sponsorName: "Fast Track Bundle",
+      sponsorEmail: "---",
+      sponsorContactName: "---",
       bundleDescription: "Default bundle",
     },
     bundleDates: {

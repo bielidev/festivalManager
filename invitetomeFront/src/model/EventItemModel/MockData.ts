@@ -3,6 +3,7 @@ import { Artists } from "./Artists";
 import { Statistics } from "./Statistics";
 import { Sync } from "./Sync";
 import { Bundles, defaultBundles } from "./Bundles";
+import { defaultBundle } from "./Bundle";
 
 // Helper function to generate random colors for quotas
 function generateRandomColor(seed: string): string {
@@ -781,36 +782,257 @@ const mockSyncOP: Sync[] = [
 ];
 
 const mockBundlesOp: Bundles[] = [
-  // EVENT_001 Bundles object
+  // EVENT_001 Bundles object - Has GENERAL, VIP, BACKSTAGE quotas
   {
-    ...defaultBundles,
     eventId: "EVENT_001",
+    operation: "bundles",
+    data: {
+      bundlesData: {
+        "bundle#00#fasttrack": {
+          bundleData: {...defaultBundle.data.bundleData},
+          quotas: [
+            {
+              invitationType: "GENERAL",
+              assignedQuotaQty: 20,
+              color: generateRandomColor("GENERAL")
+            },
+            {
+              invitationType: "VIP",
+              assignedQuotaQty: 5,
+              color: generateRandomColor("VIP")
+            },
+            {
+              invitationType: "BACKSTAGE",
+              assignedQuotaQty: 3,
+              color: generateRandomColor("BACKSTAGE")
+            }
+          ],
+          statusCode: "Active"
+        }
+      },
+      bundlesMetadata: {
+        totalInvitations: 28,
+        sentInvitations: 0,
+        acceptedInvitations: 0,
+        totalBundles: 1,
+        totalAssignedQuotas: 28
+      }
+    }
   },
-  // EVENT_002 Bundles object
+  
+  // EVENT_002 Bundles object - Has GENERAL, VIP quotas
   {
-    ...defaultBundles,
     eventId: "EVENT_002",
+    operation: "bundles",
+    data: {
+      bundlesData: {
+        "bundle#00#fasttrack": {
+          bundleData: {...defaultBundle.data.bundleData},
+          quotas: [
+            {
+              invitationType: "GENERAL",
+              assignedQuotaQty: 30,
+              color: generateRandomColor("GENERAL")
+            },
+            {
+              invitationType: "VIP",
+              assignedQuotaQty: 10,
+              color: generateRandomColor("VIP")
+            }
+          ],
+          statusCode: "Draft"
+        }
+      },
+      bundlesMetadata: {
+        totalInvitations: 40,
+        sentInvitations: 0,
+        acceptedInvitations: 0,
+        totalBundles: 1,
+        totalAssignedQuotas: 40
+      }
+    }
   },
-  // EVENT_003 Bundles object
+  
+  // EVENT_003 Bundles object - Has GENERAL, VIP, BACKSTAGE quotas
   {
-    ...defaultBundles,
     eventId: "EVENT_003",
+    operation: "bundles",
+    data: {
+      bundlesData: {
+        "bundle#00#fasttrack": {
+          bundleData: {...defaultBundle.data.bundleData},
+          quotas: [
+            {
+              invitationType: "GENERAL",
+              assignedQuotaQty: 40,
+              color: generateRandomColor("GENERAL")
+            },
+            {
+              invitationType: "VIP",
+              assignedQuotaQty: 15,
+              color: generateRandomColor("VIP")
+            },
+            {
+              invitationType: "BACKSTAGE",
+              assignedQuotaQty: 5,
+              color: generateRandomColor("BACKSTAGE")
+            }
+          ],
+          statusCode: "Active"
+        }
+      },
+      bundlesMetadata: {
+        totalInvitations: 60,
+        sentInvitations: 0,
+        acceptedInvitations: 0,
+        totalBundles: 1,
+        totalAssignedQuotas: 60
+      }
+    }
   },
-  // EVENT_004 Bundles object
+  
+  // EVENT_004 Bundles object - Has GENERAL, VIP quotas
   {
-    ...defaultBundles,
     eventId: "EVENT_004",
+    operation: "bundles",
+    data: {
+      bundlesData: {
+        "bundle#00#fasttrack": {
+          bundleData: {...defaultBundle.data.bundleData},
+          quotas: [
+            {
+              invitationType: "GENERAL",
+              assignedQuotaQty: 25,
+              color: generateRandomColor("GENERAL")
+            },
+            {
+              invitationType: "VIP",
+              assignedQuotaQty: 5,
+              color: generateRandomColor("VIP")
+            }
+          ],
+          statusCode: "Active"
+        },
+        "bundle#01#damm": {
+          bundleData: {
+            bundleName: "Damm Bundle",
+            sponsorName: "Damm",
+            sponsorEmail: "eventos@damm.es",
+            sponsorContactName: "Miguel Cerveza",
+            bundleDescription: "Sponsorship bundle for Damm beer company",
+          },
+          quotas: [
+            {
+              invitationType: "GENERAL",
+              assignedQuotaQty: 15,
+              color: generateRandomColor("GENERAL")
+            },
+            {
+              invitationType: "VIP",
+              assignedQuotaQty: 8,
+              color: generateRandomColor("VIP")
+            }
+          ],
+          statusCode: "Active"
+        },
+        "bundle#02#cocacola": {
+          bundleData: {
+            bundleName: "Cocacola Bundle",
+            sponsorName: "Coca-Cola",
+            sponsorEmail: "marketing@cocacola.es",
+            sponsorContactName: "Maria Refrescos",
+            bundleDescription: "Sponsorship bundle for Coca-Cola beverages",
+          },
+          quotas: [
+            {
+              invitationType: "GENERAL",
+              assignedQuotaQty: 20,
+              color: generateRandomColor("GENERAL")
+            },
+            {
+              invitationType: "VIP",
+              assignedQuotaQty: 10,
+              color: generateRandomColor("VIP")
+            }
+          ],
+          statusCode: "Active"
+        }
+      },
+      bundlesMetadata: {
+        totalInvitations: 83, // 25+5 (fasttrack) + 15+8 (damm) + 20+10 (cocacola)
+        sentInvitations: 0,
+        acceptedInvitations: 0,
+        totalBundles: 3,
+        totalAssignedQuotas: 83
+      }
+    }
   },
-  // EVENT_005 Bundles object
+  
+  // EVENT_005 Bundles object - Has GENERAL, VIP quotas
   {
-    ...defaultBundles,
     eventId: "EVENT_005",
+    operation: "bundles",
+    data: {
+      bundlesData: {
+        "bundle#00#fasttrack": {
+          bundleData: {...defaultBundle.data.bundleData},
+          quotas: [
+            {
+              invitationType: "GENERAL",
+              assignedQuotaQty: 35,
+              color: generateRandomColor("GENERAL")
+            },
+            {
+              invitationType: "VIP",
+              assignedQuotaQty: 5,
+              color: generateRandomColor("VIP")
+            }
+          ],
+          statusCode: "Active"
+        }
+      },
+      bundlesMetadata: {
+        totalInvitations: 40,
+        sentInvitations: 0,
+        acceptedInvitations: 0,
+        totalBundles: 1,
+        totalAssignedQuotas: 40
+      }
+    }
   },
-  // EVENT_006 Bundles object
+  
+  // EVENT_006 Bundles object - Has PARTICIPANT, OBSERVER quotas
   {
-    ...defaultBundles,
     eventId: "EVENT_006",
-  },
+    operation: "bundles",
+    data: {
+      bundlesData: {
+        "bundle#00#fasttrack": {
+          bundleData: {...defaultBundle.data.bundleData},
+          quotas: [
+            {
+              invitationType: "PARTICIPANT",
+              assignedQuotaQty: 10,
+              color: generateRandomColor("PARTICIPANT")
+            },
+            {
+              invitationType: "OBSERVER",
+              assignedQuotaQty: 5,
+              color: generateRandomColor("OBSERVER")
+            }
+          ],
+          statusCode: "Draft"
+        }
+      },
+      bundlesMetadata: {
+        totalInvitations: 15,
+        sentInvitations: 0,
+        acceptedInvitations: 0,
+        totalBundles: 1,
+        totalAssignedQuotas: 15
+      }
+    }
+  }
 ];
 
 // Export the arrays for use in the application
