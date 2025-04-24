@@ -2,8 +2,8 @@ import { Core } from "./Core";
 import { Artists } from "./Artists";
 import { Statistics } from "./Statistics";
 import { Sync } from "./Sync";
-import { Bundles, defaultBundles } from "./Bundles";
-import { defaultBundle } from "./Bundle";
+import { Bundles } from "./Bundles";
+import { Bundle, defaultBundle } from "./Bundle";
 
 // Helper function to generate random colors for quotas
 function generateRandomColor(seed: string): string {
@@ -1035,11 +1035,50 @@ const mockBundlesOp: Bundles[] = [
   }
 ];
 
-// Export the arrays for use in the application
+const mockEventBundleOps = new Map<string, Bundle[]>();
+
+// Populate the mockEventBundleOps map using mockBundlesOp data
+mockBundlesOp.forEach((bundlesOp) => {
+  const eventId = bundlesOp.eventId;
+  const bundles: Bundle[] = [];
+
+  // Process each bundle in bundlesData
+  Object.entries(bundlesOp.data.bundlesData).forEach(([operation, bundleData]) => {
+    const quotas = bundleData.quotas;
+    const totalAssignedQuota = quotas.reduce((sum, quota) => sum + quota.assignedQuotaQty, 0);
+    
+    const bundle: Bundle = {
+      eventId: eventId,
+      operation: operation, // e.g. "bundle#00#fasttrack"
+      contacts: [], 
+      data: {
+        bundleData: bundleData.bundleData,
+        bundleDates: {
+          dates: [],
+        },
+        bundleQuotas: {
+          quotas: quotas,
+          totalAssignedQuota: totalAssignedQuota,
+        },
+        bundleStatus: {
+          statusCode: bundleData.statusCode,
+        },
+      },
+      gsiPK: "BUNDLES",
+      invitations: [],
+    };
+    
+    bundles.push(bundle);
+  });
+  
+  mockEventBundleOps.set(eventId, bundles);
+});
+
 export {
   mockCoreOp,
   mockArtistsOp,
   mockStatisticsOp,
   mockSyncOP,
   mockBundlesOp,
+  mockEventBundleOps,
 };
