@@ -41,7 +41,7 @@ export const defaultBundles: Bundles = {
       totalInvitations: 0,
       sentInvitations: 0,
       acceptedInvitations: 0,
-      totalBundles: 0,
+      totalBundles: 1,
       totalAssignedQuotas: 0,
     },
   },
