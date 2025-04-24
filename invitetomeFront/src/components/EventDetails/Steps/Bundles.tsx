@@ -78,15 +78,27 @@ export const Bundles = () => {
       let quotas: Quota[] = [];
       if (eventCore) {
         quotas = eventCore.data.coreQuotas.quotas;
+
       }
 
-      // Get bundles data (implement actual data fetching logic)
+      // Get bundles data 
       const bundlesData = eventBundlesStorageApi.getEventBundles(eventId);
       let bundles: StepperBundle[] = [];
       if (bundlesData) {
-        
+        bundles = Object.keys(bundlesData.data.bundlesData).map((key) => {
+          const bundle = bundlesData.data.bundlesData[key];
+          return {
+            id: key,
+            sponsorName: bundle.bundleData.sponsorName,
+            email: bundle.bundleData.sponsorEmail,
+            assignedQuotas: bundle.quotas,
+            totalInvitations: bundle.quotas.reduce(
+              (acc, quota) => acc + quota.assignedQuotaQty,
+              0
+            )
+          };
+        });
       }
-
       // Initialize state
       dispatch(initializeState(quotas, bundles));
     };
