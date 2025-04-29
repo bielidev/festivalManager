@@ -122,7 +122,7 @@ export const Bundles = () => {
     } else {
       // Create new bundle
       const newBundle: StepperBundle = {
-        id: Date.now().toString(),
+        id: `bundle#${Date.now()}#sponsorName`,
         sponsorName: "",
         email: "",
         assignedQuotas: state.availableQuotas.map((quota) => ({
