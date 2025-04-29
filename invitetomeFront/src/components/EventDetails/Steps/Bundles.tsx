@@ -78,10 +78,9 @@ export const Bundles = () => {
       let quotas: Quota[] = [];
       if (eventCore) {
         quotas = eventCore.data.coreQuotas.quotas;
-
       }
 
-      // Get bundles data 
+      // Get bundles data
       const bundlesData = eventBundlesStorageApi.getEventBundles(eventId);
       let bundles: StepperBundle[] = [];
       if (bundlesData) {
@@ -95,7 +94,7 @@ export const Bundles = () => {
             totalInvitations: bundle.quotas.reduce(
               (acc, quota) => acc + quota.assignedQuotaQty,
               0
-            )
+            ),
           };
         });
       }
@@ -222,7 +221,16 @@ export const Bundles = () => {
                     <TableBody>
                       {bundle.assignedQuotas.map((quota) => (
                         <TableRow key={quota.invitationType}>
-                          <TableCell>{quota.invitationType}</TableCell>
+                          <TableCell>
+                            <Chip
+                              label={quota.invitationType}
+                              sx={{
+                                bgcolor: quota.color,
+                                color: "white",
+                                fontWeight: "bold",
+                              }}
+                            />
+                          </TableCell>
                           <TableCell align="right">
                             {quota.assignedQuotaQty}
                           </TableCell>
