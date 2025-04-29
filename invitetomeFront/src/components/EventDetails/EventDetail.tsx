@@ -30,7 +30,7 @@ const steps = [
   "General Information",
   "Date & Time",
   "Artists/Performers",
-  "Invitation Quotas",
+  "Invitation Types",
   "Sponsor Bundles",
   "Guest Management",
   "Email Template",
