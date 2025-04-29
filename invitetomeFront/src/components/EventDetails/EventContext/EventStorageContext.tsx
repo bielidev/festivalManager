@@ -239,8 +239,20 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
       return bundles;
     },
     removeEventBundles: (eventId: string) => {
+      if (!eventId) {
+        console.error("Event ID is required to remove event bundles.");
+        return;
+      }
       removeItem(eventId + BUNDLES_KEY_SUFFIX);
-    },
+      // Remove individual bundles
+      const bundleKeys = getItem(eventId + EVENT_BUNDLE_KEY_SUFFIX) as string[];
+      if (bundleKeys) {
+        bundleKeys.forEach((bundleKey) => {
+          removeItem(`${eventId}#${bundleKey}`);
+        })
+        removeItem(eventId + EVENT_BUNDLE_KEY_SUFFIX);
+      }
+    } 
   };
 
   return (
