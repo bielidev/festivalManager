@@ -2,13 +2,14 @@ import React, { createContext, useContext, useState } from "react";
 import {
   mockBundlesOp,
   mockCoreOp,
-  mockEventBundleOps
+  mockEventBundleOps,
 } from "../../../model/EventItemModel/MockData";
 import { Core } from "../../../model/EventItemModel/Core";
 import { getItem, setItem, removeItem } from "../../../utils/localStorage";
 import { DateTimeForm } from "../Steps/Calendar";
 import { QuotaStateForm } from "../Steps/quotaReducer";
 import { Bundles } from "../../../model/EventItemModel/Bundles";
+import { BundleStateForm } from "../Steps/bundleReducer";
 
 // Local storage key for storing event ids
 const EVENT_IDS_KEY = "eventIds";
@@ -34,6 +35,7 @@ interface EventStorageContextType {
     setEventBundles: (eventId: string, bundles: Bundles) => void;
     getEventBundles: (eventId: string) => Bundles | undefined;
     removeEventBundles: (eventId: string) => void;
+    updateBundles: (eventId: string, bundleStateForm: BundleStateForm) => void;
   };
 }
 
@@ -224,7 +226,7 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
         setItem(eventId + BUNDLES_KEY_SUFFIX, bundlesData);
 
         // Load individual bundles
-        let bundleKeys : string[] = [];
+        let bundleKeys: string[] = [];
         const individualBundles = mockEventBundleOps.get(eventId);
         if (individualBundles) {
           individualBundles.forEach((bundle) => {
@@ -249,10 +251,164 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
       if (bundleKeys) {
         bundleKeys.forEach((bundleKey) => {
           removeItem(`${eventId}#${bundleKey}`);
-        })
+        });
         removeItem(eventId + EVENT_BUNDLE_KEY_SUFFIX);
       }
-    } 
+    },
+    updateBundles: (eventId: string, bundleStateForm: BundleStateForm) => {
+      if (!eventId) {
+        console.error("Event ID is required to update bundles.");
+        return;
+      }
+
+      // 1. Update core quotas in the event core
+      const eventCore = eventCoreStorageApi.getEventCoreById(eventId);
+      if (eventCore) {
+        // Calculate total assigned quotas from all bundles
+        const updatedQuotas = bundleStateForm.availableQuotas.map((quota) => ({
+          ...quota,
+        }));
+
+        // Update the event core with the new quotas
+        const updatedEventCore = {
+          ...eventCore,
+          data: {
+            ...eventCore.data,
+            coreQuotas: {
+              ...eventCore.data.coreQuotas,
+              quotas: updatedQuotas,
+            },
+          },
+        };
+
+        // Save the updated event core
+        eventCoreStorageApi.updateEventCore(updatedEventCore);
+      }
+
+      // 2. Update overall bundles data
+      const bundlesData =
+        eventBundlesStorageApi.getEventBundles(eventId) ||
+        mockBundlesOp.find((bundle) => bundle.eventId === eventId);
+
+      if (bundlesData) {
+        const updatedBundlesData: Bundles = {
+          ...bundlesData,
+          eventId,
+          data: {
+            bundlesData: {},
+            bundlesMetadata: {
+              totalInvitations: 0,
+              sentInvitations: 0,
+              acceptedInvitations: 0,
+              totalBundles: bundleStateForm.bundles.length,
+              totalAssignedQuotas: 0,
+            },
+          },
+        };
+
+        // Calculate totals and populate bundlesData
+        let totalAssignedQuotas = 0;
+        bundleStateForm.bundles.forEach((bundle) => {
+          const bundleTotal = bundle.assignedQuotas.reduce(
+            (sum, quota) => sum + quota.assignedQuotaQty,
+            0
+          );
+          totalAssignedQuotas += bundleTotal;
+
+          // Add bundle to bundlesData
+          updatedBundlesData.data.bundlesData[bundle.id] = {
+            bundleData: {
+              bundleName: bundle.sponsorName,
+              sponsorName: bundle.sponsorName,
+              sponsorEmail: bundle.email,
+              sponsorContactName: bundle.sponsorName,
+              bundleDescription: `Bundle for ${bundle.sponsorName}`,
+            },
+            quotas: bundle.assignedQuotas,
+            statusCode: "Draft",
+          };
+        });
+
+        updatedBundlesData.data.bundlesMetadata.totalAssignedQuotas =
+          totalAssignedQuotas;
+        updatedBundlesData.data.bundlesMetadata.totalInvitations =
+          totalAssignedQuotas;
+
+        // Save the updated bundles data
+        setItem(eventId + BUNDLES_KEY_SUFFIX, updatedBundlesData);
+
+        // 3. Update individual bundles
+        // First, get the existing bundle keys
+        let existingBundleKeys =
+          (getItem(eventId + EVENT_BUNDLE_KEY_SUFFIX) as string[]) || [];
+
+        // Create a set of all bundle keys that should exist after the update
+        const newBundleIds = new Set(
+          bundleStateForm.bundles.map((bundle) => bundle.id)
+        );
+
+        // Remove bundles that no longer exist
+        existingBundleKeys.forEach((bundleKey) => {
+          if (!newBundleIds.has(bundleKey)) {
+            removeItem(`${eventId}#${bundleKey}`);
+          }
+        });
+
+        // Create/update individual bundles and collect new keys
+        let updatedBundleKeys: string[] = [];
+
+        bundleStateForm.bundles.forEach((bundle) => {
+          const bundleKey = bundle.id;
+          updatedBundleKeys.push(bundleKey);
+
+          // Get existing bundle or create new one
+          const existingBundle = getItem(`${eventId}#${bundleKey}`) || {
+            eventId,
+            operation: bundleKey,
+            contacts: [],
+            data: {
+              bundleData: {
+                bundleName: "",
+                sponsorName: "",
+                sponsorEmail: "",
+                sponsorContactName: "",
+                bundleDescription: "",
+              },
+              bundleDates: { dates: [] },
+              bundleQuotas: { quotas: [], totalAssignedQuota: 0 },
+              bundleStatus: { statusCode: "Draft" },
+            },
+            gsiPK: "BUNDLES",
+            invitations: [],
+          };
+
+          // Update bundle with new data
+          const updatedBundle = {
+            ...existingBundle,
+            data: {
+              ...existingBundle.data,
+              bundleData: {
+                bundleName: bundle.sponsorName,
+                sponsorName: bundle.sponsorName,
+                sponsorEmail: bundle.email,
+                sponsorContactName: bundle.sponsorName,
+                bundleDescription: `Bundle for ${bundle.sponsorName}`,
+              },
+              bundleQuotas: {
+                quotas: bundle.assignedQuotas,
+                totalAssignedQuota: bundle.totalInvitations,
+              },
+            },
+          };
+
+          // Save the updated individual bundle
+          setItem(`${eventId}#${bundleKey}`, updatedBundle);
+        });
+
+        // Update bundle keys list
+        setItem(eventId + EVENT_BUNDLE_KEY_SUFFIX, updatedBundleKeys);
+      }
+    },
   };
 
   return (

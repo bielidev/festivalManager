@@ -108,10 +108,10 @@ export const Bundles = () => {
   // Save bundles when they change
   useEffect(() => {
     if (state.bundles.length > 0) {
-      // Here you would convert state.bundles to your storage format
-      // and save to your storage API
+      // Save the bundles data to local storage
+      eventBundlesStorageApi.updateBundles(eventId, state);
     }
-  }, [state.bundles]);
+  }, [state]);
 
   // Event handlers
   const handleOpenDialog = (bundle?: StepperBundle) => {
