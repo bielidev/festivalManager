@@ -62,7 +62,7 @@ const Events = () => {
                 },
               }}
             >
-              Create New Event
+              Manage Event
             </Button>
           </Box>
 
