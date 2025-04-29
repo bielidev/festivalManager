@@ -18,7 +18,7 @@ import { EventDetailProvider } from "./EventContext/EventDetailContext";
 // Import step components
 import GeneralInfo from "./Steps/GeneralInfo";
 import Calendar from "./Steps/Calendar";
-import Quotas from "./Steps/Quotas";
+import Quotas from "./Steps/InvitationTypes";
 import Bundles from "./Steps/Bundles";
 import Contacts from "./Steps/Contacts";
 import Template from "./Steps/Template";
