@@ -69,7 +69,7 @@ const initialQuotaState: QuotaStateForm = {
   remainingInvitations: 0,
 };
 
-export const Quotas = () => {
+export const InvitationTypes = () => {
   const pageBottomRef = useRef<HTMLDivElement>(null);
   const { eventCoreStorageApi } = useEventStorageContext();
   const { id } = useParams();
@@ -395,4 +395,4 @@ export const Quotas = () => {
   );
 };
 
-export default Quotas;
+export default InvitationTypes;

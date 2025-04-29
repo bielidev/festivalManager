@@ -18,7 +18,7 @@ import { EventDetailProvider } from "./EventContext/EventDetailContext";
 // Import step components
 import GeneralInfo from "./Steps/GeneralInfo";
 import Calendar from "./Steps/Calendar";
-import Quotas from "./Steps/InvitationTypes";
+import InvitationTypes from "./Steps/InvitationTypes";
 import Bundles from "./Steps/Bundles";
 import Contacts from "./Steps/Contacts";
 import Template from "./Steps/Template";
@@ -112,7 +112,7 @@ export const EventDetail = () => {
             {activeStep === 0 && <GeneralInfo />}
             {activeStep === 1 && <Calendar />}
             {activeStep === 2 && <Artists />}
-            {activeStep === 3 && <Quotas />}
+            {activeStep === 3 && <InvitationTypes />}
             {activeStep === 4 && <Bundles />}
             {activeStep === 5 && <Contacts />}
             {activeStep === 6 && <Template />}
