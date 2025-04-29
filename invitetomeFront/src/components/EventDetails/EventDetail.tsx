@@ -34,7 +34,7 @@ const steps = [
   "Sponsor Bundles",
   "Guest Management",
   "Email Template",
-  "Send Invitations",
+  "Invitations",
   "Analytics",
 ];
 
