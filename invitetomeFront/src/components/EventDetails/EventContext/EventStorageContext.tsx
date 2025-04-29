@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import {
   mockBundlesOp,
   mockCoreOp,
+  mockEventBundleOps
 } from "../../../model/EventItemModel/MockData";
 import { Core } from "../../../model/EventItemModel/Core";
 import { getItem, setItem, removeItem } from "../../../utils/localStorage";
@@ -13,6 +14,8 @@ import { Bundles } from "../../../model/EventItemModel/Bundles";
 const EVENT_IDS_KEY = "eventIds";
 const CORE_KEY_SUFFIX = "#core";
 const BUNDLES_KEY_SUFFIX = "#bundles";
+// Local storage keys for storing event bundles
+const EVENT_BUNDLE_KEY_SUFFIX = "BundleKeys"; // e.g. "eventId#BundleKeys"
 
 interface EventStorageContextType {
   eventCores: Core[];
@@ -219,6 +222,18 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
         );
 
         setItem(eventId + BUNDLES_KEY_SUFFIX, bundlesData);
+
+        // Load individual bundles
+        let bundleKeys : string[] = [];
+        const individualBundles = mockEventBundleOps.get(eventId);
+        if (individualBundles) {
+          individualBundles.forEach((bundle) => {
+            bundleKeys.push(bundle.operation);
+            setItem(`${eventId}#${bundle.operation}`, bundle);
+            setItem(eventId + EVENT_BUNDLE_KEY_SUFFIX, bundleKeys);
+          });
+        }
+
         return bundlesData;
       }
       return bundles;
