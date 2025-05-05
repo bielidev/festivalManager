@@ -11,7 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useEventStorageContext } from "../EventContext/EventStorageContext";
 
-interface GeneralInfoForm {
+export interface GeneralInfoForm {
   eventCode: string;
   eventName: string;
   tags: string[];
@@ -50,17 +50,22 @@ export const GeneralInfo = () => {
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setGeneralInfoForm((prevState) => ({
-      ...prevState,
+    const updatedData = {
+      ...generalInfoForm,
       [name]: value,
-    }));
+    }
+    setGeneralInfoForm(updatedData);
+    eventCoreStorageApi.updateEventGeneralData(eventId, updatedData);
+
   };
 
   const handleOnChangeTags = (newValue: string[], field: string) => {
-    setGeneralInfoForm((prevState) => ({
-      ...prevState,
+    const updatedTags = {
+      ...generalInfoForm,
       [field]: newValue,
-    }));
+    }
+    setGeneralInfoForm(updatedTags);
+    eventCoreStorageApi.updateEventGeneralData(eventId, updatedTags);
   };
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +108,7 @@ export const GeneralInfo = () => {
             variant="outlined"
             required
             onChange={handleOnChange}
-            name="name"
+            name="eventName"
           />
         </Grid>
         <Grid item xs={12}>
