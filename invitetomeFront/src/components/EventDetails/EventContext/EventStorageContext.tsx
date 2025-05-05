@@ -4,7 +4,7 @@ import {
   mockCoreOp,
   mockEventBundleOps,
 } from "../../../model/EventItemModel/MockData";
-import { Core } from "../../../model/EventItemModel/Core";
+import { Core, emptyEventData, GeneralData } from "../../../model/EventItemModel/Core";
 import { getItem, setItem, removeItem } from "../../../utils/localStorage";
 import { DateTimeForm } from "../Steps/Calendar";
 import { QuotaStateForm } from "../reducers/quotaReducer";
@@ -25,6 +25,7 @@ interface EventStorageContextType {
     getEventCoreById: (id: string) => Core | undefined;
     updateEventCore: (updatedEventCore: Core) => void;
     removeEventCore: (id: string) => void;
+    getEventGeneralData: (id: string) => GeneralData;
     updateTimeDates: (id: string, dateTimeForm: DateTimeForm) => void;
     updateInvitationQuotas: (
       id: string,
@@ -105,6 +106,14 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
       setItem(updatedEventCore.eventId + CORE_KEY_SUFFIX, updatedEventCore);
 
       setEventCores(updatedEventCores);
+    },
+    getEventGeneralData: (id: string) => {
+      const eventCore = eventCores.find((eventCore) => eventCore.eventId === id);
+      if (!eventCore) {
+        console.error("Event core not found for id:", id);
+        return emptyEventData.data.coreData.generalData;
+      }
+      return eventCore.data.coreData.generalData;
     },
     removeEventCore: (id: string) => {
       const updatedEventCores = eventCores.filter(
