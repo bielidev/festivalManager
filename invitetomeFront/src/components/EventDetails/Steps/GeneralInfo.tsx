@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { GeneralInfoForm } from "../EventContext/EventDetailContext";
 import {
   Box,
   TextField,
@@ -9,28 +8,24 @@ import {
   Autocomplete,
   Chip,
 } from "@mui/material";
-import { useEventDetailContext } from "../EventContext/EventDetailContext";
+
+interface GeneralInfoForm {
+  eventCode: string;
+  name: string;
+  tags: string[];
+}
 
 export const GeneralInfo = () => {
-  const { currentEvent, dispatch } = useEventDetailContext();
   const [generalInfoForm, setGeneralInfoForm] = useState<GeneralInfoForm>({
-    eventCode: currentEvent.data.coreData.generalData.eventCode,
-    name: currentEvent.data.coreData.generalData.eventName,
-    tags: currentEvent.data.coreData.generalData.tags,
-    venue: currentEvent.data.coreData.venueData.venueName,
-    city: currentEvent.data.coreData.venueData.city,
-    address: currentEvent.data.coreData.venueData.address,
-    gates: currentEvent.data.coreData.venueData.gates,
+    eventCode: "",
+    name: "",
+    tags: [],
   });
 
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch({
-      type: "GENERAL_INFO",
-      payload: { ...generalInfoForm, [name]: value },
-    });
     setGeneralInfoForm((prevState) => ({
       ...prevState,
       [name]: value,
@@ -38,10 +33,6 @@ export const GeneralInfo = () => {
   };
 
   const handleOnChangeTags = (newValue: string[], field: string) => {
-    dispatch({
-      type: "GENERAL_INFO",
-      payload: { ...generalInfoForm, [field]: newValue },
-    });
     setGeneralInfoForm((prevState) => ({
       ...prevState,
       [field]: newValue,
