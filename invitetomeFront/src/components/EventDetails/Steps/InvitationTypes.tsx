@@ -28,7 +28,7 @@ import {
   changeTotalInvitations,
   deleteQuota,
   changeQuotaQuantity,
-} from "./quotaReducer";
+} from "../reducers/quotaReducer";
 import { useEventStorageContext } from "../EventContext/EventStorageContext";
 import { useParams } from "react-router-dom";
 

@@ -7,9 +7,9 @@ import {
 import { Core } from "../../../model/EventItemModel/Core";
 import { getItem, setItem, removeItem } from "../../../utils/localStorage";
 import { DateTimeForm } from "../Steps/Calendar";
-import { QuotaStateForm } from "../Steps/quotaReducer";
+import { QuotaStateForm } from "../reducers/quotaReducer";
 import { Bundles } from "../../../model/EventItemModel/Bundles";
-import { BundleStateForm } from "../Steps/bundleReducer";
+import { BundleStateForm } from "../reducers/bundleReducer";
 
 // Local storage key for storing event ids
 const EVENT_IDS_KEY = "eventIds";

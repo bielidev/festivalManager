@@ -42,7 +42,7 @@ import {
   updateQuotaAllocation,
   saveBundle,
   deleteBundle,
-} from "./bundleReducer";
+} from "../reducers/bundleReducer";
 
 export const Bundles = () => {
   const { eventCoreStorageApi, eventBundlesStorageApi } =
