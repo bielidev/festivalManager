@@ -53,6 +53,14 @@ export interface VenueData {
   country: string;
   postalCode: string;
   gates: string[];
+  zones?: {
+    [key: string]: Zone; // e.g. zone#01: { zoneName: Backstage, subZones: [] }
+  }
+}
+
+interface Zone {
+  zoneName: string;
+  subZones?: Zone[];
 }
 
 export interface Quota {
