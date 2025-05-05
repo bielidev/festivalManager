@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -8,21 +8,45 @@ import {
   Autocomplete,
   Chip,
 } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { useEventStorageContext } from "../EventContext/EventStorageContext";
 
 interface GeneralInfoForm {
   eventCode: string;
-  name: string;
+  eventName: string;
   tags: string[];
 }
 
 export const GeneralInfo = () => {
+  const { id } = useParams();
+  const eventId = id || "";
+  const { eventCoreStorageApi } = useEventStorageContext();
+
   const [generalInfoForm, setGeneralInfoForm] = useState<GeneralInfoForm>({
     eventCode: "",
-    name: "",
+    eventName: "",
     tags: [],
   });
 
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    const eventGeneralData = eventCoreStorageApi.getEventGeneralData(eventId);
+    if (eventGeneralData) {
+      setGeneralInfoForm({
+        eventCode: eventGeneralData.eventCode,
+        eventName: eventGeneralData.eventName,
+        tags: eventGeneralData.tags,
+      });
+    }
+    else {
+      setGeneralInfoForm({
+        eventCode: "",
+        eventName: "",
+        tags: [],
+      });
+    }
+  }, [eventId]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -73,7 +97,7 @@ export const GeneralInfo = () => {
         </Grid>
         <Grid item xs={12} md={8}>
           <TextField
-            value={generalInfoForm.name}
+            value={generalInfoForm.eventName}
             fullWidth
             label="Event Name"
             variant="outlined"
