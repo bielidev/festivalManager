@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useState } from "react";
 import { VenueDetailsForm } from "./VenueDetailsForm";
-//import VenueZones, { Zone } from "./VenueZones";
+import VenueZones, { Zone } from "./VenueZones";
 
 interface VenueData {
   venue: string;
@@ -18,19 +18,17 @@ export const VenueDetails = () => {
     gates: [],
   });
 
- // const [zones, setZones] = useState<Zone[]>([]);
+  const [zonesForm, setZonesForm] = useState<Zone[]>([]);
 
   return (
     <Box component="form" noValidate autoComplete="off">
-      <VenueDetailsForm 
+      <Grid container spacing={3}>
+      <VenueDetailsForm
         venueData={venueDataForm}
         setVenueData={setVenueDataForm}
       />
-      
-      {/* <VenueZones 
-        zones={zones}
-        onChange={setZones}
-      /> */}
+      <VenueZones zonesForm={zonesForm} setZonesForm={setZonesForm} />
+      </Grid>
     </Box>
   );
 };
