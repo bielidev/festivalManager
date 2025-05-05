@@ -17,6 +17,7 @@ import { EventDetailProvider } from "./EventContext/EventDetailContext";
 
 // Import step components
 import GeneralInfo from "./Steps/GeneralInfo";
+import VenueDetails from "./Steps/VenueDetails";
 import Calendar from "./Steps/Calendar";
 import InvitationTypes from "./Steps/InvitationTypes";
 import Bundles from "./Steps/Bundles";
@@ -28,6 +29,7 @@ import Invitations from "./Steps/Invitations";
 
 const steps = [
   "General Information",
+  "Venue and Zones",
   "Date & Time",
   "Artists/Performers",
   "Invitation Types",
@@ -110,14 +112,15 @@ export const EventDetail = () => {
 
             {/* Render step content */}
             {activeStep === 0 && <GeneralInfo />}
-            {activeStep === 1 && <Calendar />}
-            {activeStep === 2 && <Artists />}
-            {activeStep === 3 && <InvitationTypes />}
-            {activeStep === 4 && <Bundles />}
-            {activeStep === 5 && <Contacts />}
-            {activeStep === 6 && <Template />}
-            {activeStep === 7 && <Invitations />}
-            {activeStep === 8 && <Analytics />}
+            {activeStep === 1 && <VenueDetails />}
+            {activeStep === 2 && <Calendar />}
+            {activeStep === 3 && <Artists />}
+            {activeStep === 4 && <InvitationTypes />}
+            {activeStep === 5 && <Bundles />}
+            {activeStep === 6 && <Contacts />}
+            {activeStep === 7 && <Template />}
+            {activeStep === 8 && <Invitations />}
+            {activeStep === 9 && <Analytics />}
           </Paper>
         </EventDetailProvider>
       </Box>
