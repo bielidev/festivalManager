@@ -10,6 +10,7 @@ import { DateTimeForm } from "../Steps/Calendar";
 import { QuotaStateForm } from "../reducers/quotaReducer";
 import { Bundles } from "../../../model/EventItemModel/Bundles";
 import { BundleStateForm } from "../reducers/bundleReducer";
+import { GeneralInfoForm } from "../Steps/GeneralInfo";
 
 // Local storage key for storing event ids
 const EVENT_IDS_KEY = "eventIds";
@@ -26,6 +27,10 @@ interface EventStorageContextType {
     updateEventCore: (updatedEventCore: Core) => void;
     removeEventCore: (id: string) => void;
     getEventGeneralData: (id: string) => GeneralData;
+    updateEventGeneralData: (
+      id: string,
+      generalInfoForm: GeneralInfoForm
+    ) => void;
     updateTimeDates: (id: string, dateTimeForm: DateTimeForm) => void;
     updateInvitationQuotas: (
       id: string,
@@ -114,6 +119,36 @@ export const EventStorageProvider: React.FC<{ children: React.ReactNode }> = ({
         return emptyEventData.data.coreData.generalData;
       }
       return eventCore.data.coreData.generalData;
+    },
+    updateEventGeneralData: (id: string, generalInfoForm : GeneralInfoForm)  => {
+      const eventCore = eventCores.find((eventCore) => eventCore.eventId === id);
+      if (!eventCore) {
+        console.error("Event core not found for id:", id);
+        return;
+      }
+
+      // Update the event core with the new general data
+      const updatedEventCore = {
+        ...eventCore,
+        data: {
+          ...eventCore.data,
+          coreData: {
+            ...eventCore.data.coreData,
+            generalData: {
+              ...eventCore.data.coreData.generalData,
+              ...generalInfoForm,
+            },
+          },
+        },
+      };
+
+      setItem(id + CORE_KEY_SUFFIX, updatedEventCore);
+
+      setEventCores((prevState) =>
+        prevState.map((event) =>
+          event.eventId === id ? updatedEventCore : event
+        )
+      );
     },
     removeEventCore: (id: string) => {
       const updatedEventCores = eventCores.filter(
