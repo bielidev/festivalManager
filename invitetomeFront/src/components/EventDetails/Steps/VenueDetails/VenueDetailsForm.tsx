@@ -41,7 +41,7 @@ export const VenueDetailsForm: React.FC<VenueDetailsFormProps> = ({
   };
 
   return (
-    <Grid container spacing={3}>
+    <>
       <Grid item xs={12}>
         <Typography variant="h6" sx={{ mb: 2, mt: 2 }}>
           Venue Details
@@ -114,7 +114,7 @@ export const VenueDetailsForm: React.FC<VenueDetailsFormProps> = ({
           )}
         />
       </Grid>
-    </Grid>
+    </>
   );
 };
 
