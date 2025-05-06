@@ -13,8 +13,6 @@ import { useParams } from "react-router-dom";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-import { EventDetailProvider } from "./EventContext/EventDetailContext";
-
 // Import step components
 import GeneralInfo from "./Steps/GeneralInfo";
 import VenueDetails from "./Steps/VenueDetails/VenueDetails";
@@ -90,39 +88,36 @@ export const EventDetail = () => {
         >
           {drawerOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
-        
-        
-        {/* Content based on active step will be rendered here */}
-        <EventDetailProvider id={id || ""}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 4,
-              borderRadius: 2,
-              m: 2,
-              bgcolor: "background.paper",
-              minHeight: "calc(100vh - 32px)",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
-            }}
-          >
-            <Typography variant="h4" sx={{ mb: 3 }}>
-              {isNewEvent ? "Create New Event" : "Edit Event"} -{" "}
-              {steps[activeStep]}
-            </Typography>
 
-            {/* Render step content */}
-            {activeStep === 0 && <GeneralInfo />}
-            {activeStep === 1 && <VenueDetails />}
-            {activeStep === 2 && <Calendar />}
-            {activeStep === 3 && <Artists />}
-            {activeStep === 4 && <InvitationTypes />}
-            {activeStep === 5 && <Bundles />}
-            {activeStep === 6 && <Contacts />}
-            {activeStep === 7 && <Template />}
-            {activeStep === 8 && <Invitations />}
-            {activeStep === 9 && <Analytics />}
-          </Paper>
-        </EventDetailProvider>
+        {/* Content based on active step will be rendered here */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            borderRadius: 2,
+            m: 2,
+            bgcolor: "background.paper",
+            minHeight: "calc(100vh - 32px)",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+          }}
+        >
+          <Typography variant="h4" sx={{ mb: 3 }}>
+            {isNewEvent ? "Create New Event" : "Edit Event"} -{" "}
+            {steps[activeStep]}
+          </Typography>
+
+          {/* Render step content */}
+          {activeStep === 0 && <GeneralInfo />}
+          {activeStep === 1 && <VenueDetails />}
+          {activeStep === 2 && <Calendar />}
+          {activeStep === 3 && <Artists />}
+          {activeStep === 4 && <InvitationTypes />}
+          {activeStep === 5 && <Bundles />}
+          {activeStep === 6 && <Contacts />}
+          {activeStep === 7 && <Template />}
+          {activeStep === 8 && <Invitations />}
+          {activeStep === 9 && <Analytics />}
+        </Paper>
       </Box>
 
       {/* Stepper Drawer */}
