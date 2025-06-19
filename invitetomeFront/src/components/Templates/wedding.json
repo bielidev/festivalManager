@@ -1,6 +1,6 @@
 {
   "english": {
-    "logoUrl": "https://example.com/logo-wedding.png",
+    "logoUrl": "https://images.squarespace-cdn.com/content/v1/624f79da9652d457085251df/9b7e059e-8ac9-41d3-9590-c6cc7a2a3fc5/1000x1000-Wedding-3line.png",
     "header": "You're invited to our wedding!",
     "contactName": "Emily & John",
     "contactEmail": "wedding@example.com",
@@ -14,7 +14,7 @@
     "footerText2": "2025 Invite2Me © All rights reserved."
   },
   "spanish": {
-    "logoUrl": "https://example.com/logo-wedding.png",
+    "logoUrl": "https://images.squarespace-cdn.com/content/v1/624f79da9652d457085251df/9b7e059e-8ac9-41d3-9590-c6cc7a2a3fc5/1000x1000-Wedding-3line.png",
     "header": "¡Estás invitado a nuestra boda!",
     "contactName": "Emily y John",
     "contactEmail": "boda@example.com",
@@ -28,7 +28,7 @@
     "footerText2": "2025 Invite2Me © Todos los derechos reservados."
   },
   "catalan": {
-    "logoUrl": "https://example.com/logo-wedding.png",
+    "logoUrl": "https://images.squarespace-cdn.com/content/v1/624f79da9652d457085251df/9b7e059e-8ac9-41d3-9590-c6cc7a2a3fc5/1000x1000-Wedding-3line.png",
     "header": "Estàs convidat al nostre casament!",
     "contactName": "Emily i John",
     "contactEmail": "casament@example.com",

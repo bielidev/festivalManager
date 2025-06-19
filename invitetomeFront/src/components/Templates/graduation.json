@@ -1,0 +1,44 @@
+{
+  "english": {
+    "logoUrl": "https://static.vecteezy.com/system/resources/previews/034/725/004/non_2x/smart-graduation-logo-with-toga-hat-and-tie-vector.jpg",
+    "header": "Celebrate With Us!",
+    "contactName": "Carlos Rivera",
+    "contactEmail": "grad2025@university.edu",
+    "contactPhone": "+1 222-333-4444",
+    "qrInstruction": "Scan to RSVP and get details.",
+    "eventName": "Class of 2025 Graduation Ceremony",
+    "eventDate": "June 28, 2025 16:00",
+    "eventLocation": "University Hall, Boston",
+    "eventDescription": "Join us to celebrate the achievements of our graduates.",
+    "footerText1": "Formal invitation required for entry.",
+    "footerText2": "© 2025 Invite2Me. All rights reserved."
+  },
+  "spanish": {
+    "logoUrl": "https://static.vecteezy.com/system/resources/previews/034/725/004/non_2x/smart-graduation-logo-with-toga-hat-and-tie-vector.jpg",
+    "header": "¡Celebra con nosotros!",
+    "contactName": "Carlos Rivera",
+    "contactEmail": "grad2025@universidad.edu",
+    "contactPhone": "+34 222-333-444",
+    "qrInstruction": "Escanea para confirmar asistencia.",
+    "eventName": "Ceremonia de Graduación Clase 2025",
+    "eventDate": "28 de Junio, 2025 16:00",
+    "eventLocation": "University Hall, Boston",
+    "eventDescription": "Acompáñanos a celebrar los logros de nuestros graduados.",
+    "footerText1": "Se requiere invitación formal.",
+    "footerText2": "© 2025 Invite2Me. Todos los derechos reservados."
+  },
+  "catalan": {
+    "logoUrl": "https://static.vecteezy.com/system/resources/previews/034/725/004/non_2x/smart-graduation-logo-with-toga-hat-and-tie-vector.jpg",
+    "header": "Celebra amb nosaltres!",
+    "contactName": "Carlos Rivera",
+    "contactEmail": "grad2025@universitat.edu",
+    "contactPhone": "+34 222-333-444",
+    "qrInstruction": "Escaneja per confirmar assistència.",
+    "eventName": "Cerimònia de Graduació Promoció 2025",
+    "eventDate": "28 de Juny, 2025 16:00",
+    "eventLocation": "University Hall, Boston",
+    "eventDescription": "Uneix-te a nosaltres per celebrar els èxits dels graduats.",
+    "footerText1": "Cal invitació formal per entrar.",
+    "footerText2": "© 2025 Invite2Me. Tots els drets reservats."
+  }
+}

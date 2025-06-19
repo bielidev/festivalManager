@@ -1,0 +1,44 @@
+{
+  "english": {
+    "logoUrl": "https://example.com/logo-conference.png",
+    "header": "Join the Innovation Conference 2025",
+    "contactName": "Innovation Team",
+    "contactEmail": "info@innovationconf.com",
+    "contactPhone": "+1 123-456-7890",
+    "qrInstruction": "Scan to get your conference pass.",
+    "eventName": "Innovation Conference 2025",
+    "eventDate": "October 21–23, 2025",
+    "eventLocation": "Berlin Convention Center",
+    "eventDescription": "A global summit on tech, creativity, and future industries.",
+    "footerText1": "Tickets are non-refundable.",
+    "footerText2": "2025 Invite2Me© All rights reserved."
+  },
+  "spanish": {
+    "logoUrl": "https://example.com/logo-conference.png",
+    "header": "Únete a la Conferencia de Innovación 2025",
+    "contactName": "Equipo Innovación",
+    "contactEmail": "info@innovationconf.com",
+    "contactPhone": "+34 123-456-789",
+    "qrInstruction": "Escanea para obtener tu pase.",
+    "eventName": "Conferencia de Innovación 2025",
+    "eventDate": "21–23 de Octubre, 2025",
+    "eventLocation": "Centro de Convenciones de Berlín",
+    "eventDescription": "Cumbre global sobre tecnología, creatividad e industrias del futuro.",
+    "footerText1": "Entradas no reembolsables.",
+    "footerText2": "2025 Invite2Me© Todos los derechos reservados."
+  },
+  "catalan": {
+    "logoUrl": "https://example.com/logo-conference.png",
+    "header": "Uneix-te a la Conferència d'Innovació 2025",
+    "contactName": "Equip Innovació",
+    "contactEmail": "info@innovationconf.com",
+    "contactPhone": "+34 123-456-789",
+    "qrInstruction": "Escaneja per obtenir la teva acreditació.",
+    "eventName": "Conferència d'Innovació 2025",
+    "eventDate": "21–23 d'Octubre, 2025",
+    "eventLocation": "Centre de Convencions de Berlín",
+    "eventDescription": "Cimera global sobre tecnologia, creativitat i indústries del futur.",
+    "footerText1": "Entrades no reemborsables.",
+    "footerText2": "2025 Invite2Me© Tots els drets reservats."
+  }
+}
