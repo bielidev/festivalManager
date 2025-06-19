@@ -1,0 +1,44 @@
+{
+  "english": {
+    "logoUrl": "https://cdn.textstudio.com/output/studio/template/preview/medium/x/5/y/0/1c80y5x.webp",
+    "header": "You're Invited!",
+    "contactName": "Anna Smith",
+    "contactEmail": "anna.smith@example.com",
+    "contactPhone": "+1 555-234-5678",
+    "qrInstruction": "Scan this QR to RSVP.",
+    "eventName": "Anna's 30th Birthday",
+    "eventDate": "July 12, 2025 18:00",
+    "eventLocation": "Sunset Lounge, Miami",
+    "eventDescription": "Join us for a night full of fun, music, and memories!",
+    "footerText1": "This invitation is personal.",
+    "footerText2": "2025 Invite2Me © All rights reserved."
+  },
+  "spanish": {
+    "logoUrl": "https://cdn.textstudio.com/output/studio/template/preview/medium/x/5/y/0/1c80y5x.webp",
+    "header": "¡Estás invitado!",
+    "contactName": "Anna Smith",
+    "contactEmail": "anna.smith@example.com",
+    "contactPhone": "+34 600-234-567",
+    "qrInstruction": "Escanea este código para confirmar tu asistencia.",
+    "eventName": "30º Cumpleaños de Anna",
+    "eventDate": "12 de Julio, 2025 18:00",
+    "eventLocation": "Sunset Lounge, Miami",
+    "eventDescription": "¡Acompáñanos en una noche llena de diversión, música y recuerdos!",
+    "footerText1": "Esta invitación es personal.",
+    "footerText2": "2025 Invite2Me © Todos los derechos reservados."
+  },
+  "catalan": {
+    "logoUrl": "https://cdn.textstudio.com/output/studio/template/preview/medium/x/5/y/0/1c80y5x.webp",
+    "header": "Estàs convidat!",
+    "contactName": "Anna Smith",
+    "contactEmail": "anna.smith@example.com",
+    "contactPhone": "+34 600-234-567",
+    "qrInstruction": "Escaneja aquest codi per confirmar assistència.",
+    "eventName": "30è Aniversari d'Anna",
+    "eventDate": "12 de Juliol, 2025 18:00",
+    "eventLocation": "Sunset Lounge, Miami",
+    "eventDescription": "Uneix-te a nosaltres per una nit plena de diversió, música i records!",
+    "footerText1": "Aquesta invitació és personal.",
+    "footerText2": "2025 Invite2Me © Tots els drets reservats."
+  }
+}

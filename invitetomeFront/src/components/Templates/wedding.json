@@ -1,0 +1,44 @@
+{
+  "english": {
+    "logoUrl": "https://example.com/logo-wedding.png",
+    "header": "You're invited to our wedding!",
+    "contactName": "Emily & John",
+    "contactEmail": "wedding@example.com",
+    "contactPhone": "+1 999-888-7777",
+    "qrInstruction": "Scan to view details and RSVP.",
+    "eventName": "Emily & John's Wedding",
+    "eventDate": "September 14, 2025 15:00",
+    "eventLocation": "Lakeview Garden, Napa Valley",
+    "eventDescription": "Celebrate love with us in a beautiful ceremony.",
+    "footerText1": "Formal attire requested.",
+    "footerText2": "2025 Invite2Me © All rights reserved."
+  },
+  "spanish": {
+    "logoUrl": "https://example.com/logo-wedding.png",
+    "header": "¡Estás invitado a nuestra boda!",
+    "contactName": "Emily y John",
+    "contactEmail": "boda@example.com",
+    "contactPhone": "+34 699-888-777",
+    "qrInstruction": "Escanea para más información y confirmar asistencia.",
+    "eventName": "Boda de Emily y John",
+    "eventDate": "14 de Septiembre, 2025 15:00",
+    "eventLocation": "Lakeview Garden, Napa Valley",
+    "eventDescription": "Celebra el amor con nosotros en una hermosa ceremonia.",
+    "footerText1": "Se solicita vestimenta formal.",
+    "footerText2": "2025 Invite2Me © Todos los derechos reservados."
+  },
+  "catalan": {
+    "logoUrl": "https://example.com/logo-wedding.png",
+    "header": "Estàs convidat al nostre casament!",
+    "contactName": "Emily i John",
+    "contactEmail": "casament@example.com",
+    "contactPhone": "+34 699-888-777",
+    "qrInstruction": "Escaneja per confirmar assistència.",
+    "eventName": "Casament d'Emily i John",
+    "eventDate": "14 de Setembre, 2025 15:00",
+    "eventLocation": "Lakeview Garden, Napa Valley",
+    "eventDescription": "Celebra l'amor amb nosaltres en una cerimònia preciosa.",
+    "footerText1": "Es demana etiqueta formal.",
+    "footerText2": "2025 Invite2Me © Tots els drets reservats."
+  }
+}

@@ -1,34 +1,73 @@
-import { useState } from 'react';
-import { Box, Container, Typography, Paper, Button, Grid, Dialog, DialogContent } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import EmailTemplateCreator from '../components/CreateTemplate/EmailTemplateCreator';
+import { MouseEvent, useContext, useEffect, useReducer, useState } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Paper,
+  Button,
+  Grid,
+  Dialog,
+  DialogContent,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import EmailTemplateCreator from "../components/CreateTemplate/EmailTemplateCreator";
 
 // Import template images
-import corporateImg from '../assets/templates/corporate.svg';
-import birthdayImg from '../assets/templates/birthday.svg';
-import weddingImg from '../assets/templates/wedding.svg';
-import conferenceImg from '../assets/templates/conference.svg';
-import workshopImg from '../assets/templates/workshop.svg';
-import graduationImg from '../assets/templates/graduation.svg';
+import corporateImg from "../assets/templates/corporate.svg";
+import birthdayImg from "../assets/templates/birthday.svg";
+import weddingImg from "../assets/templates/wedding.svg";
+import conferenceImg from "../assets/templates/conference.svg";
+import workshopImg from "../assets/templates/workshop.svg";
+import graduationImg from "../assets/templates/graduation.svg";
+import {
+  TEMPLATE_TYPES,
+  TemplateType,
+} from "../components/Templates/constants";
+import { TemplateContext } from "../components/CreateTemplate/templateReducer";
 
 const Templates = () => {
+  const { dispatch } = useContext(TemplateContext);
   const [createOpen, setCreateOpen] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateType | null>(
+    null
+  );
+
+  const handleSelectTemplate = async (template: string | null) => {
+    if (!template) setSelectedTemplate(null);
+
+    const templateConfig = await import(
+      "../components/Templates/" + template + ".json"
+    );
+    dispatch({ type: "LOAD_TEMPLATE_DATA", template: templateConfig });
+    setSelectedTemplate(templateConfig);
+  };
+
+  useEffect(() => {
+    if (!createOpen) setSelectedTemplate(null);
+  }, [createOpen]);
 
   // Debug re-renders (optional, remove in production)
-  console.log('Templates rendered, createOpen:', createOpen);
+  console.log("Templates rendered, createOpen:", createOpen);
 
   return (
     <Box>
       <Container maxWidth="md">
         <Box sx={{ py: 5 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 4,
+            }}
+          >
             <Typography
               variant="h4"
               sx={{
                 fontWeight: 600,
-                background: 'linear-gradient(45deg, #2563eb 30%, #4f46e5 90%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                background: "linear-gradient(45deg, #2563eb 30%, #4f46e5 90%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
               }}
             >
               Invitation Templates
@@ -38,13 +77,15 @@ const Templates = () => {
               startIcon={<AddIcon />}
               onClick={(e) => {
                 e.stopPropagation(); // Prevent event bubbling
+                handleSelectTemplate(null);
                 setCreateOpen(true);
               }}
               sx={{
-                borderRadius: '50px',
-                background: 'linear-gradient(45deg, #2563eb 30%, #4f46e5 90%)',
-                '&:hover': {
-                  background: 'linear-gradient(45deg, #1d4ed8 30%, #4338ca 90%)',
+                borderRadius: "50px",
+                background: "linear-gradient(45deg, #2563eb 30%, #4f46e5 90%)",
+                "&:hover": {
+                  background:
+                    "linear-gradient(45deg, #1d4ed8 30%, #4338ca 90%)",
                 },
               }}
             >
@@ -55,7 +96,14 @@ const Templates = () => {
           <Grid container spacing={3}>
             {templates.map((template, index) => (
               <Grid item xs={12} key={index}>
-                <TemplateCard {...template} />
+                <TemplateCard
+                  {...template}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectTemplate(template.type);
+                    setCreateOpen(true);
+                  }}
+                />
               </Grid>
             ))}
           </Grid>
@@ -70,52 +118,52 @@ const Templates = () => {
         fullScreen
         PaperProps={{
           sx: {
-            bgcolor: 'background.default',
+            bgcolor: "background.default",
           },
         }}
       >
         <DialogContent
           sx={{
             p: 0,
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
           }}
         >
           <Box
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
               p: 2,
               borderBottom: 1,
-              borderColor: 'divider',
-              bgcolor: 'background.paper',
+              borderColor: "divider",
+              bgcolor: "background.paper",
             }}
           >
-             <Typography
+            <Typography
               variant="h5"
               sx={{
                 fontWeight: 600,
-                background: 'linear-gradient(45deg, #2563eb 30%, #4f46e5 90%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                background: "linear-gradient(45deg, #2563eb 30%, #4f46e5 90%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
               }}
             >
-              Create New Template
+              {selectedTemplate?.english?.header || "Create New Template"}
             </Typography>
             <Button
               onClick={() => setCreateOpen(false)}
               variant="outlined"
               sx={{
-                borderRadius: '50px',
-                borderColor: '#2563eb',
-                color: '#2563eb',
-                '&:hover': {
-                  borderColor: '#1d4ed8',
-                  color: '#1d4ed8',
-                  background: 'rgba(37, 99, 235, 0.1)',
+                borderRadius: "50px",
+                borderColor: "#2563eb",
+                color: "#2563eb",
+                "&:hover": {
+                  borderColor: "#1d4ed8",
+                  color: "#1d4ed8",
+                  background: "rgba(37, 99, 235, 0.1)",
                 },
               }}
               size="small"
@@ -123,7 +171,7 @@ const Templates = () => {
               Back to Templates
             </Button>
           </Box>
-          <Box sx={{ flex: 1, overflow: 'auto' }}>
+          <Box sx={{ flex: 1, overflow: "auto" }}>
             <EmailTemplateCreator onClose={() => setCreateOpen(false)} />
           </Box>
         </DialogContent>
@@ -137,9 +185,16 @@ interface TemplateCardProps {
   category: string;
   preview: string;
   image?: string;
+  onClick?: (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => void;
 }
 
-const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) => {
+const TemplateCard = ({
+  title,
+  category,
+  preview,
+  image,
+  onClick,
+}: TemplateCardProps) => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
@@ -156,7 +211,7 @@ const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) =>
       </defs>
       <rect width="100%" height="100%" fill="url(#grad-${title})"/>
       <text x="50%" y="50%" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dy=".3em">
-        ${title.split(' ')[0]}
+        ${title.split(" ")[0]}
       </text>
     </svg>`
   )}`;
@@ -165,39 +220,43 @@ const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) =>
     <Paper
       elevation={0}
       sx={{
-        display: 'flex',
-        border: '1px solid',
-        borderColor: 'divider',
+        display: "flex",
+        border: "1px solid",
+        borderColor: "divider",
         borderRadius: 2,
-        overflow: 'hidden',
-        transition: 'all 0.3s ease',
-        height: '140px',
-        backgroundColor: '#ffffff',
-        maxWidth: '100%',
-        '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-          borderColor: 'primary.main',
+        overflow: "hidden",
+        transition: "all 0.3s ease",
+        height: "140px",
+        backgroundColor: "#ffffff",
+        maxWidth: "100%",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+          borderColor: "primary.main",
         },
+      }}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent event bubbling
+        onClick?.(e);
       }}
     >
       <Box
         sx={{
-          width: { xs: '120px', sm: '180px' },
-          minWidth: { xs: '120px', sm: '180px' },
-          backgroundColor: '#f3f4f6',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRight: '1px solid',
-          borderColor: 'divider',
-          overflow: 'hidden',
+          width: { xs: "120px", sm: "180px" },
+          minWidth: { xs: "120px", sm: "180px" },
+          backgroundColor: "#f3f4f6",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRight: "1px solid",
+          borderColor: "divider",
+          overflow: "hidden",
         }}
       >
         <img
-          src={imageError ? fallbackImage : (image || fallbackImage)}
+          src={imageError ? fallbackImage : image || fallbackImage}
           alt={title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
           onError={handleImageError}
         />
       </Box>
@@ -206,13 +265,16 @@ const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) =>
           px: { xs: 2, sm: 3 },
           py: { xs: 2, sm: 2.5 },
           flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          overflow: 'hidden',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          overflow: "hidden",
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.75, fontSize: '1.1rem' }}>
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: 600, mb: 0.75, fontSize: "1.1rem" }}
+        >
           {title}
         </Typography>
         <Typography
@@ -221,18 +283,23 @@ const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) =>
           sx={{
             mb: 1.5,
             lineHeight: 1.4,
-            display: '-webkit-box',
+            display: "-webkit-box",
             WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {preview}
         </Typography>
         <Typography
           variant="caption"
-          sx={{ color: 'primary.main', textTransform: 'uppercase', letterSpacing: 1, fontWeight: 500 }}
+          sx={{
+            color: "primary.main",
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            fontWeight: 500,
+          }}
         >
           {category}
         </Typography>
@@ -243,39 +310,51 @@ const TemplateCard = ({ title, category, preview, image }: TemplateCardProps) =>
 
 const templates = [
   {
-    title: 'Corporate Event',
-    category: 'Business',
-    preview: 'Professional design for corporate events with modern layout and branding options',
+    title: "Corporate Event",
+    type: TEMPLATE_TYPES.CORPORATE,
+    category: "Business",
+    preview:
+      "Professional design for corporate events with modern layout and branding options",
     image: corporateImg,
   },
   {
-    title: 'Birthday Party',
-    category: 'Personal',
-    preview: 'Colorful and fun birthday invitation with customizable themes and RSVP tracking',
+    title: "Birthday Party",
+    type: TEMPLATE_TYPES.BIRTHDAY,
+    category: "Personal",
+    preview:
+      "Colorful and fun birthday invitation with customizable themes and RSVP tracking",
     image: birthdayImg,
   },
   {
-    title: 'Wedding',
-    category: 'Personal',
-    preview: 'Elegant wedding invitation design with guest management and digital RSVP',
+    title: "Wedding",
+    type: TEMPLATE_TYPES.WEDDING,
+    category: "Personal",
+    preview:
+      "Elegant wedding invitation design with guest management and digital RSVP",
     image: weddingImg,
   },
   {
-    title: 'Conference',
-    category: 'Business',
-    preview: 'Clean and modern conference template with agenda and speaker highlights',
+    title: "Conference",
+    type: TEMPLATE_TYPES.CONFERENCE,
+    category: "Business",
+    preview:
+      "Clean and modern conference template with agenda and speaker highlights",
     image: conferenceImg,
   },
   {
-    title: 'Workshop',
-    category: 'Business',
-    preview: 'Interactive workshop invitation with session details and materials access',
+    title: "Workshop",
+    type: TEMPLATE_TYPES.WORKSHOP,
+    category: "Business",
+    preview:
+      "Interactive workshop invitation with session details and materials access",
     image: workshopImg,
   },
   {
-    title: 'Graduation',
-    category: 'Personal',
-    preview: 'Celebratory graduation template with photo gallery and achievement showcase',
+    title: "Graduation",
+    type: TEMPLATE_TYPES.GRADUATION,
+    category: "Personal",
+    preview:
+      "Celebratory graduation template with photo gallery and achievement showcase",
     image: graduationImg,
   },
 ];
