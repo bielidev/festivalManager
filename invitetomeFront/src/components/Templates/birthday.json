@@ -11,7 +11,8 @@
     "eventLocation": "Sunset Lounge, Miami",
     "eventDescription": "Join us for a night full of fun, music, and memories!",
     "footerText1": "This invitation is personal.",
-    "footerText2": "2025 Invite2Me © All rights reserved."
+    "footerText2": "Ana's birthday ",
+    "poweredBy": "© 2025 Invite2Me. All rights reserved."
   },
   "spanish": {
     "logoUrl": "https://cdn.textstudio.com/output/studio/template/preview/medium/x/5/y/0/1c80y5x.webp",
@@ -25,7 +26,8 @@
     "eventLocation": "Sunset Lounge, Miami",
     "eventDescription": "¡Acompáñanos en una noche llena de diversión, música y recuerdos!",
     "footerText1": "Esta invitación es personal.",
-    "footerText2": "2025 Invite2Me © Todos los derechos reservados."
+    "footerText2": "Cumpleaños de Anna ",
+    "poweredBy": "© 2025 Invite2Me. Todos los derechos reservados."
   },
   "catalan": {
     "logoUrl": "https://cdn.textstudio.com/output/studio/template/preview/medium/x/5/y/0/1c80y5x.webp",
@@ -39,6 +41,7 @@
     "eventLocation": "Sunset Lounge, Miami",
     "eventDescription": "Uneix-te a nosaltres per una nit plena de diversió, música i records!",
     "footerText1": "Aquesta invitació és personal.",
-    "footerText2": "2025 Invite2Me © Tots els drets reservats."
+    "footerText2": "Aniversari d'Anna",
+    "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
   }
 }

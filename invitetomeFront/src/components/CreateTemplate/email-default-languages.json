@@ -14,7 +14,8 @@
       "footerText1": "Footer Text 1",
       "footerText2": "Footer Text 2",
       "contactDetails": "Contact Details",
-      "templateSettings": "Template Settings"
+      "templateSettings": "Template Settings",
+      "poweredBy": "Powered by"
     },
     "spanish": {
       "logoUrl": "URL del Logo",
@@ -30,7 +31,8 @@
       "footerText1": "Texto de Pie 1",
       "footerText2": "Texto de Pie 2",
       "contactDetails": "Datos de Contacto",
-      "templateSettings": "Configuración de Plantilla"
+      "templateSettings": "Configuración de Plantilla",
+      "poweredBy": "Desarrollado por"
     },
     "catalan": {
       "logoUrl": "URL del Logotip",
@@ -46,7 +48,8 @@
       "footerText1": "Text de Peu 1",
       "footerText2": "Text de Peu 2",
       "contactDetails": "Dades de Contacte",
-      "templateSettings": "Configuració de Plantilla"
+      "templateSettings": "Configuració de Plantilla",
+      "poweredBy": "Desenvolupat per"
     }
   }
 }

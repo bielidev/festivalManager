@@ -24,7 +24,9 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
       .map((field) =>
         visibility[field.name] ? (
           <Typography key={field.name} variant="body1" sx={{ mb: 1 }}>
-            <Box component="span" sx={{ fontWeight: 'bold' }}>{field.name}:</Box>{" "}
+            <Box component="span" sx={{ fontWeight: "bold" }}>
+              {field.name}:
+            </Box>{" "}
             <Box component="span">{fields[field.name]}</Box>
           </Typography>
         ) : null
@@ -32,29 +34,30 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
   };
 
   return (
-    <Box sx={{ p: 3, height: '100%', overflow: 'auto' }}>
-      <Paper 
-        elevation={0} 
-        sx={{ 
+    <Box sx={{ p: 3, height: "100%", overflow: "auto" }}>
+      <Paper
+        elevation={0}
+        sx={{
           p: 4,
           maxWidth: 800,
-          mx: 'auto',
-          bgcolor: '#fff',
+          mx: "auto",
+          bgcolor: "#fff",
           borderRadius: 2,
-          border: '1px solid',
-          borderColor: 'divider'
+          border: "1px solid",
+          borderColor: "divider",
         }}
       >
-        <Box sx={{ mb: 4, textAlign: 'center' }}>
+        {/* Header */}
+        <Box sx={{ mb: 4, textAlign: "center" }}>
           {visibility.logoUrl && (
             <Box
               component="img"
               src={fields.logoUrl}
               alt="Company Logo"
               sx={{
-                maxWidth: '200px',
-                height: 'auto',
-                mb: 2
+                maxWidth: "200px",
+                height: "auto",
+                mb: 2,
               }}
             />
           )}
@@ -66,6 +69,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
           {renderCustomFieldsInSection(["logoUrl", "header"])}
         </Box>
 
+        {/* Contact Details */}
         {(visibility.contactName ||
           visibility.contactEmail ||
           visibility.contactPhone) && (
@@ -77,7 +81,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 </Typography>
                 {visibility.contactName && (
                   <Typography variant="body1" sx={{ mb: 1 }}>
-                    <Box component="span" sx={{ fontWeight: 'bold' }}>
+                    <Box component="span" sx={{ fontWeight: "bold" }}>
                       {translations[language]?.contactName || "Name"}:
                     </Box>{" "}
                     {fields.contactName}
@@ -85,7 +89,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 )}
                 {visibility.contactEmail && (
                   <Typography variant="body1" sx={{ mb: 1 }}>
-                    <Box component="span" sx={{ fontWeight: 'bold' }}>
+                    <Box component="span" sx={{ fontWeight: "bold" }}>
                       {translations[language]?.contactEmail || "Email"}:
                     </Box>{" "}
                     {fields.contactEmail}
@@ -93,33 +97,37 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 )}
                 {visibility.contactPhone && (
                   <Typography variant="body1" sx={{ mb: 1 }}>
-                    <Box component="span" sx={{ fontWeight: 'bold' }}>
+                    <Box component="span" sx={{ fontWeight: "bold" }}>
                       {translations[language]?.contactPhone || "Phone"}:
                     </Box>{" "}
                     {fields.contactPhone}
                   </Typography>
                 )}
-                {renderCustomFieldsInSection(["contactName", "contactEmail", "contactPhone"])}
+                {renderCustomFieldsInSection([
+                  "contactName",
+                  "contactEmail",
+                  "contactPhone",
+                ])}
               </Box>
             </Box>
           </Box>
         )}
-
+        {/* Event Details */}
         <Box sx={{ mb: 4 }}>
           {visibility.eventName && (
-            <Typography 
-              variant="h5" 
-              sx={{ 
+            <Typography
+              variant="h5"
+              sx={{
                 mb: 2,
-                fontSize: '1.5rem',
+                fontSize: "1.5rem",
                 lineHeight: 1.334,
-                letterSpacing: '0.0075em',
-                '& .label': {
-                  color: 'text.secondary',
-                  fontSize: '1.125rem',
+                letterSpacing: "0.0075em",
+                "& .label": {
+                  color: "text.secondary",
+                  fontSize: "1.125rem",
                   fontWeight: 500,
-                  marginRight: 1
-                }
+                  marginRight: 1,
+                },
               }}
             >
               <Box component="span" className="label">
@@ -130,7 +138,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
           )}
           {visibility.eventDate && (
             <Typography variant="body1" sx={{ mb: 1 }}>
-              <Box component="span" sx={{ fontWeight: 'bold' }}>
+              <Box component="span" sx={{ fontWeight: "bold" }}>
                 {translations[language]?.eventDate || "Date"}:
               </Box>{" "}
               {fields.eventDate}
@@ -138,7 +146,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
           )}
           {visibility.eventLocation && (
             <Typography variant="body1" sx={{ mb: 1 }}>
-              <Box component="span" sx={{ fontWeight: 'bold' }}>
+              <Box component="span" sx={{ fontWeight: "bold" }}>
                 {translations[language]?.eventLocation || "Location"}:
               </Box>{" "}
               {fields.eventLocation}
@@ -146,10 +154,10 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
           )}
           {visibility.eventDescription && (
             <Typography variant="body1" sx={{ mb: 2 }}>
-              <Box component="span" sx={{ fontWeight: 'bold' }}>
+              <Box component="span" sx={{ fontWeight: "bold" }}>
                 {translations[language]?.eventDescription || "Description"}:
               </Box>{" "}
-              <Box component="span" sx={{ whiteSpace: 'pre-wrap' }}>
+              <Box component="span" sx={{ whiteSpace: "pre-wrap" }}>
                 {fields.eventDescription}
               </Box>
             </Typography>
@@ -162,16 +170,17 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
           ])}
         </Box>
 
+        {/* QR Code */}
         {visibility.qrInstruction && (
-          <Box sx={{ mb: 4, textAlign: 'center' }}>
+          <Box sx={{ mb: 4, textAlign: "center" }}>
             <Box
               component="img"
               src={qrPlaceholder}
               alt="QR Code"
               sx={{
-                width: '150px',
-                height: 'auto',
-                mb: 2
+                width: "150px",
+                height: "auto",
+                mb: 2,
               }}
             />
             <Typography variant="body2" color="text.secondary">
@@ -182,18 +191,31 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
 
         <Divider sx={{ my: 3 }} />
 
-        <Box sx={{ textAlign: 'center' }}>
+        {/* Footer */}
+        <Box sx={{ textAlign: "center" }}>
           {visibility.footerText1 && (
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {fields.footerText1}
             </Typography>
           )}
           {visibility.footerText2 && (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {fields.footerText2}
             </Typography>
           )}
-          {renderCustomFieldsInSection(["footerText1", "footerText2"])}
+          {visibility.footerText2 && (
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              <Box component="span" sx={{ fontWeight: "bold" }}>
+                {translations[language]?.poweredBy || "Powered by"}:
+              </Box>{" "}
+              {fields.poweredBy}
+            </Typography>
+          )}
+          {renderCustomFieldsInSection([
+            "footerText1",
+            "footerText2",
+            "poweredBy",
+          ])}
         </Box>
       </Paper>
     </Box>

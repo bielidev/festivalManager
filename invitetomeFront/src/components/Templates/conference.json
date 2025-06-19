@@ -11,7 +11,7 @@
     "eventLocation": "Berlin Convention Center",
     "eventDescription": "A global summit on tech, creativity, and future industries.",
     "footerText1": "Tickets are non-refundable.",
-    "footerText2": "2025 Invite2Me© All rights reserved."
+    "footerText2": "© 2025 Invite2Me. All rights reserved."
   },
   "spanish": {
     "logoUrl": "https://example.com/logo-conference.png",
@@ -25,7 +25,7 @@
     "eventLocation": "Centro de Convenciones de Berlín",
     "eventDescription": "Cumbre global sobre tecnología, creatividad e industrias del futuro.",
     "footerText1": "Entradas no reembolsables.",
-    "footerText2": "2025 Invite2Me© Todos los derechos reservados."
+    "footerText2": "© 2025 Invite2Me. Todos los derechos reservados."
   },
   "catalan": {
     "logoUrl": "https://example.com/logo-conference.png",
@@ -39,6 +39,6 @@
     "eventLocation": "Centre de Convencions de Berlín",
     "eventDescription": "Cimera global sobre tecnologia, creativitat i indústries del futur.",
     "footerText1": "Entrades no reemborsables.",
-    "footerText2": "2025 Invite2Me© Tots els drets reservats."
+    "footerText2": "© 2025 Invite2Me. Tots els drets reservats."
   }
 }
