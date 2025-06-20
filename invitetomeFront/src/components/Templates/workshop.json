@@ -11,7 +11,8 @@
     "eventLocation": "Creative Lab, Amsterdam",
     "eventDescription": "Hands-on sessions for designers and innovators.",
     "footerText1": "Limited seats available.",
-    "footerText2": "© 2025 Invite2Me. All rights reserved."
+    "footerText2": "We look forward to a day of learning and collaboration. Please arrive early for check-in.",
+    "poweredBy": "© 2025 Invite2Me. All rights reserved."
   },
   "spanish": {
     "logoUrl": "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/handmade-logo-design-template-4cafe19a071ba632ced6687d9fd5965b_screen.jpg?ts=1601391280",
@@ -25,7 +26,8 @@
     "eventLocation": "Creative Lab, Ámsterdam",
     "eventDescription": "Sesiones prácticas para diseñadores e innovadores.",
     "footerText1": "Cupos limitados.",
-    "footerText2": "© 2025 Invite2Me. Todos los derechos reservados."
+    "footerText2": "Te esperamos para una jornada de aprendizaje y colaboración. Por favor, llega con tiempo para el registro.",
+    "poweredBy": "© 2025 Invite2Me. Todos los derechos reservados."
   },
   "catalan": {
     "logoUrl": "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/handmade-logo-design-template-4cafe19a071ba632ced6687d9fd5965b_screen.jpg?ts=1601391280",
@@ -39,6 +41,7 @@
     "eventLocation": "Creative Lab, Amsterdam",
     "eventDescription": "Sessions pràctiques per a dissenyadors i innovadors.",
     "footerText1": "Places limitades.",
-    "footerText2": "© 2025 Invite2Me. Tots els drets reservats."
+    "footerText2": "T’esperem per a una jornada d’aprenentatge i col·laboració. Si us plau, arriba amb temps per al registre.",
+    "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
   }
 }

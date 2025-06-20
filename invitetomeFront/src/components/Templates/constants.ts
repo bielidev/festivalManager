@@ -6,6 +6,7 @@ export enum TEMPLATE_TYPES {
   CONFERENCE = "conference",
   WORKSHOP = "workshop",
   GRADUATION = "graduation",
+  TECH = "Tech",
 }
 
 export type TemplateType = {

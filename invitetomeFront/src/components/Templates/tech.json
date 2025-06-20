@@ -1,0 +1,47 @@
+{
+  "english": {
+    "logoUrl": "https://static.vecteezy.com/system/resources/previews/019/512/607/non_2x/conference-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg",
+    "header": "Join the Tech Connect 2025",
+    "contactName": "Tech Connect Team",
+    "contactEmail": "info@techconnect2025.com",
+    "contactPhone": "+1 987-654-3210",
+    "qrInstruction": "Scan to access your event pass.",
+    "eventName": "Tech Connect 2025",
+    "eventDate": "September 15–17, 2025",
+    "eventLocation": "International Expo Center, Amsterdam",
+    "eventDescription": "An international gathering for professionals, companies, and enthusiasts shaping the future of technology.",
+    "footerText1": "Event passes are required for entry.",
+    "footerText2": "Check our official site for the latest news and updates.",
+    "poweredBy": "© 2025 Invite2Me. All rights reserved."
+  },
+  "spanish": {
+    "logoUrl": "https://static.vecteezy.com/system/resources/previews/019/512/607/non_2x/conference-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg",
+    "header": "Únete a Tech Connect 2025",
+    "contactName": "Equipo Tech Connect",
+    "contactEmail": "info@techconnect2025.com",
+    "contactPhone": "+34 987-654-321",
+    "qrInstruction": "Escanea para acceder a tu pase de evento.",
+    "eventName": "Tech Connect 2025",
+    "eventDate": "15–17 de Septiembre, 2025",
+    "eventLocation": "Centro Internacional de Exposiciones, Ámsterdam",
+    "eventDescription": "Un encuentro internacional para profesionales, empresas y entusiastas que están dando forma al futuro de la tecnología.",
+    "footerText1": "Se requiere pase de acceso para entrar al evento.",
+    "footerText2": "Consulta nuestro sitio web oficial para noticias y actualizaciones.",
+    "poweredBy": "© 2025 Invite2Me. Todos los derechos reservados."
+  },
+  "catalan": {
+    "logoUrl": "https://static.vecteezy.com/system/resources/previews/019/512/607/non_2x/conference-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg",
+    "header": "Uneix-te a Tech Connect 2025",
+    "contactName": "Equip Tech Connect",
+    "contactEmail": "info@techconnect2025.com",
+    "contactPhone": "+34 987-654-321",
+    "qrInstruction": "Escaneja per accedir al teu passi de l'esdeveniment.",
+    "eventName": "Tech Connect 2025",
+    "eventDate": "15–17 de Setembre, 2025",
+    "eventLocation": "Centre Internacional d’Exposicions, Amsterdam",
+    "eventDescription": "Una trobada internacional per a professionals, empreses i entusiastes que impulsen el futur de la tecnologia.",
+    "footerText1": "Cal passi d'accés per entrar a l'esdeveniment.",
+    "footerText2": "Consulta el nostre lloc web oficial per a novetats i actualitzacions.",
+    "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
+  }
+}

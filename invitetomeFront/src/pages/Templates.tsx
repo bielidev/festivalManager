@@ -19,6 +19,8 @@ import weddingImg from "../assets/templates/wedding.svg";
 import conferenceImg from "../assets/templates/conference.svg";
 import workshopImg from "../assets/templates/workshop.svg";
 import graduationImg from "../assets/templates/graduation.svg";
+import techImg from "../assets/templates/tech.svg";
+
 import {
   TEMPLATE_TYPES,
   TemplateType,
@@ -356,6 +358,14 @@ const templates = [
     preview:
       "Celebratory graduation template with photo gallery and achievement showcase",
     image: graduationImg,
+  },
+  {
+    title: "Tech Event",
+    type: TEMPLATE_TYPES.TECH,
+    category: "Business",
+    preview:
+      "Sleek tech meetup template with networking sections and sponsor highlights.",
+    image: techImg,
   },
 ];
 

@@ -11,7 +11,8 @@
     "eventLocation": "University Hall, Boston",
     "eventDescription": "Join us to celebrate the achievements of our graduates.",
     "footerText1": "Formal invitation required for entry.",
-    "footerText2": "© 2025 Invite2Me. All rights reserved."
+    "footerText2": "We’re excited to celebrate this special day with you. Please arrive early to ensure smooth entry.",
+    "poweredBy": "© 2025 Invite2Me. All rights reserved."
   },
   "spanish": {
     "logoUrl": "https://static.vecteezy.com/system/resources/previews/034/725/004/non_2x/smart-graduation-logo-with-toga-hat-and-tie-vector.jpg",
@@ -25,7 +26,8 @@
     "eventLocation": "University Hall, Boston",
     "eventDescription": "Acompáñanos a celebrar los logros de nuestros graduados.",
     "footerText1": "Se requiere invitación formal.",
-    "footerText2": "© 2025 Invite2Me. Todos los derechos reservados."
+    "footerText2": "Nos emociona celebrar este día contigo. Por favor, llega con antelación para el acceso al evento.",
+    "poweredBy": "© 2025 Invite2Me. Todos los derechos reservados."
   },
   "catalan": {
     "logoUrl": "https://static.vecteezy.com/system/resources/previews/034/725/004/non_2x/smart-graduation-logo-with-toga-hat-and-tie-vector.jpg",
@@ -39,6 +41,7 @@
     "eventLocation": "University Hall, Boston",
     "eventDescription": "Uneix-te a nosaltres per celebrar els èxits dels graduats.",
     "footerText1": "Cal invitació formal per entrar.",
-    "footerText2": "© 2025 Invite2Me. Tots els drets reservats."
+    "footerText2": "Ens fa il·lusió compartir aquest dia amb tu. Si us plau, arriba amb temps per accedir a l'acte.",
+    "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
   }
 }
