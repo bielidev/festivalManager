@@ -218,6 +218,15 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                   {fields.eventLocation}
                 </Typography>
               )}
+              {visibility.pickupLocation && (
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  <Box component="span" sx={{ fontWeight: "bold" }}>
+                    <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
+                  </Box>{" "}
+                  {fields.pickupLocation}
+                </Typography>
+              )}
+
               {visibility.eventDescription && (
                 <Typography variant="body1" sx={{ mb: 2 }}>
                   <Box component="span" sx={{ fontWeight: "bold" }}>
@@ -232,6 +241,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 "eventName",
                 "eventDate",
                 "eventLocation",
+                "pickupLocation",
                 "eventDescription",
               ])}
             </Box>

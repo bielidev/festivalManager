@@ -46,28 +46,5 @@
     "footerText1": "Aquesta invitació no és transferible.",
     "footerText2": "Estem desitjant donar-te la benvinguda. Si us plau, arriba amb temps per al registre.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
-  },
-  "custom": {
-    "english": [
-      {
-        "name": "pickupLocation",
-        "placeholder": "Hotel Arts Barcelona",
-        "position": "eventLocation"
-      }
-    ],
-    "spanish": [
-      {
-        "name": "pickupLocation",
-        "placeholder": "Hotel Arts Barcelona",
-        "position": "eventLocation"
-      }
-    ],
-    "catalan": [
-      {
-        "name": "pickupLocation",
-        "placeholder": "Hotel Arts Barcelona",
-        "position": "eventLocation"
-      }
-    ]
   }
 }
