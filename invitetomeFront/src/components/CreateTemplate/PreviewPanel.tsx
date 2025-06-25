@@ -1,6 +1,16 @@
 import React from "react";
 import { Box, Typography, Paper, Divider } from "@mui/material";
 import qrPlaceholder from "../../assets/attachment_preview.png";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import InfoIcon from "@mui/icons-material/Info";
+import StyleIcon from "@mui/icons-material/Style";
+import LocalParkingIcon from "@mui/icons-material/LocalParking";
 
 interface PreviewPanelProps {
   fields: { [key: string]: string };
@@ -38,17 +48,25 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
       <Paper
         elevation={0}
         sx={{
-          p: 4,
           maxWidth: 800,
           mx: "auto",
           bgcolor: "#fff",
-          borderRadius: 2,
+          borderRadius: "2rem",
           border: "1px solid",
           borderColor: "divider",
         }}
       >
         {/* Header */}
-        <Box sx={{ mb: 4, textAlign: "center" }}>
+        <Box
+          sx={{
+            bgcolor: "#1c2733",
+            textAlign: "center",
+            color: "white",
+            borderTopLeftRadius: "2rem",
+            borderTopRightRadius: "2rem",
+            p: 1,
+          }}
+        >
           {visibility.logoUrl && (
             <Box
               component="img"
@@ -73,16 +91,25 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
         {(visibility.contactName ||
           visibility.contactEmail ||
           visibility.contactPhone) && (
-          <Box sx={{ display: "flex", gap: 4, mb: 4 }}>
+          <Box sx={{ display: "flex", gap: 4, mb: 4, p: 3 }}>
             <Box sx={{ flex: 1 }}>
               <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" gutterBottom>
+                <Typography
+                  variant="h5"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{
+                    borderBottom: "1px solid #ccc",
+                    pb: 1,
+                    mb: 2,
+                  }}
+                >
                   {translations[language]?.contactDetails || "Contact Details"}
                 </Typography>
                 {visibility.contactName && (
                   <Typography variant="body1" sx={{ mb: 1 }}>
                     <Box component="span" sx={{ fontWeight: "bold" }}>
-                      {translations[language]?.contactName || "Name"}:
+                      <PersonIcon fontSize="small" sx={{ mr: 1 }} />
                     </Box>{" "}
                     {fields.contactName}
                   </Typography>
@@ -90,7 +117,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 {visibility.contactEmail && (
                   <Typography variant="body1" sx={{ mb: 1 }}>
                     <Box component="span" sx={{ fontWeight: "bold" }}>
-                      {translations[language]?.contactEmail || "Email"}:
+                      <EmailIcon fontSize="small" sx={{ mr: 1 }} />
                     </Box>{" "}
                     {fields.contactEmail}
                   </Typography>
@@ -98,7 +125,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 {visibility.contactPhone && (
                   <Typography variant="body1" sx={{ mb: 1 }}>
                     <Box component="span" sx={{ fontWeight: "bold" }}>
-                      {translations[language]?.contactPhone || "Phone"}:
+                      <PhoneIcon fontSize="small" sx={{ mr: 1 }} />
                     </Box>{" "}
                     {fields.contactPhone}
                   </Typography>
@@ -194,7 +221,11 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
         {/* Footer */}
         <Box sx={{ textAlign: "center" }}>
           {visibility.footerText1 && (
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mb: 1, color: "red", fontWeight: 550 }}
+            >
               {fields.footerText1}
             </Typography>
           )}
