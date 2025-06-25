@@ -40,6 +40,48 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
       );
   };
 
+  const openGoogleMaps = (location?: string) => {
+    if (!location) return;
+    const query = encodeURIComponent(location);
+    const mapUrl = `https://www.google.com/maps?q=${query}`;
+    window.open(mapUrl, "_blank");
+  };
+
+  const openGoogleCalendar = ({
+    eventName,
+    startDate,
+    endDate,
+    location,
+    description,
+  }: {
+    eventName?: string;
+    startDate?: string;
+    endDate?: string;
+    location?: string;
+    description?: string;
+  }) => {
+    if (!eventName || !startDate) return;
+
+    const formatDate = (dateString: string) => {
+      try {
+        return new Date(dateString).toISOString().replace(/[-:]|\.\d{3}/g, "");
+      } catch {
+        return "";
+      }
+    };
+
+    const start = formatDate(startDate);
+    const end = formatDate(endDate || startDate);
+
+    const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+      eventName
+    )}&dates=${start}/${end}&details=${encodeURIComponent(
+      description || ""
+    )}&location=${encodeURIComponent(location || "")}`;
+
+    window.open(calendarUrl, "_blank");
+  };
+
   return (
     <Box sx={{ p: 3, height: "100%", overflow: "auto" }}>
       <Paper
@@ -222,6 +264,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
               <Button
                 fullWidth
                 variant="outlined"
+                onClick={() => openGoogleMaps(fields.eventLocation)}
                 sx={{
                   textTransform: "none",
                   fontWeight: 500,
@@ -243,6 +286,15 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
               <Button
                 fullWidth
                 variant="outlined"
+                onClick={() =>
+                  openGoogleCalendar({
+                    eventName: fields.eventName,
+                    startDate: fields.eventDate,
+                    endDate: fields.eventEndDate,
+                    location: fields.eventLocation,
+                    description: fields.eventDescription,
+                  })
+                }
                 sx={{
                   textTransform: "none",
                   fontWeight: 500,
