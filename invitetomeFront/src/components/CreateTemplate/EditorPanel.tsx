@@ -38,6 +38,9 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
     }
   });
 
+  console.log(orderedFields);
+  console.log(customFields);
+
   return (
     <Box sx={{ p: 2 }}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>

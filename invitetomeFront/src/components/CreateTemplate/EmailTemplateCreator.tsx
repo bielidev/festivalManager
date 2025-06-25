@@ -17,6 +17,7 @@ interface EmailTemplateCreatorProps {
 
 const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
   const { dispatch, ...state } = useContext(TemplateContext);
+  console.log(state.fields);
 
   const defaultFields = [
     "logoUrl",

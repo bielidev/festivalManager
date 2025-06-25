@@ -11,12 +11,29 @@ export enum TEMPLATE_TYPES {
 
 export type TemplateType = {
   english: {
-    header: string;
+    [key: string]: string;
   };
   spanish: {
-    header: string;
+    [key: string]: string;
   };
   catalan: {
-    header: string;
+    [key: string]: string;
+  };
+  custom?: {
+    english?: {
+      name: string;
+      placeholder: string;
+      position: string;
+    }[];
+    spanish?: {
+      name: string;
+      placeholder: string;
+      position: string;
+    }[];
+    catalan?: {
+      name: string;
+      placeholder: string;
+      position: string;
+    }[];
   };
 };

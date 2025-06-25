@@ -8,7 +8,8 @@
     "qrInstruction": "Scan this QR right now.",
     "eventName": "Event 2025",
     "eventDate": "May 31, 2025 00:00",
-    "eventLocation": "Parc del Fòrum, Barcelonaa",
+    "eventLocation": "Parc del Fòrum, Barcelona",
+    "pickupLocation": "Hotel Arts Barcelona",
     "eventDescription": "One of Europe's biggest music",
     "footerText1": "This invitation is non-refundable.",
     "footerText2": "We look forward to welcoming you. Please arrive early for registration.",
@@ -24,6 +25,7 @@
     "eventName": "Evento 2025",
     "eventDate": "31 de Mayo, 2025 00:00",
     "eventLocation": "Parc del Fòrum, Barcelona",
+    "pickupLocation": "Hotel Arts Barcelona",
     "eventDescription": "Uno de los festivales de música más grandes de Europa...",
     "footerText1": "Esta invitación no es transferible.",
     "footerText2": "Esperamos darte la bienvenida. Por favor, llega con antelación para el registro.",
@@ -39,9 +41,33 @@
     "eventName": "Primavera Sound 2025",
     "eventDate": "31 de Maig, 2025 00:00",
     "eventLocation": "Parc del Fòrum, Barcelona",
+    "pickupLocation": "Hotel Arts Barcelona",
     "eventDescription": "Un dels festivals de música més grans d'Europa...",
     "footerText1": "Aquesta invitació no és transferible.",
     "footerText2": "Estem desitjant donar-te la benvinguda. Si us plau, arriba amb temps per al registre.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
+  },
+  "custom": {
+    "english": [
+      {
+        "name": "pickupLocation",
+        "placeholder": "Hotel Arts Barcelona",
+        "position": "eventLocation"
+      }
+    ],
+    "spanish": [
+      {
+        "name": "pickupLocation",
+        "placeholder": "Hotel Arts Barcelona",
+        "position": "eventLocation"
+      }
+    ],
+    "catalan": [
+      {
+        "name": "pickupLocation",
+        "placeholder": "Hotel Arts Barcelona",
+        "position": "eventLocation"
+      }
+    ]
   }
 }

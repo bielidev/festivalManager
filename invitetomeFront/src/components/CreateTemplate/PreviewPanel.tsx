@@ -130,7 +130,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
         {(visibility.contactName ||
           visibility.contactEmail ||
           visibility.contactPhone) && (
-          <Box sx={{ display: "flex", gap: 4, mb: 4, p: 3 }}>
+          <Box sx={{ display: "flex", gap: 4, mt: 4, p: 3 }}>
             <Box sx={{ flex: 1 }}>
               <Box sx={{ mb: 4 }}>
                 <Typography

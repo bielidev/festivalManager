@@ -258,7 +258,7 @@ const TemplateCard = ({
         <img
           src={imageError ? fallbackImage : image || fallbackImage}
           alt={title}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "auto", height: "80%", objectFit: "cover" }}
           onError={handleImageError}
         />
       </Box>
