@@ -7,6 +7,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import HotelIcon from "@mui/icons-material/Hotel";
 import InfoIcon from "@mui/icons-material/Info";
 
 interface PreviewPanelProps {
@@ -210,20 +211,22 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                   {fields.eventDate}
                 </Typography>
               )}
+
+              {visibility.pickupLocation && (
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  <Box component="span" sx={{ fontWeight: "bold" }}>
+                    <HotelIcon fontSize="small" sx={{ mr: 1 }} />
+                  </Box>
+                  {fields.pickupLocation}
+                </Typography>
+              )}
+
               {visibility.eventLocation && (
                 <Typography variant="body1" sx={{ mb: 1 }}>
                   <Box component="span" sx={{ fontWeight: "bold" }}>
                     <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
-                  </Box>{" "}
+                  </Box>
                   {fields.eventLocation}
-                </Typography>
-              )}
-              {visibility.pickupLocation && (
-                <Typography variant="body1" sx={{ mb: 1 }}>
-                  <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
-                  </Box>{" "}
-                  {fields.pickupLocation}
                 </Typography>
               )}
 

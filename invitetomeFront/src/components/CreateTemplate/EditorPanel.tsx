@@ -26,6 +26,8 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
   defaultFields,
   onInputChange,
   onToggleVisibility,
+  language,
+  translations,
 }) => {
   const orderedFields = [...defaultFields];
 
@@ -54,61 +56,126 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
           <Visibility fontSize="small" />
         </IconButton>
       </Box>
-      {orderedFields.map((field) => (
-        <Box key={field} sx={{ mb: 2 }}>
-          <TextField
-            fullWidth
-            label={field}
-            value={fields[field] || ""}
-            onChange={(e) => onInputChange(field, e.target.value)}
-            variant="outlined"
-            size="small"
-            disabled={!visibility[field]}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "20px",
-                "& fieldset": {
-                  borderColor: visibility[field] ? "#2563eb" : "grey.300",
+      {orderedFields.map((field) => {
+        // Render pickupLocation justo después de eventLocation
+        if (field === "pickupLocation") {
+          // Si el campo está oculto, no lo renderizamos
+          if (!visibility[field]) return null;
+          return (
+            <Box key={field} sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                label={
+                  translations[language]?.pickupLocation || "Pickup Location"
+                }
+                value={fields[field] || ""}
+                onChange={(e) => onInputChange(field, e.target.value)}
+                variant="outlined"
+                size="small"
+                disabled={!visibility[field]}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "20px",
+                    "& fieldset": {
+                      borderColor: visibility[field] ? "#2563eb" : "grey.300",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: visibility[field] ? "#1d4ed8" : "grey.500",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#2563eb",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "grey.600",
+                    "&.Mui-focused": {
+                      color: "#2563eb",
+                    },
+                  },
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => onToggleVisibility(field)}
+                        edge="end"
+                        sx={{
+                          color: visibility[field] ? "#2563eb" : "grey.500",
+                          "&:hover": {
+                            color: "#1d4ed8",
+                          },
+                        }}
+                      >
+                        {visibility[field] ? (
+                          <Visibility fontSize="small" />
+                        ) : (
+                          <VisibilityOff fontSize="small" />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+          );
+        }
+        // Renderiza el resto de campos normalmente
+        return (
+          <Box key={field} sx={{ mb: 2 }}>
+            <TextField
+              fullWidth
+              label={translations[language]?.[field] || field}
+              value={fields[field] || ""}
+              onChange={(e) => onInputChange(field, e.target.value)}
+              variant="outlined"
+              size="small"
+              disabled={!visibility[field]}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "20px",
+                  "& fieldset": {
+                    borderColor: visibility[field] ? "#2563eb" : "grey.300",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: visibility[field] ? "#1d4ed8" : "grey.500",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#2563eb",
+                  },
                 },
-                "&:hover fieldset": {
-                  borderColor: visibility[field] ? "#1d4ed8" : "grey.500",
+                "& .MuiInputLabel-root": {
+                  color: "grey.600",
+                  "&.Mui-focused": {
+                    color: "#2563eb",
+                  },
                 },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#2563eb",
-                },
-              },
-              "& .MuiInputLabel-root": {
-                color: "grey.600",
-                "&.Mui-focused": {
-                  color: "#2563eb",
-                },
-              },
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => onToggleVisibility(field)}
-                    edge="end"
-                    sx={{
-                      color: visibility[field] ? "#2563eb" : "grey.500",
-                      "&:hover": {
-                        color: "#1d4ed8",
-                      },
-                    }}
-                  >
-                    {visibility[field] ? (
-                      <Visibility fontSize="small" />
-                    ) : (
-                      <VisibilityOff fontSize="small" />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Box>
-      ))}
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => onToggleVisibility(field)}
+                      edge="end"
+                      sx={{
+                        color: visibility[field] ? "#2563eb" : "grey.500",
+                        "&:hover": {
+                          color: "#1d4ed8",
+                        },
+                      }}
+                    >
+                      {visibility[field] ? (
+                        <Visibility fontSize="small" />
+                      ) : (
+                        <VisibilityOff fontSize="small" />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+        );
+      })}
     </Box>
   );
 };

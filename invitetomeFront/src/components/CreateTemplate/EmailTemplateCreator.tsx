@@ -29,6 +29,7 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
     "eventName",
     "eventDate",
     "eventLocation",
+    "pickupLocation",
     "eventDescription",
     "footerText1",
     "footerText2",

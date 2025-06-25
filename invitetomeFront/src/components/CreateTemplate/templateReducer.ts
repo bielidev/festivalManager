@@ -55,6 +55,7 @@ export const initialState: State = {
     eventName: true,
     eventDate: true,
     eventLocation: true,
+    pickupLocation: true, // <-- Añadido
     eventDescription: true,
     footerText1: true,
     footerText2: true,
