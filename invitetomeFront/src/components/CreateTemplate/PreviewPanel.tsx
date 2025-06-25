@@ -1,16 +1,13 @@
 import React from "react";
-import { Box, Typography, Paper, Divider } from "@mui/material";
+import { Box, Typography, Paper, Divider, Grid, Button } from "@mui/material";
 import qrPlaceholder from "../../assets/attachment_preview.png";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InfoIcon from "@mui/icons-material/Info";
-import StyleIcon from "@mui/icons-material/Style";
-import LocalParkingIcon from "@mui/icons-material/LocalParking";
 
 interface PreviewPanelProps {
   fields: { [key: string]: string };
@@ -140,61 +137,63 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
           </Box>
         )}
         {/* Event Details */}
-        <Box sx={{ mb: 4 }}>
-          {visibility.eventName && (
-            <Typography
-              variant="h5"
-              sx={{
-                mb: 2,
-                fontSize: "1.5rem",
-                lineHeight: 1.334,
-                letterSpacing: "0.0075em",
-                "& .label": {
-                  color: "text.secondary",
-                  fontSize: "1.125rem",
-                  fontWeight: 500,
-                  marginRight: 1,
-                },
-              }}
-            >
-              <Box component="span" className="label">
-                {translations[language]?.eventName || "Event"}:
-              </Box>
-              {fields.eventName}
-            </Typography>
-          )}
-          {visibility.eventDate && (
-            <Typography variant="body1" sx={{ mb: 1 }}>
-              <Box component="span" sx={{ fontWeight: "bold" }}>
-                {translations[language]?.eventDate || "Date"}:
-              </Box>{" "}
-              {fields.eventDate}
-            </Typography>
-          )}
-          {visibility.eventLocation && (
-            <Typography variant="body1" sx={{ mb: 1 }}>
-              <Box component="span" sx={{ fontWeight: "bold" }}>
-                {translations[language]?.eventLocation || "Location"}:
-              </Box>{" "}
-              {fields.eventLocation}
-            </Typography>
-          )}
-          {visibility.eventDescription && (
-            <Typography variant="body1" sx={{ mb: 2 }}>
-              <Box component="span" sx={{ fontWeight: "bold" }}>
-                {translations[language]?.eventDescription || "Description"}:
-              </Box>{" "}
-              <Box component="span" sx={{ whiteSpace: "pre-wrap" }}>
-                {fields.eventDescription}
-              </Box>
-            </Typography>
-          )}
-          {renderCustomFieldsInSection([
-            "eventName",
-            "eventDate",
-            "eventLocation",
-            "eventDescription",
-          ])}
+        <Box sx={{ display: "flex", gap: 4, mb: 4, p: 3 }}>
+          <Box sx={{ flex: 1 }}>
+            <Box sx={{ mb: 4 }}>
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                gutterBottom
+                sx={{
+                  borderBottom: "1px solid #ccc",
+                  pb: 1,
+                  mb: 2,
+                }}
+              >
+                {translations[language]?.eventName || "Event"}
+              </Typography>
+              {visibility.eventName && (
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  <Box component="span" sx={{ fontWeight: "bold" }}>
+                    <ConfirmationNumberIcon fontSize="small" sx={{ mr: 1 }} />
+                  </Box>{" "}
+                  {fields.eventName}
+                </Typography>
+              )}
+              {visibility.eventDate && (
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  <Box component="span" sx={{ fontWeight: "bold" }}>
+                    <CalendarTodayIcon fontSize="small" sx={{ mr: 1 }} />
+                  </Box>{" "}
+                  {fields.eventDate}
+                </Typography>
+              )}
+              {visibility.eventLocation && (
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  <Box component="span" sx={{ fontWeight: "bold" }}>
+                    <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
+                  </Box>{" "}
+                  {fields.eventLocation}
+                </Typography>
+              )}
+              {visibility.eventDescription && (
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  <Box component="span" sx={{ fontWeight: "bold" }}>
+                    <InfoIcon fontSize="small" sx={{ mr: 1 }} />
+                  </Box>{" "}
+                  <Box component="span" sx={{ whiteSpace: "pre-wrap" }}>
+                    {fields.eventDescription}
+                  </Box>
+                </Typography>
+              )}
+              {renderCustomFieldsInSection([
+                "eventName",
+                "eventDate",
+                "eventLocation",
+                "eventDescription",
+              ])}
+            </Box>
+          </Box>
         </Box>
 
         {/* QR Code */}
@@ -215,6 +214,54 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
             </Typography>
           </Box>
         )}
+
+        {/* Buttons */}
+        <Box sx={{ px: 3, pb: 2 }}>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{
+                  textTransform: "none",
+                  fontWeight: 500,
+                  fontSize: "0.95rem",
+                  borderRadius: 2,
+                  borderColor: "#90caf9",
+                  color: "#1976d2",
+                  paddingY: 1.2,
+                  "&:hover": {
+                    backgroundColor: "#e3f2fd",
+                    borderColor: "#64b5f6",
+                  },
+                }}
+              >
+                View Event Map
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{
+                  textTransform: "none",
+                  fontWeight: 500,
+                  fontSize: "0.95rem",
+                  borderRadius: 2,
+                  borderColor: "#a5d6a7",
+                  color: "#388e3c",
+                  paddingY: 1.2,
+                  "&:hover": {
+                    backgroundColor: "#e8f5e9",
+                    borderColor: "#81c784",
+                  },
+                }}
+              >
+                Add to Calendar
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
 
         <Divider sx={{ my: 3 }} />
 
