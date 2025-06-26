@@ -3,9 +3,15 @@
     "english": {
       "logoUrl": {
         "title": "Invitation Logo",
-        "uploadFromPC": "Upload image from your PC",
-        "imageURL": "Image URL",
-        "pasteDirectURL": "Paste the direct image URL"
+        "uploadFromPC": "Upload logotype from your PC",
+        "fileSelected": "File selected: ",
+        "logotypeURL": "Logotype URL",
+        "logotypePlaceholder": "www.example.coom/logo.png",
+        "pasteDirectURL": "Paste logotype URL",
+        "uploadMessage": "Paste logotype URL",
+        "upLoadError": "Could not load the logotype from the provided URL.",
+        "logotypePreview": "Preview",
+        "deleteLogotype": "Delete logotype"
       },
       "header": "Header",
       "contactName": "Name",
@@ -27,8 +33,14 @@
       "logoUrl": {
         "title": "Logo de la invitación",
         "uploadFromPC": "Subir imagen desde tu pc",
-        "imageURL": "URL de una imagen",
-        "pasteDirectURL": "Pega la URL directa de una imagen"
+        "fileSelected": "Archivo seleccionado: ",
+        "logotypeURL": "URL del logo",
+        "logotypePlaceholder": "www.ejemplo.com/logo.png",
+        "pasteDirectURL": "Pega la URL de un logotipo",
+        "uploadMessage": "Pega la URL de un logotipo",
+        "upLoadError": "No se pudo cargar la logotipo desde la URL proporcionada.",
+        "logotypePreview": "Vista previa",
+        "deleteLogotype": "Quitar logo"
       },
       "header": "Encabezado",
       "contactName": "Nombre",
@@ -49,9 +61,15 @@
     "catalan": {
       "logoUrl": {
         "title": "Logotip de la invitació",
-        "uploadFromPC": "Puja imatge des del teu PC",
-        "imageURL": "URL d'una imatge",
-        "pasteDirectURL": "Enganxa la URL directa d'una imatge"
+        "uploadFromPC": "Puja el logotip des del teu PC",
+        "fileSelected": "Arxiu seleccionat: ",
+        "logotypeURL": "URL del logotip",
+        "logotypePlaceholder": "www.exemple.com/logo.png",
+        "pasteDirectURL": "Enganxa la URL del logootip",
+        "uploadMessage": "Enganxa la URL del logootip",
+        "upLoadError": "No se pot carregar el logotip des de la URL proporcionada.",
+        "logotypePreview": "Previsualització",
+        "deleteLogotype": "Esborrar logotip"
       },
       "header": "Capçalera",
       "contactName": "Nom",

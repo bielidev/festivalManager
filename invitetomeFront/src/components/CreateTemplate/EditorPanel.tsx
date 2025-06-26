@@ -114,6 +114,8 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
               </IconButton>
             </Box>
             <LogoUploader
+              language={language}
+              translations={translations}
               onChange={(logo) => onInputChange("logoUrl", logo || "")}
               alt="Logo de la invitación"
             />

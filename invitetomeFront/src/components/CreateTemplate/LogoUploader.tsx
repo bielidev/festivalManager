@@ -14,11 +14,15 @@ const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 interface LogoUploaderProps {
   onChange?: (logo: string | null) => void;
   alt?: string;
+  language: string;
+  translations: any;
 }
 
 const LogoUploader: React.FC<LogoUploaderProps> = ({
   onChange,
   alt = "Vista previa del logo",
+  language,
+  translations,
 }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [urlInput, setUrlInput] = useState("");
@@ -95,7 +99,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
       sx={{ p: 3, borderRadius: 3, maxWidth: 400, mx: "auto", mt: 2 }}
     >
       <Typography variant="h6" fontWeight={600} gutterBottom>
-        Logo de la invitación
+        {translations[language].logoUrl.title}
       </Typography>
 
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -105,7 +109,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
           sx={{ alignSelf: "flex-start" }}
           aria-label="Subir imagen desde tu pc"
         >
-          Subir imagen desde tu pc
+          {translations[language].logoUrl.uploadFromPC}
           <input
             ref={fileInputRef}
             type="file"
@@ -117,7 +121,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
 
         {fileName && (
           <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-            Archivo seleccionado: {fileName}
+            {translations[language].logoUrl.fileSelected} {fileName}
           </Typography>
         )}
 
@@ -130,9 +134,9 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
         <Divider sx={{ my: 1 }}>o</Divider>
 
         <TextField
-          label="URL de una imagen"
+          label={translations[language].logoUrl.imageURL}
           type="url"
-          placeholder="https://ejemplo.com/logo.png"
+          placeholder={translations[language].logoUrl.logotypePlaceholder}
           value={urlInput}
           onChange={handleUrlChange}
           variant="outlined"
@@ -141,8 +145,8 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
           error={urlError}
           helperText={
             urlError
-              ? "No se pudo cargar la imagen desde la URL proporcionada."
-              : "Pega la URL directa de una imagen"
+              ? translations[language].logoUrl.upLoadError
+              : translations[language].logoUrl.pasteDirectURL
           }
         />
 
@@ -157,7 +161,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              Vista previa:
+              {translations[language].logoUrl.logotypePreview}
             </Typography>
             <Box
               component="img"
@@ -177,7 +181,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
               size="small"
               onClick={handleClear}
             >
-              Quitar logo
+              {translations[language].logoUrl.deleteLogotype}
             </Button>
           </Box>
         )}
