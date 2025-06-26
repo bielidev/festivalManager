@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import LogoUploader from "./LogoUploader";
 
 interface EditorPanelProps {
   fields: { [key: string]: string };
@@ -40,8 +41,8 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
     }
   });
 
-  console.log(orderedFields);
-  console.log(customFields);
+  const showLogoUploader =
+    orderedFields.includes("logoUrl") && visibility.logoUrl;
 
   return (
     <Box sx={{ p: 2 }}>
@@ -56,7 +57,16 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
           <Visibility fontSize="small" />
         </IconButton>
       </Box>
+      {showLogoUploader && (
+        <Box sx={{ mb: 2 }}>
+          <LogoUploader
+            onChange={(logo) => onInputChange("logoUrl", logo || "")}
+            alt="Logo de la invitación"
+          />
+        </Box>
+      )}
       {orderedFields.map((field) => {
+        if (field === "logoUrl") return null; // Ya lo maneja el uploader
         // Render pickupLocation justo después de eventLocation
         if (field === "pickupLocation") {
           // Si el campo está oculto, no lo renderizamos
