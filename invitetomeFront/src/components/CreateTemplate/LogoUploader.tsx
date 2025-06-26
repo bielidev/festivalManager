@@ -9,9 +9,7 @@ import {
 } from "@mui/material";
 
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/svg+xml"];
-
-const isValidImageUrl = (url: string) =>
-  /^https?:\/\/.+\.(jpg|jpeg|png|gif|svg)$/i.test(url);
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 interface LogoUploaderProps {
   onChange?: (logo: string | null) => void;
@@ -25,35 +23,70 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
   const [preview, setPreview] = useState<string | null>(null);
   const [urlInput, setUrlInput] = useState("");
   const [fileName, setFileName] = useState<string>("");
+  const [urlError, setUrlError] = useState<boolean>(false);
+  const [fileError, setFileError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Cuando se sube archivo, limpia el campo URL
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && IMAGE_TYPES.includes(file.type)) {
+    if (file) {
+      if (!IMAGE_TYPES.includes(file.type)) {
+        setFileError("Formato de archivo no soportado.");
+        return;
+      }
+      if (file.size > MAX_FILE_SIZE) {
+        setFileError("El archivo supera el tamaño máximo de 2MB.");
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = (ev) => {
-        setPreview(ev.target?.result as string);
+        const result = ev.target?.result as string;
+        setPreview(result);
         setFileName(file.name);
         setUrlInput("");
-        if (onChange) onChange(ev.target?.result as string);
+        setUrlError(false);
+        setFileError(null);
+        if (onChange) onChange(result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Cuando se ingresa URL, limpia el archivo
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value.trim();
     setUrlInput(url);
     setFileName("");
-    if (isValidImageUrl(url)) {
-      setPreview(url);
-      if (onChange) onChange(url);
-    } else if (url === "") {
-      setPreview(null);
+    setFileError(null);
+    setPreview(null);
+
+    if (url === "") {
+      setUrlError(false);
       if (onChange) onChange(null);
+      return;
     }
+
+    const img = new Image();
+    img.onload = () => {
+      setPreview(url);
+      setUrlError(false);
+      if (onChange) onChange(url);
+    };
+    img.onerror = () => {
+      setPreview(null);
+      setUrlError(true);
+      if (onChange) onChange(null);
+    };
+    img.src = url;
+  };
+
+  const handleClear = () => {
+    setPreview(null);
+    setUrlInput("");
+    setFileName("");
+    setUrlError(false);
+    setFileError(null);
+    if (onChange) onChange(null);
   };
 
   return (
@@ -64,13 +97,15 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
       <Typography variant="h6" fontWeight={600} gutterBottom>
         Logo de la invitación
       </Typography>
+
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <Button
           variant="outlined"
           component="label"
           sx={{ alignSelf: "flex-start" }}
+          aria-label="Subir imagen desde tu pc"
         >
-          Subir imagen desde tu computadora
+          Subir imagen desde tu pc
           <input
             ref={fileInputRef}
             type="file"
@@ -79,14 +114,23 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
             onChange={handleFileChange}
           />
         </Button>
+
         {fileName && (
           <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
             Archivo seleccionado: {fileName}
           </Typography>
         )}
+
+        {fileError && (
+          <Typography variant="body2" color="error" sx={{ ml: 1 }}>
+            {fileError}
+          </Typography>
+        )}
+
         <Divider sx={{ my: 1 }}>o</Divider>
+
         <TextField
-          label="URL de una imagen (.jpg, .png, .gif, .svg)"
+          label="URL de una imagen"
           type="url"
           placeholder="https://ejemplo.com/logo.png"
           value={urlInput}
@@ -94,7 +138,14 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
           variant="outlined"
           size="small"
           fullWidth
+          error={urlError}
+          helperText={
+            urlError
+              ? "No se pudo cargar la imagen desde la URL proporcionada."
+              : "Pega la URL directa de una imagen"
+          }
         />
+
         {preview && (
           <Box
             sx={{
@@ -102,9 +153,10 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
               flexDirection: "column",
               alignItems: "center",
               mt: 2,
+              gap: 1,
             }}
           >
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            <Typography variant="body2" color="text.secondary">
               Vista previa:
             </Typography>
             <Box
@@ -119,6 +171,14 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
                 boxShadow: 1,
               }}
             />
+            <Button
+              variant="text"
+              color="error"
+              size="small"
+              onClick={handleClear}
+            >
+              Quitar logo
+            </Button>
           </Box>
         )}
       </Box>
