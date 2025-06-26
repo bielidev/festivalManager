@@ -57,19 +57,73 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
           <Visibility fontSize="small" />
         </IconButton>
       </Box>
+
       {showLogoUploader && (
         <Box sx={{ mb: 2 }}>
-          <LogoUploader
-            onChange={(logo) => onInputChange("logoUrl", logo || "")}
-            alt="Logo de la invitación"
-          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              borderRadius: "20px",
+              border: `1px solid ${
+                visibility.logoUrl ? "#2563eb" : "grey.300"
+              }`,
+              px: 2,
+              py: 1.5,
+              transition: "border-color 0.3s",
+              "&:hover": {
+                borderColor: visibility.logoUrl ? "#1d4ed8" : "grey.500",
+              },
+              "&:focus-within": {
+                borderColor: "#2563eb",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 1,
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  color: "grey.600",
+                }}
+              >
+                {translations[language]?.logoUrl || "Logo de la invitación"}
+              </Typography>
+              <IconButton
+                onClick={() => onToggleVisibility("logoUrl")}
+                size="small"
+                sx={{
+                  color: visibility.logoUrl ? "#2563eb" : "grey.500",
+                  "&:hover": {
+                    color: "#1d4ed8",
+                  },
+                }}
+              >
+                {visibility.logoUrl ? (
+                  <Visibility fontSize="small" />
+                ) : (
+                  <VisibilityOff fontSize="small" />
+                )}
+              </IconButton>
+            </Box>
+            <LogoUploader
+              onChange={(logo) => onInputChange("logoUrl", logo || "")}
+              alt="Logo de la invitación"
+            />
+          </Box>
         </Box>
       )}
+
       {orderedFields.map((field) => {
-        if (field === "logoUrl") return null; // Ya lo maneja el uploader
-        // Render pickupLocation justo después de eventLocation
+        if (field === "logoUrl") return null;
+
         if (field === "pickupLocation") {
-          // Si el campo está oculto, no lo renderizamos
           if (!visibility[field]) return null;
           return (
             <Box key={field} sx={{ mb: 2 }}>
@@ -129,7 +183,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
             </Box>
           );
         }
-        // Renderiza el resto de campos normalmente
+
         return (
           <Box key={field} sx={{ mb: 2 }}>
             <TextField
