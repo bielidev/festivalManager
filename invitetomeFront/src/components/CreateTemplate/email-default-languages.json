@@ -1,7 +1,12 @@
 {
   "languages": {
     "english": {
-      "logoUrl": "Logo URL",
+      "logoUrl": {
+        "title": "Invitation Logo",
+        "uploadFromPC": "Upload image from your PC",
+        "imageURL": "Image URL",
+        "pasteDirectURL": "Paste the direct image URL"
+      },
       "header": "Header",
       "contactName": "Name",
       "contactEmail": "Email",
@@ -19,7 +24,12 @@
       "pickupLocation": "Pickup Location"
     },
     "spanish": {
-      "logoUrl": "URL del Logo",
+      "logoUrl": {
+        "title": "Logo de la invitación",
+        "uploadFromPC": "Subir imagen desde tu pc",
+        "imageURL": "URL de una imagen",
+        "pasteDirectURL": "Pega la URL directa de una imagen"
+      },
       "header": "Encabezado",
       "contactName": "Nombre",
       "contactEmail": "Correo Electrónico",
@@ -37,7 +47,12 @@
       "pickupLocation": "Lugar de recogida"
     },
     "catalan": {
-      "logoUrl": "URL del Logotip",
+      "logoUrl": {
+        "title": "Logotip de la invitació",
+        "uploadFromPC": "Puja imatge des del teu PC",
+        "imageURL": "URL d'una imatge",
+        "pasteDirectURL": "Enganxa la URL directa d'una imatge"
+      },
       "header": "Capçalera",
       "contactName": "Nom",
       "contactEmail": "Correu Electrònic",

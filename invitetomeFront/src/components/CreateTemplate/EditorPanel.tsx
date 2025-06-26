@@ -66,7 +66,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
               flexDirection: "column",
               borderRadius: "20px",
               border: `1px solid ${
-                visibility.logoUrl ? "#2563eb" : "grey.300"
+                visibility.logoUrl ? "#2563eb" : "grey.500"
               }`,
               px: 2,
               py: 1.5,
@@ -93,7 +93,8 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
                   color: "grey.600",
                 }}
               >
-                {translations[language]?.logoUrl || "Logo de la invitación"}
+                {translations[language]?.logoUrl?.title ||
+                  "Logo de la invitación"}
               </Typography>
               <IconButton
                 onClick={() => onToggleVisibility("logoUrl")}

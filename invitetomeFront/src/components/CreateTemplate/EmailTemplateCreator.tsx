@@ -83,7 +83,13 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
           customFields={state.customFields}
           defaultFields={defaultFields}
           language={state.language}
-          translations={languages.languages}
+          translations={
+            Object.fromEntries(
+              Object.entries(languages.languages[state.language] || {}).filter(
+                ([, value]) => typeof value === "object" && value !== null
+              )
+            ) as { [key: string]: { [key: string]: string } }
+          }
         />
       </Box>
 
