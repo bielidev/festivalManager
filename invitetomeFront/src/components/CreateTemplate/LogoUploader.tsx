@@ -1,192 +1,195 @@
 import React, { useRef, useState } from "react";
 import {
   Box,
-  Typography,
   TextField,
+  IconButton,
+  InputAdornment,
+  Typography,
   Button,
-  Paper,
-  Divider,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/svg+xml"];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 interface LogoUploaderProps {
-  onChange?: (logo: string | null) => void;
-  alt?: string;
+  onChange: (field: string, value: string | null) => void;
   language: string;
   translations: any;
+  value?: string | null;
 }
 
 const LogoUploader: React.FC<LogoUploaderProps> = ({
   onChange,
-  alt = "Vista previa del logo",
   language,
   translations,
+  value = null,
 }) => {
-  const [preview, setPreview] = useState<string | null>(null);
-  const [urlInput, setUrlInput] = useState("");
-  const [fileName, setFileName] = useState<string>("");
-  const [urlError, setUrlError] = useState<boolean>(false);
-  const [fileError, setFileError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState(value || "");
+  const [error, setError] = useState(false);
+  const [preview, setPreview] = useState<string | null>(value || null);
+  const [visible, setVisible] = useState(true);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!IMAGE_TYPES.includes(file.type)) {
-        setFileError("Formato de archivo no soportado.");
-        return;
-      }
-      if (file.size > MAX_FILE_SIZE) {
-        setFileError("El archivo supera el tamaño máximo de 2MB.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const result = ev.target?.result as string;
-        setPreview(result);
-        setFileName(file.name);
-        setUrlInput("");
-        setUrlError(false);
-        setFileError(null);
-        if (onChange) onChange(result);
-      };
-      reader.readAsDataURL(file);
+  const isValidImageUrl = (url: string) => {
+    try {
+      const parsed = new URL(url);
+      return /\.(jpg|jpeg|png|gif|svg)$/i.test(parsed.pathname);
+    } catch {
+      return false;
     }
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value.trim();
-    setUrlInput(url);
-    setFileName("");
-    setFileError(null);
-    setPreview(null);
+    setInputValue(url);
+    setError(false);
 
-    if (url === "") {
-      setUrlError(false);
-      if (onChange) onChange(null);
+    if (!url) {
+      setPreview(null);
+      onChange("logoUrl", null);
+      return;
+    }
+
+    if (!isValidImageUrl(url)) {
+      setError(true);
+      setPreview(null);
+      onChange("logoUrl", null);
       return;
     }
 
     const img = new Image();
     img.onload = () => {
       setPreview(url);
-      setUrlError(false);
-      if (onChange) onChange(url);
+      setError(false);
+      onChange("logoUrl", url);
     };
     img.onerror = () => {
+      setError(true);
       setPreview(null);
-      setUrlError(true);
-      if (onChange) onChange(null);
+      onChange("logoUrl", null);
     };
     img.src = url;
   };
 
-  const handleClear = () => {
-    setPreview(null);
-    setUrlInput("");
-    setFileName("");
-    setUrlError(false);
-    setFileError(null);
-    if (onChange) onChange(null);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!IMAGE_TYPES.includes(file.type)) {
+      setError(true);
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      setError(true);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      setPreview(result);
+      setInputValue("");
+      setError(false);
+      onChange("logoUrl", result);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
-    <Paper
-      elevation={0}
-      sx={{ p: 3, borderRadius: 3, maxWidth: 400, mx: "auto", mt: 2 }}
-    >
-      <Typography variant="h6" fontWeight={600} gutterBottom>
-        {translations[language].logoUrl.title}
-      </Typography>
+    <Box sx={{ mb: 2 }}>
+      <TextField
+        fullWidth
+        label={translations[language].logoUrl.title || "Invitation Logo"}
+        placeholder={
+          translations[language].logoUrl.logotypePlaceholder ||
+          "Pega la URL o sube una imagen"
+        }
+        value={inputValue}
+        onChange={handleUrlChange}
+        error={error}
+        helperText={
+          error
+            ? translations[language].logoUrl.upLoadError || "URL inválida"
+            : translations[language].logoUrl.pasteDirectURL ||
+              "Pega una URL directa o usa el botón para subir una imagen"
+        }
+        variant="outlined"
+        size="small"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={handleFileChange}
+              />
+              <Button
+                onClick={() => fileInputRef.current?.click()}
+                size="small"
+              >
+                {translations[language].logoUrl.uploadFromPC || "Archivo"}
+              </Button>
+              <IconButton onClick={() => setVisible(!visible)} edge="end">
+                {visible ? (
+                  <Visibility fontSize="small" />
+                ) : (
+                  <VisibilityOff fontSize="small" />
+                )}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "20px",
+            "& fieldset": {
+              borderColor: visible ? "#2563eb" : "grey.300",
+            },
+            "&:hover fieldset": {
+              borderColor: visible ? "#1d4ed8" : "grey.500",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#2563eb",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "grey.600",
+            "&.Mui-focused": {
+              color: "#2563eb",
+            },
+          },
+        }}
+      />
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Button
-          variant="outlined"
-          component="label"
-          sx={{ alignSelf: "flex-start" }}
-          aria-label="Subir imagen desde tu pc"
+      {preview && visible && (
+        <Box
+          sx={{
+            mt: 2,
+            textAlign: "center",
+          }}
         >
-          {translations[language].logoUrl.uploadFromPC}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".jpg,.jpeg,.png,.gif,.svg"
-            hidden
-            onChange={handleFileChange}
-          />
-        </Button>
-
-        {fileName && (
-          <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-            {translations[language].logoUrl.fileSelected} {fileName}
+          <Typography variant="body2" sx={{ mb: 1, color: "grey.600" }}>
+            {translations[language].logoUrl.logotypePreview || "Vista previa"}
           </Typography>
-        )}
-
-        {fileError && (
-          <Typography variant="body2" color="error" sx={{ ml: 1 }}>
-            {fileError}
-          </Typography>
-        )}
-
-        <Divider sx={{ my: 1 }}>o</Divider>
-
-        <TextField
-          label={translations[language].logoUrl.imageURL}
-          type="url"
-          placeholder={translations[language].logoUrl.logotypePlaceholder}
-          value={urlInput}
-          onChange={handleUrlChange}
-          variant="outlined"
-          size="small"
-          fullWidth
-          error={urlError}
-          helperText={
-            urlError
-              ? translations[language].logoUrl.upLoadError
-              : translations[language].logoUrl.pasteDirectURL
-          }
-        />
-
-        {preview && (
           <Box
+            component="img"
+            src={preview}
+            alt="preview"
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              mt: 2,
-              gap: 1,
+              maxWidth: "100%",
+              maxHeight: 150,
+              borderRadius: 2,
+              border: "1px solid #eee",
+              boxShadow: 1,
             }}
-          >
-            <Typography variant="body2" color="text.secondary">
-              {translations[language].logoUrl.logotypePreview}
-            </Typography>
-            <Box
-              component="img"
-              src={preview}
-              alt={alt}
-              sx={{
-                maxHeight: 160,
-                maxWidth: "100%",
-                borderRadius: 2,
-                border: "1px solid #eee",
-                boxShadow: 1,
-              }}
-            />
-            <Button
-              variant="text"
-              color="error"
-              size="small"
-              onClick={handleClear}
-            >
-              {translations[language].logoUrl.deleteLogotype}
-            </Button>
-          </Box>
-        )}
-      </Box>
-    </Paper>
+          />
+        </Box>
+      )}
+    </Box>
   );
 };
 

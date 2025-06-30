@@ -16,7 +16,7 @@ interface EditorPanelProps {
   defaultFields: string[];
   language: string;
   translations: any;
-  onInputChange: (field: string, value: string) => void;
+  onInputChange: (field: string, value: string | null) => void;
   onToggleVisibility: (field: string) => void;
 }
 
@@ -116,8 +116,8 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
             <LogoUploader
               language={language}
               translations={translations}
-              onChange={(logo) => onInputChange("logoUrl", logo || "")}
-              alt="Logo de la invitación"
+              onChange={(field, value) => onInputChange("logoUrl", value)}
+              value={fields.logoUrl}
             />
           </Box>
         </Box>
