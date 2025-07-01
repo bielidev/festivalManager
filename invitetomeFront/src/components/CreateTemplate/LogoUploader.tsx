@@ -60,7 +60,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
 
     const img = new Image();
     img.onload = () => {
-      setPreview(null); // No mostrar preview si es URL
+      setPreview(null);
       setError(false);
       onChange("logoUrl", url);
     };
@@ -97,7 +97,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
     <>
       <TextField
         fullWidth
-        placeholder={
+        label={
           translations[language].logoUrl.logotypePlaceholder ||
           "Invitation Logo"
         }
@@ -111,9 +111,9 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
             <InputAdornment position="end">
               <IconButton onClick={() => setVisible(!visible)} edge="end">
                 {visible ? (
-                  <Visibility fontSize="small" />
+                  <Visibility fontSize="small" sx={{ color: "#2563eb" }} />
                 ) : (
-                  <VisibilityOff fontSize="small" />
+                  <VisibilityOff fontSize="small" sx={{ color: "grey.500" }} />
                 )}
               </IconButton>
             </InputAdornment>
