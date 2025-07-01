@@ -1,13 +1,11 @@
 import React, { useRef, useState } from "react";
 import {
-  Box,
   TextField,
   IconButton,
   InputAdornment,
   Typography,
-  Button,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff, UploadFile } from "@mui/icons-material";
 
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/svg+xml"];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
@@ -26,9 +24,10 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
   value = null,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [inputValue, setInputValue] = useState(value || "");
+  const [urlValue, setUrlValue] = useState("");
+  const [fileName, setFileName] = useState("");
   const [error, setError] = useState(false);
-  const [preview, setPreview] = useState<string | null>(value || null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [visible, setVisible] = useState(true);
 
   const isValidImageUrl = (url: string) => {
@@ -42,7 +41,8 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value.trim();
-    setInputValue(url);
+    setUrlValue(url);
+    setFileName("");
     setError(false);
 
     if (!url) {
@@ -60,7 +60,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
 
     const img = new Image();
     img.onload = () => {
-      setPreview(url);
+      setPreview(null); // No mostrar preview si es URL
       setError(false);
       onChange("logoUrl", url);
     };
@@ -76,12 +76,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!IMAGE_TYPES.includes(file.type)) {
-      setError(true);
-      return;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
+    if (!IMAGE_TYPES.includes(file.type) || file.size > MAX_FILE_SIZE) {
       setError(true);
       return;
     }
@@ -90,7 +85,8 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
     reader.onload = (event) => {
       const result = event.target?.result as string;
       setPreview(result);
-      setInputValue("");
+      setUrlValue("");
+      setFileName(file.name);
       setError(false);
       onChange("logoUrl", result);
     };
@@ -98,41 +94,21 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
   };
 
   return (
-    <Box sx={{ mb: 2 }}>
+    <>
       <TextField
         fullWidth
-        label={translations[language].logoUrl.title || "Invitation Logo"}
         placeholder={
           translations[language].logoUrl.logotypePlaceholder ||
-          "Pega la URL o sube una imagen"
+          "Invitation Logo"
         }
-        value={inputValue}
+        value={urlValue}
         onChange={handleUrlChange}
         error={error}
-        helperText={
-          error
-            ? translations[language].logoUrl.upLoadError || "URL inválida"
-            : translations[language].logoUrl.pasteDirectURL ||
-              "Pega una URL directa o usa el botón para subir una imagen"
-        }
         variant="outlined"
         size="small"
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={handleFileChange}
-              />
-              <Button
-                onClick={() => fileInputRef.current?.click()}
-                size="small"
-              >
-                {translations[language].logoUrl.uploadFromPC || "Archivo"}
-              </Button>
               <IconButton onClick={() => setVisible(!visible)} edge="end">
                 {visible ? (
                   <Visibility fontSize="small" />
@@ -144,6 +120,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
           ),
         }}
         sx={{
+          mb: 2,
           "& .MuiOutlinedInput-root": {
             borderRadius: "20px",
             "& fieldset": {
@@ -165,31 +142,89 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
         }}
       />
 
+      {/* Campo 2: Subida de archivo */}
+      <Typography
+        variant="body2"
+        sx={{ fontWeight: 500, mb: 0.5, color: "grey.800" }}
+      >
+        {translations[language].logoUrl.pasteDirectURL || "Paste logotype URL"}
+      </Typography>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={handleFileChange}
+      />
+      <TextField
+        fullWidth
+        placeholder={
+          translations[language].logoUrl.uploadFromPC ||
+          "Upload logotype from your PC"
+        }
+        value={fileName}
+        onClick={() => fileInputRef.current?.click()}
+        readOnly
+        variant="outlined"
+        size="small"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => fileInputRef.current?.click()}
+                edge="end"
+              >
+                <UploadFile fontSize="small" />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          mb: 2,
+          cursor: "pointer",
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "20px",
+            "& fieldset": {
+              borderColor: visible ? "#2563eb" : "grey.300",
+            },
+            "&:hover fieldset": {
+              borderColor: visible ? "#1d4ed8" : "grey.500",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#2563eb",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "grey.600",
+            "&.Mui-focused": {
+              color: "#2563eb",
+            },
+          },
+        }}
+      />
+
+      {/* Vista previa solo si es archivo */}
       {preview?.startsWith("data:image") && (
-        <Box
-          sx={{
-            mt: 2,
-            textAlign: "center",
-          }}
-        >
+        <>
           <Typography variant="body2" sx={{ mb: 1, color: "grey.600" }}>
             {translations[language].logoUrl.logotypePreview || "Vista previa"}
           </Typography>
-          <Box
-            component="img"
+          <img
             src={preview}
             alt="preview"
-            sx={{
+            style={{
               maxWidth: "100%",
               maxHeight: 150,
-              borderRadius: 2,
+              borderRadius: 8,
               border: "1px solid #eee",
-              boxShadow: 1,
+              boxShadow: "0px 1px 3px rgba(0,0,0,0.1)",
+              display: "block",
+              marginBottom: 16,
             }}
           />
-        </Box>
+        </>
       )}
-    </Box>
+    </>
   );
 };
 

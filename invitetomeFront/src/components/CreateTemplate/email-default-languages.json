@@ -6,7 +6,7 @@
         "uploadFromPC": "Upload logotype from your PC",
         "fileSelected": "File selected: ",
         "logotypeURL": "Logotype URL",
-        "logotypePlaceholder": "www.example.coom/logo.png",
+        "logotypePlaceholder": "www.example.com/logo.png",
         "pasteDirectURL": "Paste logotype URL",
         "uploadMessage": "Paste logotype URL",
         "upLoadError": "Could not load the logotype from the provided URL.",

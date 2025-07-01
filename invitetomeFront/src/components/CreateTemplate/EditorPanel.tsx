@@ -63,63 +63,27 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
-              borderRadius: "20px",
-              border: `1px solid ${
-                visibility.logoUrl ? "#2563eb" : "grey.500"
-              }`,
-              px: 2,
-              py: 1.5,
-              transition: "border-color 0.3s",
-              "&:hover": {
-                borderColor: visibility.logoUrl ? "#1d4ed8" : "grey.500",
-              },
-              "&:focus-within": {
-                borderColor: "#2563eb",
-              },
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 1,
             }}
           >
-            <Box
+            <Typography
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: 1,
+                fontSize: "0.75rem",
+                color: "grey.600",
               }}
             >
-              <Typography
-                sx={{
-                  fontSize: "0.75rem",
-                  color: "grey.600",
-                }}
-              >
-                {translations[language]?.logoUrl?.title ||
-                  "Logo de la invitación"}
-              </Typography>
-              <IconButton
-                onClick={() => onToggleVisibility("logoUrl")}
-                size="small"
-                sx={{
-                  color: visibility.logoUrl ? "#2563eb" : "grey.500",
-                  "&:hover": {
-                    color: "#1d4ed8",
-                  },
-                }}
-              >
-                {visibility.logoUrl ? (
-                  <Visibility fontSize="small" />
-                ) : (
-                  <VisibilityOff fontSize="small" />
-                )}
-              </IconButton>
-            </Box>
-            <LogoUploader
-              language={language}
-              translations={translations}
-              onChange={(field, value) => onInputChange("logoUrl", value)}
-              value={fields.logoUrl}
-            />
+              {translations[language]?.logoUrl?.title ||
+                "Logo de la invitación"}
+            </Typography>
           </Box>
+          <LogoUploader
+            language={language}
+            translations={translations}
+            onChange={(_, value) => onInputChange("logoUrl", value)}
+            value={fields.logoUrl}
+          />
         </Box>
       )}
 
