@@ -165,7 +165,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
         }}
       />
 
-      {preview && visible && (
+      {preview?.startsWith("data:image") && (
         <Box
           sx={{
             mt: 2,
