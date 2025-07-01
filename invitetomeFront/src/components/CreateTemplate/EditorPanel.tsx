@@ -60,24 +60,6 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
 
       {showLogoUploader && (
         <Box sx={{ mb: 2 }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 1,
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "0.75rem",
-                color: "grey.600",
-              }}
-            >
-              {translations[language]?.logoUrl?.title ||
-                "Logo de la invitación"}
-            </Typography>
-          </Box>
           <LogoUploader
             language={language}
             translations={translations}

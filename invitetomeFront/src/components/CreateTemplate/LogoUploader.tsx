@@ -8,7 +8,7 @@ import {
 import { Visibility, VisibilityOff, UploadFile } from "@mui/icons-material";
 
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/svg+xml"];
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
 interface LogoUploaderProps {
   onChange: (field: string, value: string | null) => void;
@@ -21,10 +21,10 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
   onChange,
   language,
   translations,
-  value = null,
+  value,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [urlValue, setUrlValue] = useState("");
+  const [urlValue, setUrlValue] = useState(value);
   const [fileName, setFileName] = useState("");
   const [error, setError] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
@@ -142,13 +142,6 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
         }}
       />
 
-      {/* Campo 2: Subida de archivo */}
-      <Typography
-        variant="body2"
-        sx={{ fontWeight: 500, mb: 0.5, color: "grey.800" }}
-      >
-        {translations[language].logoUrl.pasteDirectURL || "Paste logotype URL"}
-      </Typography>
       <input
         ref={fileInputRef}
         type="file"
@@ -202,8 +195,6 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
           },
         }}
       />
-
-      {/* Vista previa solo si es archivo */}
       {preview?.startsWith("data:image") && (
         <>
           <Typography variant="body2" sx={{ mb: 1, color: "grey.600" }}>
