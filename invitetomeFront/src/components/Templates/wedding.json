@@ -46,5 +46,9 @@
     "footerText1": "Es demana etiqueta formal.",
     "footerText2": "Ens omple d’alegria compartir aquest dia tan especial amb tu. Si us plau, arriba amb temps per a la cerimònia.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats"
+  },
+  "styles": {
+    "backgroundColor": "#fff",
+    "titleColor": "#cecece"
   }
 }

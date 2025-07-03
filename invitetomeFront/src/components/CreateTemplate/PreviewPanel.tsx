@@ -17,6 +17,7 @@ interface PreviewPanelProps {
   defaultFields: string[];
   language: string;
   translations: { [key: string]: { [key: string]: string } };
+  templateStyles: { [key: string]: string } | undefined;
 }
 
 const PreviewPanel: React.FC<PreviewPanelProps> = ({
@@ -25,6 +26,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
   customFields,
   language,
   translations,
+  templateStyles,
 }) => {
   const renderCustomFieldsInSection = (sectionFields: string[]) => {
     return customFields
@@ -90,7 +92,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
         sx={{
           maxWidth: 800,
           mx: "auto",
-          bgcolor: "#fff",
+          bgcolor: templateStyles?.backgroundColor || "#fff",
           borderRadius: "2rem",
           border: "1px solid",
           borderColor: "divider",
@@ -120,13 +122,19 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
             />
           )}
           {visibility.header && (
-            <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
+            <Typography
+              variant="h4"
+              sx={{
+                mb: 2,
+                fontWeight: 600,
+                color: templateStyles?.titleColor || "#1c2733",
+              }}
+            >
               {fields.header}
             </Typography>
           )}
           {renderCustomFieldsInSection(["logoUrl", "header"])}
         </Box>
-
         {/* Contact Details */}
         {(visibility.contactName ||
           visibility.contactEmail ||
@@ -250,7 +258,6 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
             </Box>
           </Box>
         </Box>
-
         {/* QR Code */}
         {visibility.qrInstruction && (
           <Box sx={{ mb: 4, textAlign: "center" }}>
@@ -269,7 +276,6 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
             </Typography>
           </Box>
         )}
-
         {/* Buttons */}
         <Box sx={{ px: 3, pb: 2 }}>
           <Grid container spacing={2} justifyContent="center">
@@ -329,7 +335,6 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
         </Box>
 
         <Divider sx={{ my: 3 }} />
-
         {/* Footer */}
         <Box sx={{ textAlign: "center" }}>
           {visibility.footerText1 && (

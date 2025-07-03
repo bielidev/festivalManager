@@ -19,21 +19,7 @@ export type TemplateType = {
   catalan: {
     [key: string]: string;
   };
-  custom?: {
-    english?: {
-      name: string;
-      placeholder: string;
-      position: string;
-    }[];
-    spanish?: {
-      name: string;
-      placeholder: string;
-      position: string;
-    }[];
-    catalan?: {
-      name: string;
-      placeholder: string;
-      position: string;
-    }[];
+  styles: {
+    [key: string]: string;
   };
 };

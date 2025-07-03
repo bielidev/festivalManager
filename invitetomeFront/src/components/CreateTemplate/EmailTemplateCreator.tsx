@@ -128,6 +128,7 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
                 )
               ) as { [key: string]: { [key: string]: string } }
             }
+            templateStyles={state.template?.styles}
           />
         </Box>
 

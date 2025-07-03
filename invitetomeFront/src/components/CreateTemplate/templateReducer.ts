@@ -75,7 +75,6 @@ export const reducer = (state: State, action: Action): State => {
         templateName: action.template.english.header,
         createdAt: new Date().toISOString(),
         fields: action.template.english,
-        customFields: action.template.custom?.english || [],
         template: action.template,
       };
     case "SET_TEMPLATE_NAME":

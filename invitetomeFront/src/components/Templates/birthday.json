@@ -46,5 +46,9 @@
     "footerText1": "Aquesta invitació és personal.",
     "footerText2": "Estem encantats de celebrar-ho amb tu. Si us plau, arriba amb temps per no perdre’t res de la festa.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
+  },
+  "styles": {
+    "backgroundColor": "blue",
+    "titleColor": "yellow"
   }
 }
