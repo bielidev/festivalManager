@@ -9,6 +9,7 @@
     "eventName": "Creative Skills Workshop",
     "eventDate": "August 3, 2025 10:00",
     "eventLocation": "Creative Lab, Amsterdam",
+    "pickupLocation": "Hotel Petaluma, Tapestry Collection by Hilton",
     "eventDescription": "Hands-on sessions for designers and innovators.",
     "footerText1": "Limited seats available.",
     "footerText2": "We look forward to a day of learning and collaboration. Please arrive early for check-in.",
@@ -43,5 +44,24 @@
     "footerText1": "Places limitades.",
     "footerText2": "T’esperem per a una jornada d’aprenentatge i col·laboració. Si us plau, arriba amb temps per al registre.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
+  },
+  "styles": {
+    "headerBackgroundColor": "#FDFBF8",
+    "bodyBackgroundColor": "#FDFBF8",
+    "titleColor": "#CD853F",
+    "textColor": "#353D49",
+    "iconColor": "#4B5563",
+    "iconColor2": "#4B5563",
+    "infoBackgroundColor": "#FDFBF8",
+    "buttonPrimaryColor": "#3C81F6",
+    "buttonPrimaryTextColor": "#1F2937",
+    "buttonPrimaryHover": "#F5DEB3",
+    "buttonSecondaryColor": "#3C81F6",
+    "buttonSecondaryTextColor": "#1F2937",
+    "buttonSecondaryHover": "#F5DEB3",
+    "dividerColor": "#cfd8dc",
+    "footerTextColor": "#78909c",
+    "bodyFontFamily": "Roboto, sans-serif",
+    "titleFontFamily": "Playfair Display, serif"
   }
 }
