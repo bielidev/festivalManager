@@ -46,5 +46,21 @@
     "footerText1": "Entrades no reemborsables.",
     "footerText2": "Estigues al dia amb el nostre lloc web oficial.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
+  },
+  "styles": {
+    "headerBackgroundColor": "#f0f4f8",
+    "bodyBackgroundColor": "#ffffff",
+    "titleColor": "#1a237e",
+    "textColor": "#37474f",
+    "buttonPrimaryColor": "#8968CD",
+    "buttonPrimaryTextColor": "#8968CD",
+    "buttonPrimaryHover": "#D8BFD8",
+    "buttonSecondaryColor": "#8968CD",
+    "buttonSecondaryTextColor": "#8968CD",
+    "buttonSecondaryHover": "#D8BFD8",
+    "dividerColor": "#cfd8dc",
+    "footerTextColor": "#78909c",
+    "bodyFontFamily": "Roboto,, sans-serif",
+    "titleFontFamily": "Playfair Display, serif"
   }
 }

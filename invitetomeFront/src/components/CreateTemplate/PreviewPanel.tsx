@@ -377,11 +377,12 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                   fontWeight: 500,
                   fontSize: "0.95rem",
                   borderRadius: 2,
-                  borderColor: "#90caf9",
-                  color: "#1976d2",
+                  borderColor: templateStyles?.buttonPrimaryColor || "#90caf9",
+                  color: templateStyles?.buttonPrimaryTextColor || "#1976d2",
                   paddingY: 1.2,
                   "&:hover": {
-                    backgroundColor: "#e3f2fd",
+                    backgroundColor:
+                      templateStyles?.buttonPrimaryHover || "#e3f2fd",
                     borderColor: "#64b5f6",
                   },
                 }}
@@ -407,11 +408,13 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                   fontWeight: 500,
                   fontSize: "0.95rem",
                   borderRadius: 2,
-                  borderColor: "#a5d6a7",
-                  color: "#388e3c",
+                  borderColor:
+                    templateStyles?.buttonSecondaryColor || "#a5d6a7",
+                  color: templateStyles?.buttonSecondaryTextColor || "#388e3c",
                   paddingY: 1.2,
                   "&:hover": {
-                    backgroundColor: "#e8f5e9",
+                    backgroundColor:
+                      templateStyles?.buttonSecondaryHover || "#e8f5e9",
                     borderColor: "#81c784",
                   },
                 }}
