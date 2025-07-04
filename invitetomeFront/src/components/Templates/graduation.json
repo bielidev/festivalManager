@@ -46,5 +46,25 @@
     "footerText1": "Cal invitació formal per entrar.",
     "footerText2": "Ens fa il·lusió compartir aquest dia amb tu. Si us plau, arriba amb temps per accedir a l'acte.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
+  },
+  "styles": {
+    "headerBackgroundColor": "#ffffff",
+    "bodyBackgroundColor": "#ffffff",
+    "titleColor": "#101927",
+    "textColor": "#37474f",
+    "iconColor": "#9CA3AF",
+    "iconColor2": "#2E3A90",
+    "iconPadding": "1rem",
+    "infoBackgroundColor": "#F3F5FF",
+    "buttonPrimaryColor": "#3C81F6",
+    "buttonPrimaryTextColor": "#2E3A90",
+    "buttonPrimaryHover": "#F3F5FF",
+    "buttonSecondaryColor": "#3C81F6",
+    "buttonSecondaryTextColor": "#2E3A90",
+    "buttonSecondaryHover": "#F3F5FF",
+    "dividerColor": "#cfd8dc",
+    "footerTextColor": "#78909c",
+    "bodyFontFamily": "Poppins, sans-serif",
+    "titleFontFamily": "Poppins, sans-serif"
   }
 }

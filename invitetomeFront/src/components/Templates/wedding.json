@@ -48,7 +48,23 @@
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats"
   },
   "styles": {
-    "backgroundColor": "#fff",
-    "titleColor": "#cecece"
+    "headerBackgroundColor": "#FDFBF8",
+    "bodyBackgroundColor": "#FDFBF8",
+    "titleColor": "#6E5B4F",
+    "textColor": "#4B5563",
+    "iconColor": "##6E5B4F",
+    "iconColor2": "#6E5B4F",
+
+    "infoBackgroundColor": "#FDFBF8",
+    "buttonPrimaryColor": "#3C81F6",
+    "buttonPrimaryTextColor": "#8B7D7B",
+    "buttonPrimaryHover": "#FFE4E1",
+    "buttonSecondaryColor": "#3C81F6",
+    "buttonSecondaryTextColor": "#8B7D7B",
+    "buttonSecondaryHover": "#FFE4E1",
+    "dividerColor": "#cfd8dc",
+    "footerTextColor": "#78909c",
+    "bodyFontFamily": "Poppins, sans-serif",
+    "titleFontFamily": "Playfair Display, serif"
   }
 }

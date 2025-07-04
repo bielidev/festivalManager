@@ -46,5 +46,22 @@
     "footerText1": "Aquesta invitació no és transferible.",
     "footerText2": "Estem desitjant donar-te la benvinguda. Si us plau, arriba amb temps per al registre.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
+  },
+  "styles": {
+    "headerBackgroundColor": "#ffffff",
+    "bodyBackgroundColor": "#ffffff",
+    "titleColor": "#3C81F6",
+    "textColor": "#37474f",
+    "iconColor": "#3C81F6",
+    "buttonPrimaryColor": "#3C81F6",
+    "buttonPrimaryTextColor": "#3C81F6",
+    "buttonPrimaryHover": "#B0E2FF",
+    "buttonSecondaryColor": "#3C81F6",
+    "buttonSecondaryTextColor": "#3C81F6",
+    "buttonSecondaryHover": "#B0E2FF",
+    "dividerColor": "#cfd8dc",
+    "footerTextColor": "#78909c",
+    "bodyFontFamily": "Poppins, sans-serif",
+    "titleFontFamily": "Poppins, sans-serif"
   }
 }

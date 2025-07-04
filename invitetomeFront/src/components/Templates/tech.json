@@ -1,6 +1,6 @@
 {
   "english": {
-    "logoUrl": "https://static.vecteezy.com/system/resources/previews/019/512/607/non_2x/conference-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg",
+    "logoUrl": "https://www.mwcbarcelona.com/cdn-cgi/image/f=auto,w=800,h=auto/https://event-assets.gsma.com/Barcelona/talent-arena-700x467.png",
     "header": "Join the Tech Connect 2025",
     "contactName": "Tech Connect Team",
     "contactEmail": "info@techconnect2025.com",
@@ -16,7 +16,7 @@
     "poweredBy": "© 2025 Invite2Me. All rights reserved."
   },
   "spanish": {
-    "logoUrl": "https://static.vecteezy.com/system/resources/previews/019/512/607/non_2x/conference-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg",
+    "logoUrl": "https://www.mwcbarcelona.com/cdn-cgi/image/f=auto,w=800,h=auto/https://event-assets.gsma.com/Barcelona/talent-arena-700x467.png",
     "header": "Únete a Tech Connect 2025",
     "contactName": "Equipo Tech Connect",
     "contactEmail": "info@techconnect2025.com",
@@ -32,7 +32,7 @@
     "poweredBy": "© 2025 Invite2Me. Todos los derechos reservados."
   },
   "catalan": {
-    "logoUrl": "https://static.vecteezy.com/system/resources/previews/019/512/607/non_2x/conference-icon-for-your-website-mobile-presentation-and-logo-design-free-vector.jpg",
+    "logoUrl": "https://www.mwcbarcelona.com/cdn-cgi/image/f=auto,w=800,h=auto/https://event-assets.gsma.com/Barcelona/talent-arena-700x467.png",
     "header": "Uneix-te a Tech Connect 2025",
     "contactName": "Equip Tech Connect",
     "contactEmail": "info@techconnect2025.com",
@@ -46,5 +46,25 @@
     "footerText1": "Cal passi d'accés per entrar a l'esdeveniment.",
     "footerText2": "Consulta el nostre lloc web oficial per a novetats i actualitzacions.",
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
+  },
+  "styles": {
+    "headerBackgroundColor": "#000000",
+    "bodyBackgroundColor": "#000000",
+    "titleColor": "#FAFE04",
+    "textColor": "#FFFFFF",
+    "iconColor": "#9CA3AF",
+    "iconColor2": "#9CA3AF",
+    "iconPadding": "1rem",
+    "infoBackgroundColor": "#000000",
+    "buttonPrimaryColor": "#3C81F6",
+    "buttonPrimaryTextColor": "#FFFF00",
+    "buttonPrimaryHover": "#CDCD00",
+    "buttonSecondaryColor": "#3C81F6",
+    "buttonSecondaryTextColor": "#FFFF00",
+    "buttonSecondaryHover": "#CDCD00",
+    "dividerColor": "#cfd8dc",
+    "footerTextColor": "#FFFFFF",
+    "bodyFontFamily": "Roboto,, sans-serif",
+    "titleFontFamily": "Beas Neue, sans-serif"
   }
 }

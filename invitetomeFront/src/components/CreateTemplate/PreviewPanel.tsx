@@ -38,8 +38,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
             variant="body1"
             sx={{
               mb: 1,
-              fontFamily:
-                templateStyles?.bodyFontFamily || "Playfair Display, serif",
+              fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
             }}
           >
             <Box component="span" sx={{ fontWeight: "bold" }}>
@@ -126,6 +125,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 maxWidth: "200px",
                 height: "auto",
                 mb: 2,
+                mt: 2,
               }}
             />
           )}
@@ -136,8 +136,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 mb: 2,
                 fontWeight: 600,
                 color: templateStyles?.titleColor || "#1c1c1c",
-                fontFamily:
-                  templateStyles?.titleFontFamily || "Poppins, sans-serif",
+                fontFamily: templateStyles?.titleFontFamily || "Roboto, serif",
               }}
             >
               {fields.header}
@@ -162,7 +161,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                     mb: 2,
                     color: templateStyles?.titleColor || "#1c1c1c",
                     fontFamily:
-                      templateStyles?.titleFontFamily || "Poppins, sans-serif",
+                      templateStyles?.titleFontFamily || "Roboto, serif",
                   }}
                 >
                   {translations[language]?.contactDetails || "Contact Details"}
@@ -174,12 +173,17 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                       mb: 1,
                       color: templateStyles?.textColor || "#333333",
                       fontFamily:
-                        templateStyles?.bodyFontFamily ||
-                        "Playfair Display, serif",
+                        templateStyles?.bodyFontFamily || "Roboto, serif",
                     }}
                   >
                     <Box component="span" sx={{ fontWeight: "bold" }}>
-                      <PersonIcon fontSize="small" sx={{ mr: 1 }} />
+                      <PersonIcon
+                        fontSize="small"
+                        sx={{
+                          mr: 1,
+                          color: templateStyles?.iconColor || "#333335",
+                        }}
+                      />
                     </Box>{" "}
                     {fields.contactName}
                   </Typography>
@@ -191,12 +195,17 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                       mb: 1,
                       color: templateStyles?.textColor || "#333333",
                       fontFamily:
-                        templateStyles?.bodyFontFamily ||
-                        "Playfair Display, serif",
+                        templateStyles?.bodyFontFamily || "Roboto, serif",
                     }}
                   >
                     <Box component="span" sx={{ fontWeight: "bold" }}>
-                      <EmailIcon fontSize="small" sx={{ mr: 1 }} />
+                      <EmailIcon
+                        fontSize="small"
+                        sx={{
+                          mr: 1,
+                          color: templateStyles?.iconColor || "#333335",
+                        }}
+                      />
                     </Box>{" "}
                     {fields.contactEmail}
                   </Typography>
@@ -208,12 +217,17 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                       mb: 1,
                       color: templateStyles?.textColor || "#333333",
                       fontFamily:
-                        templateStyles?.bodyFontFamily ||
-                        "Playfair Display, serif",
+                        templateStyles?.bodyFontFamily || "Roboto, serif",
                     }}
                   >
                     <Box component="span" sx={{ fontWeight: "bold" }}>
-                      <PhoneIcon fontSize="small" sx={{ mr: 1 }} />
+                      <PhoneIcon
+                        fontSize="small"
+                        sx={{
+                          mr: 1,
+                          color: templateStyles?.iconColor || "#333335",
+                        }}
+                      />
                     </Box>{" "}
                     {fields.contactPhone}
                   </Typography>
@@ -241,7 +255,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                   mb: 2,
                   color: templateStyles?.titleColor || "#1c1c1c",
                   fontFamily:
-                    templateStyles?.titleFontFamily || "Poppins, sans-serif",
+                    templateStyles?.titleFontFamily || "Roboto, serif",
                 }}
               >
                 {translations[language]?.eventName || "Event"}
@@ -253,12 +267,17 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                     mb: 1,
                     color: templateStyles?.textColor || "#333333",
                     fontFamily:
-                      templateStyles?.bodyFontFamily ||
-                      "Playfair Display, serif",
+                      templateStyles?.bodyFontFamily || "Roboto, serif",
                   }}
                 >
                   <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <ConfirmationNumberIcon fontSize="small" sx={{ mr: 1 }} />
+                    <ConfirmationNumberIcon
+                      fontSize="small"
+                      sx={{
+                        mr: 1,
+                        color: templateStyles?.iconColor || "#333335",
+                      }}
+                    />
                   </Box>{" "}
                   {fields.eventName}
                 </Typography>
@@ -270,12 +289,17 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                     mb: 1,
                     color: templateStyles?.textColor || "#333333",
                     fontFamily:
-                      templateStyles?.bodyFontFamily ||
-                      "Playfair Display, serif",
+                      templateStyles?.bodyFontFamily || "Roboto, serif",
                   }}
                 >
                   <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <CalendarTodayIcon fontSize="small" sx={{ mr: 1 }} />
+                    <CalendarTodayIcon
+                      fontSize="small"
+                      sx={{
+                        mr: 1,
+                        color: templateStyles?.iconColor || "#333335",
+                      }}
+                    />
                   </Box>{" "}
                   {fields.eventDate}
                 </Typography>
@@ -288,12 +312,17 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                     mb: 1,
                     color: templateStyles?.textColor || "#333333",
                     fontFamily:
-                      templateStyles?.bodyFontFamily ||
-                      "Playfair Display, serif",
+                      templateStyles?.bodyFontFamily || "Roboto, serif",
                   }}
                 >
                   <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <HotelIcon fontSize="small" sx={{ mr: 1 }} />
+                    <HotelIcon
+                      fontSize="small"
+                      sx={{
+                        mr: 1,
+                        color: templateStyles?.iconColor || "#333335",
+                      }}
+                    />
                   </Box>
                   {fields.pickupLocation}
                 </Typography>
@@ -306,12 +335,17 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                     mb: 1,
                     color: templateStyles?.textColor || "#333333",
                     fontFamily:
-                      templateStyles?.bodyFontFamily ||
-                      "Playfair Display, serif",
+                      templateStyles?.bodyFontFamily || "Roboto, serif",
                   }}
                 >
                   <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
+                    <LocationOnIcon
+                      fontSize="small"
+                      sx={{
+                        mr: 1,
+                        color: templateStyles?.iconColor || "#333335",
+                      }}
+                    />
                   </Box>
                   {fields.eventLocation}
                 </Typography>
@@ -324,12 +358,21 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                     mb: 2,
                     color: templateStyles?.textColor || "#333333",
                     fontFamily:
-                      templateStyles?.bodyFontFamily ||
-                      "Playfair Display, serif",
+                      templateStyles?.bodyFontFamily || "Roboto, serif",
+                    backgroundColor:
+                      templateStyles?.infoBackgroundColor ||
+                      templateStyles?.bodyBackgroundColor,
+                    padding: templateStyles?.iconPadding || "0px",
                   }}
                 >
                   <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <InfoIcon fontSize="small" sx={{ mr: 1 }} />
+                    <InfoIcon
+                      fontSize="small"
+                      sx={{
+                        mr: 1,
+                        color: templateStyles?.iconColor2 || "#333335",
+                      }}
+                    />
                   </Box>{" "}
                   <Box component="span" sx={{ whiteSpace: "pre-wrap" }}>
                     {fields.eventDescription}
@@ -436,8 +479,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 mb: 1,
                 color: "red",
                 fontWeight: 550,
-                fontFamily:
-                  templateStyles?.bodyFontFamily || "Playfair Display, serif",
+                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
               }}
             >
               {fields.footerText1}
@@ -446,11 +488,10 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
           {visibility.footerText2 && (
             <Typography
               variant="body2"
-              color="text.secondary"
               sx={{
                 mb: 1,
-                fontFamily:
-                  templateStyles?.bodyFontFamily || "Playfair Display, serif",
+                color: templateStyles?.footerTextColor || "#78909c",
+                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
               }}
             >
               {fields.footerText2}
@@ -459,11 +500,10 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
           {visibility.footerText2 && (
             <Typography
               variant="body2"
-              color="text.secondary"
               sx={{
                 mb: 1,
-                fontFamily:
-                  templateStyles?.bodyFontFamily || "Playfair Display, serif",
+                color: templateStyles?.footerTextColor || "#78909c",
+                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
               }}
             >
               <Box component="span" sx={{ fontWeight: "bold" }}>
