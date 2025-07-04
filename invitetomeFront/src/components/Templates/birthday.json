@@ -1,6 +1,6 @@
 {
   "english": {
-    "logoUrl": "https://cdn.textstudio.com/output/studio/template/preview/medium/x/5/y/0/1c80y5x.webp",
+    "logoUrl": "https://png.pngtree.com/png-vector/20220831/ourmid/pngtree-realistic-happy-birthday-in-black-png-image_6114669.png",
     "header": "You're Invited!",
     "contactName": "Anna Smith",
     "contactEmail": "anna.smith@example.com",
@@ -16,7 +16,7 @@
     "poweredBy": "© 2025 Invite2Me. All rights reserved."
   },
   "spanish": {
-    "logoUrl": "https://cdn.textstudio.com/output/studio/template/preview/medium/x/5/y/0/1c80y5x.webp",
+    "logoUrl": "https://png.pngtree.com/png-vector/20220831/ourmid/pngtree-realistic-happy-birthday-in-black-png-image_6114669.png",
     "header": "¡Estás invitado!",
     "contactName": "Anna Smith",
     "contactEmail": "anna.smith@example.com",
@@ -32,7 +32,7 @@
     "poweredBy": "© 2025 Invite2Me. Todos los derechos reservados."
   },
   "catalan": {
-    "logoUrl": "https://cdn.textstudio.com/output/studio/template/preview/medium/x/5/y/0/1c80y5x.webp",
+    "logoUrl": "https://png.pngtree.com/png-vector/20220831/ourmid/pngtree-realistic-happy-birthday-in-black-png-image_6114669.png",
     "header": "Estàs convidat!",
     "contactName": "Anna Smith",
     "contactEmail": "anna.smith@example.com",
@@ -48,7 +48,19 @@
     "poweredBy": "© 2025 Invite2Me. Tots els drets reservats."
   },
   "styles": {
-    "backgroundColor": "blue",
-    "titleColor": "yellow"
+    "headerBackgroundColor": "#F8F8FF",
+    "bodyBackgroundColor": "#F8F8FF",
+    "titleColor": "#778899",
+    "textColor": "#6b4c3b",
+    "buttonPrimaryColor": "#f77f00",
+    "buttonPrimaryTextColor": "#ffffff",
+    "buttonPrimaryHover": "#ffae42",
+    "buttonSecondaryColor": "#00b4d8",
+    "buttonSecondaryTextColor": "#ffffff",
+    "buttonSecondaryHover": "#90e0ef",
+    "dividerColor": "#ffe0b2",
+    "footerTextColor": "#a47148",
+    "bodyFontFamily": "Poppins, sans-serif",
+    "titleFontFamily": "Playfair Display, serif"
   }
 }
