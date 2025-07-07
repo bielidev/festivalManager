@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
 import BuildCircleIcon from "@mui/icons-material/BuildCircle";
-
 import EditorPanel from "./EditorPanel";
 import PreviewPanel from "./PreviewPanel";
 import ActionBar from "./ActionBar";

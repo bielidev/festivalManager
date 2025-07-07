@@ -68,74 +68,22 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
           />
         </Box>
       )}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "1fr 1fr",
+          },
+          gap: 2,
+        }}
+      >
+        {orderedFields.map((field) => {
+          if (field === "logoUrl" || !visibility[field]) return null;
 
-      {orderedFields.map((field) => {
-        if (field === "logoUrl") return null;
-
-        if (field === "pickupLocation") {
-          if (!visibility[field]) return null;
           return (
-            <Box key={field} sx={{ mb: 2 }}>
-              <TextField
-                fullWidth
-                label={
-                  translations[language]?.pickupLocation || "Pickup Location"
-                }
-                value={fields[field] || ""}
-                onChange={(e) => onInputChange(field, e.target.value)}
-                variant="outlined"
-                size="small"
-                disabled={!visibility[field]}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "20px",
-                    "& fieldset": {
-                      borderColor: visibility[field] ? "#2563eb" : "grey.300",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: visibility[field] ? "#1d4ed8" : "grey.500",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#2563eb",
-                    },
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "grey.600",
-                    "&.Mui-focused": {
-                      color: "#2563eb",
-                    },
-                  },
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => onToggleVisibility(field)}
-                        edge="end"
-                        sx={{
-                          color: visibility[field] ? "#2563eb" : "grey.500",
-                          "&:hover": {
-                            color: "#1d4ed8",
-                          },
-                        }}
-                      >
-                        {visibility[field] ? (
-                          <Visibility fontSize="small" />
-                        ) : (
-                          <VisibilityOff fontSize="small" />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Box>
-          );
-        }
-
-        return (
-          <Box key={field} sx={{ mb: 2 }}>
             <TextField
+              key={field}
               fullWidth
               label={translations[language]?.[field] || field}
               value={fields[field] || ""}
@@ -186,9 +134,9 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
                 ),
               }}
             />
-          </Box>
-        );
-      })}
+          );
+        })}
+      </Box>
     </Box>
   );
 };
