@@ -31,6 +31,10 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
   const [visible, setVisible] = useState(true);
 
   const isValidImageUrl = (url: string) => {
+    if (url.startsWith("data:image/")) {
+      return true;
+    }
+
     try {
       const parsed = new URL(url);
       return /\.(jpg|jpeg|png|gif|svg)$/i.test(parsed.pathname);

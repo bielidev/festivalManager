@@ -7,8 +7,8 @@ import {
   BottomNavigationAction,
   Paper,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
+import TextFieldsIcon from "@mui/icons-material/TextFields";
+import BuildCircleIcon from "@mui/icons-material/BuildCircle";
 
 import EditorPanel from "./EditorPanel";
 import PreviewPanel from "./PreviewPanel";
@@ -204,13 +204,13 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
         >
           <BottomNavigation showLabels>
             <BottomNavigationAction
-              label={showEditor ? "Ocultar Editor" : "Editor"}
-              icon={<EditIcon />}
+              label={showEditor ? "Ocultar Campos" : "Campos"}
+              icon={<TextFieldsIcon />}
               onClick={() => setShowEditor((prev) => !prev)}
             />
             <BottomNavigationAction
-              label={showActionBar ? "Ocultar Herramientas" : "Herramientas"}
-              icon={<ViewSidebarIcon />}
+              label={showActionBar ? "Ocultar Acciones" : "Acciones"}
+              icon={<BuildCircleIcon />}
               onClick={() => setShowActionBar((prev) => !prev)}
             />
           </BottomNavigation>
