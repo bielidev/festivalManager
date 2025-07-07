@@ -60,6 +60,7 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
           },
           height: "100vh",
           overflow: "hidden",
+          minHeight: 0,
         }}
       >
         {(showEditor || !isMobile) && (
@@ -70,7 +71,7 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
                 md: "25%",
               },
               height: {
-                xs: "auto",
+                xs: "calc(100vh - 56px)",
                 md: "100%",
               },
               overflowY: "auto",
@@ -80,6 +81,10 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
                 md: "1px solid",
               },
               borderColor: "divider",
+              pb: {
+                xs: "56px",
+                md: 0,
+              },
             }}
           >
             <EditorPanelMemo
@@ -106,10 +111,15 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
               md: "50%",
             },
             height: {
-              xs: "auto",
+              xs: "calc(100vh - 56px)",
               md: "100%",
             },
-            overflow: "hidden",
+            overflowY: "auto",
+            pb: {
+              xs: "56px",
+              md: 0,
+            },
+
             bgcolor: "background.default",
           }}
         >
@@ -140,13 +150,18 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
                 md: "25%",
               },
               height: {
-                xs: "auto",
+                xs: "calc(100vh - 56px)",
                 md: "100%",
               },
+              overflowY: "auto",
               bgcolor: "background.paper",
               borderLeft: {
                 xs: "none",
                 md: "1px solid",
+              },
+              pb: {
+                xs: "56px",
+                md: 0,
               },
               borderColor: "divider",
             }}
