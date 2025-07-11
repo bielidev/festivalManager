@@ -54,7 +54,7 @@ const Templates = () => {
   return (
     <Box>
       <Container maxWidth="md">
-        <Box sx={{ py: 5 }}>
+        <Box sx={{ py: 8 }}>
           <Box
             sx={{
               display: "flex",
