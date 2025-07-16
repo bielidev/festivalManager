@@ -93,8 +93,8 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
               defaultFields={defaultFields}
               language={state.language}
               translations={languages.languages}
-              onInputChange={(field: string, value: string) =>
-                dispatch({ type: "UPDATE_FIELD", field, value })
+              onInputChange={(field: string, value: string | null) =>
+                dispatch({ type: "UPDATE_FIELD", field, value: value ?? "" })
               }
               onToggleVisibility={(field: string) =>
                 dispatch({ type: "TOGGLE_VISIBILITY", field })

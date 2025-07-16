@@ -161,7 +161,6 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
         }
         value={fileName}
         onClick={() => fileInputRef.current?.click()}
-        readOnly
         variant="outlined"
         size="small"
         InputProps={{
@@ -175,6 +174,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({
               </IconButton>
             </InputAdornment>
           ),
+          inputProps: { readOnly: true },
         }}
         sx={{
           mb: 2,
