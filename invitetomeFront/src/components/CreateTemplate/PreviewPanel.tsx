@@ -17,7 +17,7 @@ interface PreviewPanelProps {
     name: string;
     placeholder: string;
     position: string;
-    type?: "text" | "image";
+    type?: "text" | "image" | "link";
   }[];
   defaultFields: string[];
   language: string;
@@ -38,6 +38,32 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
       .filter((cf) => sectionFields.includes(cf.position))
       .map((field) => {
         if (!visibility[field.name]) return null;
+
+        if (field.type === "link" && fields[field.name]) {
+          return (
+            <Typography
+              key={field.name}
+              variant="body1"
+              sx={{
+                mb: 1,
+                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+              }}
+            >
+              <Box component="span" sx={{ fontWeight: "bold" }}>
+                {field.name}:
+              </Box>{" "}
+              <Box
+                component="a"
+                href={fields[field.name]}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: "#2563eb", textDecoration: "underline" }}
+              >
+                {fields[field.name]}
+              </Box>
+            </Typography>
+          );
+        }
 
         if (field.type === "image" && fields[field.name]) {
           return (

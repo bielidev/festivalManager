@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import AddFieldModal from "./AddFieldModal";
 import AddImageFieldModal from "./AddImageFieldModal";
+import AddLinkFieldModal from "./AddLinkFieldModal";
 import { Language } from "./templateReducer"; // Import Language type
 
 interface ActionBarProps {
@@ -24,6 +25,7 @@ interface ActionBarProps {
     position: string
   ) => void;
   onAddImageField: (name: string, position: string) => void;
+  onAddLinkField: (name: string, placeholder: string, position: string) => void;
   onToggleAddFieldForm: () => void;
   onSetTemplateName: (name: string) => void;
   onSave: () => void;
@@ -40,6 +42,7 @@ const ActionBar: React.FC<ActionBarProps> = ({
   language,
   onAddCustomField,
   onAddImageField,
+  onAddLinkField,
   onToggleAddFieldForm,
   onSetTemplateName,
   onSave,
@@ -48,6 +51,7 @@ const ActionBar: React.FC<ActionBarProps> = ({
   onSetLanguage,
 }) => {
   const [showImageFieldForm, setShowImageFieldForm] = useState(false);
+  const [showLinkFieldForm, setShowLinkFieldForm] = useState(false);
   return (
     <Box
       sx={{
@@ -98,6 +102,13 @@ const ActionBar: React.FC<ActionBarProps> = ({
       >
         Add Image Field
       </Button>
+      <Button
+        fullWidth
+        variant="outlined"
+        onClick={() => setShowLinkFieldForm(true)}
+      >
+        Add Link Field
+      </Button>
       <Button fullWidth variant="outlined" onClick={onDownloadJson}>
         Download JSON
       </Button>
@@ -107,6 +118,15 @@ const ActionBar: React.FC<ActionBarProps> = ({
           open={showImageFieldForm}
           onClose={() => setShowImageFieldForm(false)}
           onAdd={onAddImageField}
+          defaultFields={defaultFields}
+        />
+      )}
+
+      {showLinkFieldForm && (
+        <AddLinkFieldModal
+          open={showLinkFieldForm}
+          onClose={() => setShowLinkFieldForm(false)}
+          onAdd={onAddLinkField}
           defaultFields={defaultFields}
         />
       )}

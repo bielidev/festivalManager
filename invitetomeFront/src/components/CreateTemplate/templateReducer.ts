@@ -8,7 +8,7 @@ export interface CustomField {
   name: string;
   placeholder: string;
   position: string;
-  type?: "text" | "image";
+  type?: "text" | "image" | "link";
 }
 
 export interface State {
@@ -34,6 +34,12 @@ export type Action =
       position: string;
     }
   | { type: "ADD_IMAGE_FIELD"; name: string; position: string }
+  | {
+      type: "ADD_LINK_FIELD";
+      name: string;
+      placeholder: string;
+      position: string;
+    }
   | { type: "TOGGLE_ADD_FIELD_FORM" }
   | { type: "SET_LANGUAGE"; language: Language }
   | { type: "RESET_TEMPLATE" };
@@ -117,6 +123,22 @@ export const reducer = (state: State, action: Action): State => {
           },
         ],
         fields: { ...state.fields, [action.name]: "" },
+        visibility: { ...state.visibility, [action.name]: true },
+        showAddFieldForm: false,
+      };
+    case "ADD_LINK_FIELD":
+      return {
+        ...state,
+        customFields: [
+          ...state.customFields,
+          {
+            name: action.name,
+            placeholder: action.placeholder,
+            position: action.position,
+            type: "link",
+          },
+        ],
+        fields: { ...state.fields, [action.name]: action.placeholder },
         visibility: { ...state.visibility, [action.name]: true },
         showAddFieldForm: false,
       };
