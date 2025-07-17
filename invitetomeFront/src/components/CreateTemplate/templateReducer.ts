@@ -8,6 +8,7 @@ export interface CustomField {
   name: string;
   placeholder: string;
   position: string;
+  type?: "text" | "image";
 }
 
 export interface State {
@@ -22,12 +23,7 @@ export interface State {
 }
 
 export type Action =
-  | {
-      type: "LOAD_TEMPLATE_DATA";
-      template: TemplateType;
-      // visibility: { [key: string]: boolean };
-      // customFields: CustomField[];
-    }
+  | { type: "LOAD_TEMPLATE_DATA"; template: TemplateType }
   | { type: "SET_TEMPLATE_NAME"; name: string }
   | { type: "UPDATE_FIELD"; field: string; value: string }
   | { type: "TOGGLE_VISIBILITY"; field: string }
@@ -37,6 +33,7 @@ export type Action =
       placeholder: string;
       position: string;
     }
+  | { type: "ADD_IMAGE_FIELD"; name: string; position: string }
   | { type: "TOGGLE_ADD_FIELD_FORM" }
   | { type: "SET_LANGUAGE"; language: Language }
   | { type: "RESET_TEMPLATE" };
@@ -104,6 +101,22 @@ export const reducer = (state: State, action: Action): State => {
           },
         ],
         fields: { ...state.fields, [action.name]: action.placeholder },
+        visibility: { ...state.visibility, [action.name]: true },
+        showAddFieldForm: false,
+      };
+    case "ADD_IMAGE_FIELD":
+      return {
+        ...state,
+        customFields: [
+          ...state.customFields,
+          {
+            name: action.name,
+            placeholder: "",
+            position: action.position,
+            type: "image",
+          },
+        ],
+        fields: { ...state.fields, [action.name]: "" },
         visibility: { ...state.visibility, [action.name]: true },
         showAddFieldForm: false,
       };

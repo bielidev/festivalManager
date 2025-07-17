@@ -13,7 +13,12 @@ import InfoIcon from "@mui/icons-material/Info";
 interface PreviewPanelProps {
   fields: { [key: string]: string };
   visibility: { [key: string]: boolean };
-  customFields: { name: string; placeholder: string; position: string }[];
+  customFields: {
+    name: string;
+    placeholder: string;
+    position: string;
+    type?: "text" | "image";
+  }[];
   defaultFields: string[];
   language: string;
   translations: { [key: string]: { [key: string]: string } };
@@ -31,8 +36,38 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
   const renderCustomFieldsInSection = (sectionFields: string[]) => {
     return customFields
       .filter((cf) => sectionFields.includes(cf.position))
-      .map((field) =>
-        visibility[field.name] ? (
+      .map((field) => {
+        if (!visibility[field.name]) return null;
+
+        if (field.type === "image" && fields[field.name]) {
+          return (
+            <Box key={field.name} sx={{ mb: 2 }}>
+              <Typography
+                variant="body1"
+                sx={{
+                  mb: 1,
+                  fontWeight: "bold",
+                  fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+                }}
+              >
+                {field.name}:
+              </Typography>
+              <Box
+                component="img"
+                src={fields[field.name]}
+                alt={field.name}
+                sx={{
+                  maxWidth: "100%",
+                  maxHeight: 300,
+                  objectFit: "contain",
+                  borderRadius: 1,
+                }}
+              />
+            </Box>
+          );
+        }
+
+        return (
           <Typography
             key={field.name}
             variant="body1"
@@ -46,8 +81,8 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
             </Box>{" "}
             <Box component="span">{fields[field.name]}</Box>
           </Typography>
-        ) : null
-      );
+        );
+      });
   };
 
   const openGoogleMaps = (location?: string) => {

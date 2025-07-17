@@ -8,14 +8,20 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LogoUploader from "./LogoUploader";
+import ImageUploader from "./ImageUploader";
 
 interface EditorPanelProps {
   fields: { [key: string]: string };
   visibility: { [key: string]: boolean };
-  customFields: { name: string; placeholder: string; position: string }[];
+  customFields: {
+    name: string;
+    placeholder: string;
+    position: string;
+    type?: "text" | "image";
+  }[];
   defaultFields: string[];
   language: string;
-  translations: any;
+  translations: { [key: string]: { [key: string]: string } };
   onInputChange: (field: string, value: string | "") => void;
   onToggleVisibility: (field: string) => void;
 }
@@ -80,6 +86,21 @@ const EditorPanel: React.FC<EditorPanelProps> = ({
       >
         {orderedFields.map((field) => {
           if (field === "logoUrl" || !visibility[field]) return null;
+
+          const customField = customFields.find((cf) => cf.name === field);
+          const isImageField = customField?.type === "image";
+
+          if (isImageField) {
+            return (
+              <Box key={field} sx={{ gridColumn: "1 / -1" }}>
+                <ImageUploader
+                  label={customField.name}
+                  value={fields[field] || ""}
+                  onChange={(value) => onInputChange(field, value)}
+                />
+              </Box>
+            );
+          }
 
           return (
             <TextField

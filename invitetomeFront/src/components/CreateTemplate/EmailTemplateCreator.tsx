@@ -179,6 +179,13 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
                   position,
                 })
               }
+              onAddImageField={(name, position) =>
+                dispatch({
+                  type: "ADD_IMAGE_FIELD",
+                  name,
+                  position,
+                })
+              }
               onToggleAddFieldForm={() =>
                 dispatch({ type: "TOGGLE_ADD_FIELD_FORM" })
               }

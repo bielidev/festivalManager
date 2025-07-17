@@ -1,7 +1,16 @@
-import React, { ChangeEvent } from 'react';
-import { Box, Typography, TextField, Select, MenuItem, Button, SelectChangeEvent } from '@mui/material';
-import AddFieldModal from './AddFieldModal';
-import { Language } from './templateReducer'; // Import Language type
+import React, { ChangeEvent, useState } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  SelectChangeEvent,
+} from "@mui/material";
+import AddFieldModal from "./AddFieldModal";
+import AddImageFieldModal from "./AddImageFieldModal";
+import { Language } from "./templateReducer"; // Import Language type
 
 interface ActionBarProps {
   templateName: string;
@@ -9,7 +18,12 @@ interface ActionBarProps {
   showAddFieldForm: boolean;
   defaultFields: string[];
   language: string; // Keep as string for Select's value prop
-  onAddCustomField: (name: string, placeholder: string, position: string) => void;
+  onAddCustomField: (
+    name: string,
+    placeholder: string,
+    position: string
+  ) => void;
+  onAddImageField: (name: string, position: string) => void;
   onToggleAddFieldForm: () => void;
   onSetTemplateName: (name: string) => void;
   onSave: () => void;
@@ -25,6 +39,7 @@ const ActionBar: React.FC<ActionBarProps> = ({
   defaultFields,
   language,
   onAddCustomField,
+  onAddImageField,
   onToggleAddFieldForm,
   onSetTemplateName,
   onSave,
@@ -32,12 +47,13 @@ const ActionBar: React.FC<ActionBarProps> = ({
   onDownloadJson,
   onSetLanguage,
 }) => {
+  const [showImageFieldForm, setShowImageFieldForm] = useState(false);
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
         p: 2,
         gap: 2,
       }}
@@ -48,7 +64,9 @@ const ActionBar: React.FC<ActionBarProps> = ({
       <TextField
         fullWidth
         value={templateName}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => onSetTemplateName(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onSetTemplateName(e.target.value)
+        }
         placeholder="Template Name"
         variant="outlined"
         size="small"
@@ -56,8 +74,9 @@ const ActionBar: React.FC<ActionBarProps> = ({
       <Select
         fullWidth
         value={language}
-        onChange={(e: SelectChangeEvent<string>) =>
-          onSetLanguage(e.target.value as Language) // Cast to Language
+        onChange={
+          (e: SelectChangeEvent<string>) =>
+            onSetLanguage(e.target.value as Language) // Cast to Language
         }
         variant="outlined"
         size="small"
@@ -70,11 +89,27 @@ const ActionBar: React.FC<ActionBarProps> = ({
         Created: {new Date(createdAt).toLocaleString()}
       </Typography>
       <Button fullWidth variant="outlined" onClick={onToggleAddFieldForm}>
-        Add Custom Field
+        Add Custom Text Field
+      </Button>
+      <Button
+        fullWidth
+        variant="outlined"
+        onClick={() => setShowImageFieldForm(true)}
+      >
+        Add Image Field
       </Button>
       <Button fullWidth variant="outlined" onClick={onDownloadJson}>
         Download JSON
       </Button>
+
+      {showImageFieldForm && (
+        <AddImageFieldModal
+          open={showImageFieldForm}
+          onClose={() => setShowImageFieldForm(false)}
+          onAdd={onAddImageField}
+          defaultFields={defaultFields}
+        />
+      )}
       <Button fullWidth variant="contained" onClick={onSave}>
         Save
       </Button>
