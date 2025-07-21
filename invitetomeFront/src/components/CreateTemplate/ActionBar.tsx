@@ -25,7 +25,12 @@ interface ActionBarProps {
     position: string
   ) => void;
   onAddImageField: (name: string, position: string) => void;
-  onAddLinkField: (name: string, placeholder: string, position: string) => void;
+  onAddLinkField: (
+    name: string,
+    placeholder: string,
+    position: string,
+    variant: "link" | "button"
+  ) => void;
   onToggleAddFieldForm: () => void;
   onSetTemplateName: (name: string) => void;
   onSave: () => void;

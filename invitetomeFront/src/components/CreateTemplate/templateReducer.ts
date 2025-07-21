@@ -9,6 +9,7 @@ export interface CustomField {
   placeholder: string;
   position: string;
   type?: "text" | "image" | "link";
+  variant?: "link" | "button";
 }
 
 export interface State {
@@ -39,6 +40,7 @@ export type Action =
       name: string;
       placeholder: string;
       position: string;
+      variant: "link" | "button";
     }
   | { type: "TOGGLE_ADD_FIELD_FORM" }
   | { type: "SET_LANGUAGE"; language: Language }
@@ -136,6 +138,7 @@ export const reducer = (state: State, action: Action): State => {
             placeholder: action.placeholder,
             position: action.position,
             type: "link",
+            variant: action.variant,
           },
         ],
         fields: { ...state.fields, [action.name]: action.placeholder },

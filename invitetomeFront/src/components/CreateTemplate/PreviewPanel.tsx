@@ -18,6 +18,7 @@ interface PreviewPanelProps {
     placeholder: string;
     position: string;
     type?: "text" | "image" | "link";
+    variant?: "link" | "button";
   }[];
   defaultFields: string[];
   language: string;
@@ -52,15 +53,23 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
               <Box component="span" sx={{ fontWeight: "bold" }}>
                 {field.name}:
               </Box>{" "}
-              <Box
-                component="a"
-                href={fields[field.name]}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{ color: "#2563eb", textDecoration: "underline" }}
-              >
-                {fields[field.name]}
-              </Box>
+              {field.variant === "link" ? (
+                <Box
+                  component="a"
+                  href={fields[field.name]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ color: "#2563eb", textDecoration: "underline" }}
+                >
+                  {fields[field.name]}
+                </Box>
+              ) : (
+                <Button
+                  onClick={() => (window.location.href = fields[field.name])}
+                >
+                  {fields[field.name]}
+                </Button>
+              )}
             </Typography>
           );
         }

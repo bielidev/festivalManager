@@ -15,7 +15,12 @@ import {
 interface AddLinkFieldModalProps {
   open: boolean;
   onClose: () => void;
-  onAdd: (name: string, placeholder: string, position: string) => void;
+  onAdd: (
+    name: string,
+    placeholder: string,
+    position: string,
+    variant: "link" | "button"
+  ) => void;
   defaultFields: string[];
 }
 
@@ -28,11 +33,12 @@ const AddLinkFieldModal: React.FC<AddLinkFieldModalProps> = ({
   const [name, setName] = useState("");
   const [placeholder, setPlaceholder] = useState("https://");
   const [position, setPosition] = useState(defaultFields[0] || "");
+  const [variant, setVariant] = useState<"link" | "button">("link");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name && position) {
-      onAdd(name, placeholder, position);
+      onAdd(name, placeholder, position, variant);
       setName("");
       setPlaceholder("https://");
       setPosition(defaultFields[0] || "");
@@ -78,6 +84,17 @@ const AddLinkFieldModal: React.FC<AddLinkFieldModalProps> = ({
                   {field}
                 </MenuItem>
               ))}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Link Style</InputLabel>
+            <Select
+              value={variant}
+              label="Link Style"
+              onChange={(e) => setVariant(e.target.value as "link" | "button")}
+            >
+              <MenuItem value="link">Link</MenuItem>
+              <MenuItem value="button">Button</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>

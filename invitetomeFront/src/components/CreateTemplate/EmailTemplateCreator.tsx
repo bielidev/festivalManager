@@ -186,12 +186,13 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
                   position,
                 })
               }
-              onAddLinkField={(name, placeholder, position) =>
+              onAddLinkField={(name, placeholder, position, variant) =>
                 dispatch({
                   type: "ADD_LINK_FIELD",
                   name,
                   placeholder,
                   position,
+                  variant,
                 })
               }
               onToggleAddFieldForm={() =>
