@@ -66,6 +66,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
               ) : (
                 <Button
                   onClick={() => (window.location.href = fields[field.name])}
+                  variant="outlined"
                 >
                   {fields[field.name]}
                 </Button>
@@ -377,7 +378,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
 
               {visibility.pickupLocation && (
                 <Typography
-                  variant="body1"
+                  variant="body2"
                   sx={{
                     mb: 1,
                     color: templateStyles?.textColor || "#333333",
@@ -472,7 +473,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 mb: 2,
               }}
             />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" color="text.secondary">
               {fields.qrInstruction}
             </Typography>
           </Box>
