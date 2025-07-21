@@ -110,6 +110,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
             sx={{
               mb: 1,
               fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+              color: templateStyles?.textColor || "black",
             }}
           >
             <Box component="span" sx={{ fontWeight: "bold" }}>
