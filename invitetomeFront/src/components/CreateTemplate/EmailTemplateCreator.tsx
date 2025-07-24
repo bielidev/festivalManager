@@ -89,10 +89,21 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
             <EditorPanelMemo
               fields={state.fields}
               visibility={state.visibility}
-              customFields={state.customFields}
+              customFields={
+                state.customFields.filter((cf) => cf.type !== "link") as {
+                  name: string;
+                  placeholder: string;
+                  position: string;
+                  type?: "text" | "image";
+                }[]
+              }
               defaultFields={defaultFields}
               language={state.language}
-              translations={languages.languages}
+              translations={
+                languages.languages as unknown as {
+                  [key: string]: { [key: string]: string };
+                }
+              }
               onInputChange={(field: string, value: string | null) =>
                 dispatch({ type: "UPDATE_FIELD", field, value: value ?? "" })
               }
@@ -126,18 +137,18 @@ const EmailTemplateCreator: React.FC<EmailTemplateCreatorProps> = () => {
             fields={state.fields}
             visibility={state.visibility}
             customFields={state.customFields}
+            fieldOrder={state.fieldOrder}
             defaultFields={defaultFields}
             language={state.language}
-            translations={
-              Object.fromEntries(
+            translations={{
+              [state.language]: Object.fromEntries(
                 Object.entries(
                   languages.languages[state.language] || {}
-                ).filter(
-                  ([, value]) => typeof value === "object" && value !== null
-                )
-              ) as { [key: string]: { [key: string]: string } }
-            }
+                ).filter(([, value]) => typeof value === "string")
+              ) as { [key: string]: string },
+            }}
             templateStyles={state.template?.styles}
+            dispatch={dispatch}
           />
         </Box>
 

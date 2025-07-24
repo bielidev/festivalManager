@@ -18,6 +18,7 @@ export interface State {
   fields: { [key: string]: string };
   visibility: { [key: string]: boolean };
   customFields: CustomField[];
+  fieldOrder: { [section: string]: string[] }; // New field for ordering
   showAddFieldForm: boolean;
   language: Language;
   template: TemplateType | null;
@@ -44,7 +45,14 @@ export type Action =
     }
   | { type: "TOGGLE_ADD_FIELD_FORM" }
   | { type: "SET_LANGUAGE"; language: Language }
-  | { type: "RESET_TEMPLATE" };
+  | { type: "RESET_TEMPLATE" }
+  | { type: "REORDER_CUSTOM_FIELDS"; fromIndex: number; toIndex: number }
+  | {
+      type: "REORDER_FIELDS_IN_SECTION";
+      section: string;
+      fromIndex: number;
+      toIndex: number;
+    };
 
 export const initialState: State = {
   templateName: "Untitled Template",
@@ -64,8 +72,21 @@ export const initialState: State = {
     eventDescription: true,
     footerText1: true,
     footerText2: true,
+    poweredBy: true,
   },
   customFields: [],
+  fieldOrder: {
+    header: ["logoUrl", "header"],
+    contactDetails: ["contactName", "contactEmail", "contactPhone"],
+    eventDetails: [
+      "eventName",
+      "eventDate",
+      "eventLocation",
+      "pickupLocation",
+      "eventDescription",
+    ],
+    footer: ["footerText1", "footerText2", "poweredBy"],
+  },
   showAddFieldForm: false,
   language: "english",
   template: null,
@@ -110,6 +131,13 @@ export const reducer = (state: State, action: Action): State => {
         ],
         fields: { ...state.fields, [action.name]: action.placeholder },
         visibility: { ...state.visibility, [action.name]: true },
+        fieldOrder: {
+          ...state.fieldOrder,
+          [action.position]: [
+            ...(state.fieldOrder[action.position] || []),
+            action.name,
+          ],
+        },
         showAddFieldForm: false,
       };
     case "ADD_IMAGE_FIELD":
@@ -126,6 +154,13 @@ export const reducer = (state: State, action: Action): State => {
         ],
         fields: { ...state.fields, [action.name]: "" },
         visibility: { ...state.visibility, [action.name]: true },
+        fieldOrder: {
+          ...state.fieldOrder,
+          [action.position]: [
+            ...(state.fieldOrder[action.position] || []),
+            action.name,
+          ],
+        },
         showAddFieldForm: false,
       };
     case "ADD_LINK_FIELD":
@@ -143,6 +178,13 @@ export const reducer = (state: State, action: Action): State => {
         ],
         fields: { ...state.fields, [action.name]: action.placeholder },
         visibility: { ...state.visibility, [action.name]: true },
+        fieldOrder: {
+          ...state.fieldOrder,
+          [action.position]: [
+            ...(state.fieldOrder[action.position] || []),
+            action.name,
+          ],
+        },
         showAddFieldForm: false,
       };
     case "TOGGLE_ADD_FIELD_FORM":
@@ -159,6 +201,28 @@ export const reducer = (state: State, action: Action): State => {
       };
     case "RESET_TEMPLATE":
       return { ...initialState, createdAt: new Date().toISOString() };
+    case "REORDER_CUSTOM_FIELDS": {
+      const newCustomFields = [...state.customFields];
+      const [movedField] = newCustomFields.splice(action.fromIndex, 1);
+      newCustomFields.splice(action.toIndex, 0, movedField);
+      return {
+        ...state,
+        customFields: newCustomFields,
+      };
+    }
+    case "REORDER_FIELDS_IN_SECTION": {
+      const sectionFields = [...(state.fieldOrder[action.section] || [])];
+      const [movedField] = sectionFields.splice(action.fromIndex, 1);
+      sectionFields.splice(action.toIndex, 0, movedField);
+
+      return {
+        ...state,
+        fieldOrder: {
+          ...state.fieldOrder,
+          [action.section]: sectionFields,
+        },
+      };
+    }
     default:
       return state;
   }

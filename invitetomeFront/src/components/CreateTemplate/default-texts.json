@@ -12,7 +12,8 @@
     "eventLocation": "Parc del Fòrum, Barcelona",
     "eventDescription": "One of Europe's biggest music festivals...",
     "footerText1": "This invitation is non-transferable.",
-    "footerText2": " 2025 Invite2Me. All rights reserved."
+    "footerText2": " 2025 Invite2Me. All rights reserved.",
+    "poweredBy": "Invite2Me"
   },
   "spanish": {
     "logoUrl": "https://www.tailorbrands.com/wp-content/uploads/2021/05/nike-300x300.png",
@@ -27,7 +28,8 @@
     "eventLocation": "Parc del Fòrum, Barcelona",
     "eventDescription": "Uno de los festivales de música más grandes de Europa...",
     "footerText1": "Esta invitación no es transferible.",
-    "footerText2": " 2025 Invite2Me. Todos los derechos reservados."
+    "footerText2": " 2025 Invite2Me. Todos los derechos reservados.",
+    "poweredBy": "Invite2Me"
   },
   "catalan": {
     "logoUrl": "https://www.tailorbrands.com/wp-content/uploads/2021/05/nike-300x300.png",
@@ -42,6 +44,7 @@
     "eventLocation": "Parc del Fòrum, Barcelona",
     "eventDescription": "Un dels festivals de música més grans d'Europa...",
     "footerText1": "Aquesta invitació no és transferible.",
-    "footerText2": " 2025 Invite2Me. Tots els drets reservats."
+    "footerText2": " 2025 Invite2Me. Tots els drets reservats.",
+    "poweredBy": "Invite2Me"
   }
 }

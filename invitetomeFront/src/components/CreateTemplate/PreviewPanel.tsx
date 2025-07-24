@@ -9,6 +9,8 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import HotelIcon from "@mui/icons-material/Hotel";
 import InfoIcon from "@mui/icons-material/Info";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import { Action } from "./templateReducer";
 
 interface PreviewPanelProps {
   fields: { [key: string]: string };
@@ -20,106 +22,520 @@ interface PreviewPanelProps {
     type?: "text" | "image" | "link";
     variant?: "link" | "button";
   }[];
+  fieldOrder: { [section: string]: string[] };
   defaultFields: string[];
   language: string;
   translations: { [key: string]: { [key: string]: string } };
   templateStyles: { [key: string]: string } | undefined;
+  dispatch: React.Dispatch<Action>;
 }
 
 const PreviewPanel: React.FC<PreviewPanelProps> = ({
   fields,
   visibility,
   customFields,
+  fieldOrder,
   language,
   translations,
   templateStyles,
+  dispatch,
 }) => {
-  const renderCustomFieldsInSection = (sectionFields: string[]) => {
-    return customFields
-      .filter((cf) => sectionFields.includes(cf.position))
-      .map((field) => {
-        if (!visibility[field.name]) return null;
+  const [draggedField, setDraggedField] = React.useState<{
+    fieldName: string;
+    section: string;
+    index: number;
+  } | null>(null);
+  const [dragOverField, setDragOverField] = React.useState<{
+    fieldName: string;
+    section: string;
+    index: number;
+  } | null>(null);
 
-        if (field.type === "link" && fields[field.name]) {
-          return (
-            <Typography
-              key={field.name}
-              variant="body1"
-              sx={{
-                mb: 1,
-                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
-              }}
-            >
-              <Box component="span" sx={{ fontWeight: "bold" }}>
-                {field.name}:
-              </Box>{" "}
-              {field.variant === "link" ? (
-                <Box
-                  component="a"
-                  href={fields[field.name]}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ color: "#2563eb", textDecoration: "underline" }}
-                >
-                  {fields[field.name]}
-                </Box>
-              ) : (
-                <Button
-                  onClick={() => (window.location.href = fields[field.name])}
-                  variant="outlined"
-                >
-                  {fields[field.name]}
-                </Button>
-              )}
-            </Typography>
-          );
-        }
+  const handleDragStart = (
+    e: React.DragEvent,
+    fieldName: string,
+    section: string,
+    index: number
+  ) => {
+    setDraggedField({ fieldName, section, index });
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", fieldName);
+  };
 
-        if (field.type === "image" && fields[field.name]) {
-          return (
-            <Box key={field.name} sx={{ mb: 2 }}>
-              <Typography
-                variant="body1"
-                sx={{
-                  mb: 1,
-                  fontWeight: "bold",
-                  fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
-                }}
-              >
-                {field.name}:
-              </Typography>
-              <Box
-                component="img"
-                src={fields[field.name]}
-                alt={field.name}
-                sx={{
-                  maxWidth: "100%",
-                  maxHeight: 300,
-                  objectFit: "contain",
-                  borderRadius: 1,
-                }}
-              />
-            </Box>
-          );
-        }
+  const handleDragOver = (
+    e: React.DragEvent,
+    fieldName: string,
+    section: string,
+    index: number
+  ) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    setDragOverField({ fieldName, section, index });
+  };
 
+  const handleDragLeave = () => {
+    setDragOverField(null);
+  };
+
+  const handleDrop = (
+    e: React.DragEvent,
+    dropSection: string,
+    dropIndex: number
+  ) => {
+    e.preventDefault();
+
+    if (!draggedField || draggedField.section !== dropSection) {
+      setDraggedField(null);
+      setDragOverField(null);
+      return;
+    }
+
+    if (draggedField.index !== dropIndex) {
+      dispatch({
+        type: "REORDER_FIELDS_IN_SECTION",
+        section: dropSection,
+        fromIndex: draggedField.index,
+        toIndex: dropIndex,
+      });
+    }
+
+    setDraggedField(null);
+    setDragOverField(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedField(null);
+    setDragOverField(null);
+  };
+
+  const getCustomField = (fieldName: string) => {
+    return customFields.find((cf) => cf.name === fieldName);
+  };
+
+  const renderFieldContent = (fieldName: string) => {
+    if (!visibility[fieldName] || !fields[fieldName]) return null;
+
+    const customField = getCustomField(fieldName);
+
+    // Handle custom fields with special types
+    if (customField) {
+      if (customField.type === "link") {
         return (
           <Typography
-            key={field.name}
             variant="body1"
             sx={{
               mb: 1,
               fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
-              color: templateStyles?.textColor || "black",
             }}
           >
             <Box component="span" sx={{ fontWeight: "bold" }}>
-              {field.name}:
+              {fieldName}:
             </Box>{" "}
-            <Box component="span">{fields[field.name]}</Box>
+            {customField.variant === "link" ? (
+              <Box
+                component="a"
+                href={fields[fieldName]}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: "#2563eb", textDecoration: "underline" }}
+              >
+                {fields[fieldName]}
+              </Box>
+            ) : (
+              <Button
+                onClick={() => (window.location.href = fields[fieldName])}
+                variant="outlined"
+              >
+                {fields[fieldName]}
+              </Button>
+            )}
           </Typography>
         );
-      });
+      }
+
+      if (customField.type === "image") {
+        return (
+          <Box sx={{ mb: 2 }}>
+            <Typography
+              variant="body1"
+              sx={{
+                mb: 1,
+                fontWeight: "bold",
+                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+              }}
+            >
+              {fieldName}:
+            </Typography>
+            <Box
+              component="img"
+              src={fields[fieldName]}
+              alt={fieldName}
+              sx={{
+                maxWidth: "100%",
+                maxHeight: 300,
+                objectFit: "contain",
+                borderRadius: 1,
+              }}
+            />
+          </Box>
+        );
+      }
+
+      // Custom text field
+      return (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 1,
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+            color: templateStyles?.textColor || "black",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            {fieldName}:
+          </Box>{" "}
+          <Box component="span">{fields[fieldName]}</Box>
+        </Typography>
+      );
+    }
+
+    // Handle default fields with their specific rendering
+    const defaultFieldRendering = {
+      logoUrl: () => (
+        <Box
+          component="img"
+          src={fields.logoUrl}
+          alt="Company Logo"
+          sx={{
+            maxWidth: "200px",
+            height: "auto",
+            mb: 2,
+            mt: 2,
+          }}
+        />
+      ),
+      header: () => (
+        <Typography
+          variant="h4"
+          sx={{
+            mb: 2,
+            fontWeight: 600,
+            color: templateStyles?.titleColor || "#1c1c1c",
+            fontFamily: templateStyles?.titleFontFamily || "Roboto, serif",
+          }}
+        >
+          {fields.header}
+        </Typography>
+      ),
+      contactName: () => (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 1,
+            color: templateStyles?.textColor || "#333333",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            <PersonIcon
+              fontSize="small"
+              sx={{
+                mr: 1,
+                color: templateStyles?.iconColor || "#333335",
+              }}
+            />
+          </Box>{" "}
+          {fields.contactName}
+        </Typography>
+      ),
+      contactEmail: () => (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 1,
+            color: templateStyles?.textColor || "#333333",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            <EmailIcon
+              fontSize="small"
+              sx={{
+                mr: 1,
+                color: templateStyles?.iconColor || "#333335",
+              }}
+            />
+          </Box>{" "}
+          {fields.contactEmail}
+        </Typography>
+      ),
+      contactPhone: () => (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 1,
+            color: templateStyles?.textColor || "#333333",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            <PhoneIcon
+              fontSize="small"
+              sx={{
+                mr: 1,
+                color: templateStyles?.iconColor || "#333335",
+              }}
+            />
+          </Box>{" "}
+          {fields.contactPhone}
+        </Typography>
+      ),
+      eventName: () => (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 1,
+            color: templateStyles?.textColor || "#333333",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            <ConfirmationNumberIcon
+              fontSize="small"
+              sx={{
+                mr: 1,
+                color: templateStyles?.iconColor || "#333335",
+              }}
+            />
+          </Box>{" "}
+          {fields.eventName}
+        </Typography>
+      ),
+      eventDate: () => (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 1,
+            color: templateStyles?.textColor || "#333333",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            <CalendarTodayIcon
+              fontSize="small"
+              sx={{
+                mr: 1,
+                color: templateStyles?.iconColor || "#333335",
+              }}
+            />
+          </Box>{" "}
+          {fields.eventDate}
+        </Typography>
+      ),
+      pickupLocation: () => (
+        <Typography
+          variant="body2"
+          sx={{
+            mb: 1,
+            color: templateStyles?.textColor || "#333333",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            <HotelIcon
+              fontSize="small"
+              sx={{
+                mr: 1,
+                color: templateStyles?.iconColor || "#333335",
+              }}
+            />
+          </Box>
+          {fields.pickupLocation}
+        </Typography>
+      ),
+      eventLocation: () => (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 1,
+            color: templateStyles?.textColor || "#333333",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            <LocationOnIcon
+              fontSize="small"
+              sx={{
+                mr: 1,
+                color: templateStyles?.iconColor || "#333335",
+              }}
+            />
+          </Box>
+          {fields.eventLocation}
+        </Typography>
+      ),
+      eventDescription: () => (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 2,
+            color: templateStyles?.textColor || "#333333",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+            backgroundColor:
+              templateStyles?.infoBackgroundColor ||
+              templateStyles?.bodyBackgroundColor,
+            padding: templateStyles?.iconPadding || "0px",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            <InfoIcon
+              fontSize="small"
+              sx={{
+                mr: 1,
+                color: templateStyles?.iconColor2 || "#333335",
+              }}
+            />
+          </Box>{" "}
+          <Box component="span" sx={{ whiteSpace: "pre-wrap" }}>
+            {fields.eventDescription}
+          </Box>
+        </Typography>
+      ),
+      footerText1: () => (
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            mb: 1,
+            color: "red",
+            fontWeight: 550,
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          {fields.footerText1}
+        </Typography>
+      ),
+      footerText2: () => (
+        <Typography
+          variant="body2"
+          sx={{
+            mb: 1,
+            color: templateStyles?.footerTextColor || "#78909c",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          {fields.footerText2}
+        </Typography>
+      ),
+      poweredBy: () => (
+        <Typography
+          variant="body2"
+          sx={{
+            mb: 1,
+            color: templateStyles?.footerTextColor || "#78909c",
+            fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: "bold" }}>
+            {translations[language]?.poweredBy || "Powered by"}:
+          </Box>{" "}
+          {fields.poweredBy}
+        </Typography>
+      ),
+    };
+
+    const renderer =
+      defaultFieldRendering[fieldName as keyof typeof defaultFieldRendering];
+    return renderer ? (
+      renderer()
+    ) : (
+      <Typography
+        variant="body1"
+        sx={{
+          mb: 1,
+          fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
+          color: templateStyles?.textColor || "black",
+        }}
+      >
+        <Box component="span" sx={{ fontWeight: "bold" }}>
+          {fieldName}:
+        </Box>{" "}
+        <Box component="span">{fields[fieldName]}</Box>
+      </Typography>
+    );
+  };
+
+  const renderDraggableField = (
+    fieldName: string,
+    section: string,
+    index: number
+  ) => {
+    const isDragging =
+      draggedField?.fieldName === fieldName &&
+      draggedField?.section === section;
+    const isDragOver =
+      dragOverField?.fieldName === fieldName &&
+      dragOverField?.section === section;
+
+    const fieldContent = renderFieldContent(fieldName);
+    if (!fieldContent) return null;
+
+    return (
+      <Box
+        key={`${section}-${fieldName}`}
+        draggable
+        onDragStart={(e) => handleDragStart(e, fieldName, section, index)}
+        onDragOver={(e) => handleDragOver(e, fieldName, section, index)}
+        onDragLeave={handleDragLeave}
+        onDrop={(e) => handleDrop(e, section, index)}
+        onDragEnd={handleDragEnd}
+        sx={{
+          position: "relative",
+          opacity: isDragging ? 0.5 : 1,
+          backgroundColor: isDragOver
+            ? "rgba(25, 118, 210, 0.1)"
+            : "transparent",
+          borderRadius: 1,
+          border: isDragOver ? "2px dashed #1976d2" : "2px dashed transparent",
+          padding: isDragOver ? 1 : 0.5,
+          cursor: "grab",
+          "&:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.04)",
+          },
+          "&:active": {
+            cursor: "grabbing",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 1,
+          }}
+        >
+          <DragIndicatorIcon
+            sx={{
+              color: "text.secondary",
+              fontSize: "1rem",
+              mt: 0.5,
+              opacity: 0.6,
+              "&:hover": {
+                opacity: 1,
+              },
+            }}
+          />
+          <Box sx={{ flex: 1 }}>{fieldContent}</Box>
+        </Box>
+      </Box>
+    );
+  };
+
+  const renderFieldsInSection = (section: string) => {
+    const sectionFields = fieldOrder[section] || [];
+    return sectionFields.map((fieldName, index) =>
+      renderDraggableField(fieldName, section, index)
+    );
   };
 
   const openGoogleMaps = (location?: string) => {
@@ -188,38 +604,12 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
             p: 1,
           }}
         >
-          {visibility.logoUrl && (
-            <Box
-              component="img"
-              src={fields.logoUrl}
-              alt="Company Logo"
-              sx={{
-                maxWidth: "200px",
-                height: "auto",
-                mb: 2,
-                mt: 2,
-              }}
-            />
-          )}
-          {visibility.header && (
-            <Typography
-              variant="h4"
-              sx={{
-                mb: 2,
-                fontWeight: 600,
-                color: templateStyles?.titleColor || "#1c1c1c",
-                fontFamily: templateStyles?.titleFontFamily || "Roboto, serif",
-              }}
-            >
-              {fields.header}
-            </Typography>
-          )}
-          {renderCustomFieldsInSection(["logoUrl", "header"])}
+          {renderFieldsInSection("header")}
         </Box>
         {/* Contact Details */}
-        {(visibility.contactName ||
-          visibility.contactEmail ||
-          visibility.contactPhone) && (
+        {(fieldOrder.contactDetails || []).some(
+          (field) => visibility[field]
+        ) && (
           <Box sx={{ display: "flex", gap: 4, mt: 4, p: 3 }}>
             <Box sx={{ flex: 1 }}>
               <Box sx={{ mb: 4 }}>
@@ -238,77 +628,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
                 >
                   {translations[language]?.contactDetails || "Contact Details"}
                 </Typography>
-                {visibility.contactName && (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      mb: 1,
-                      color: templateStyles?.textColor || "#333333",
-                      fontFamily:
-                        templateStyles?.bodyFontFamily || "Roboto, serif",
-                    }}
-                  >
-                    <Box component="span" sx={{ fontWeight: "bold" }}>
-                      <PersonIcon
-                        fontSize="small"
-                        sx={{
-                          mr: 1,
-                          color: templateStyles?.iconColor || "#333335",
-                        }}
-                      />
-                    </Box>{" "}
-                    {fields.contactName}
-                  </Typography>
-                )}
-                {visibility.contactEmail && (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      mb: 1,
-                      color: templateStyles?.textColor || "#333333",
-                      fontFamily:
-                        templateStyles?.bodyFontFamily || "Roboto, serif",
-                    }}
-                  >
-                    <Box component="span" sx={{ fontWeight: "bold" }}>
-                      <EmailIcon
-                        fontSize="small"
-                        sx={{
-                          mr: 1,
-                          color: templateStyles?.iconColor || "#333335",
-                        }}
-                      />
-                    </Box>{" "}
-                    {fields.contactEmail}
-                  </Typography>
-                )}
-                {visibility.contactPhone && (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      mb: 1,
-                      color: templateStyles?.textColor || "#333333",
-                      fontFamily:
-                        templateStyles?.bodyFontFamily || "Roboto, serif",
-                    }}
-                  >
-                    <Box component="span" sx={{ fontWeight: "bold" }}>
-                      <PhoneIcon
-                        fontSize="small"
-                        sx={{
-                          mr: 1,
-                          color: templateStyles?.iconColor || "#333335",
-                        }}
-                      />
-                    </Box>{" "}
-                    {fields.contactPhone}
-                  </Typography>
-                )}
-                {renderCustomFieldsInSection([
-                  "contactName",
-                  "contactEmail",
-                  "contactPhone",
-                ])}
+                {renderFieldsInSection("contactDetails")}
               </Box>
             </Box>
           </Box>
@@ -332,132 +652,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
               >
                 {translations[language]?.eventName || "Event"}
               </Typography>
-              {visibility.eventName && (
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 1,
-                    color: templateStyles?.textColor || "#333333",
-                    fontFamily:
-                      templateStyles?.bodyFontFamily || "Roboto, serif",
-                  }}
-                >
-                  <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <ConfirmationNumberIcon
-                      fontSize="small"
-                      sx={{
-                        mr: 1,
-                        color: templateStyles?.iconColor || "#333335",
-                      }}
-                    />
-                  </Box>{" "}
-                  {fields.eventName}
-                </Typography>
-              )}
-              {visibility.eventDate && (
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 1,
-                    color: templateStyles?.textColor || "#333333",
-                    fontFamily:
-                      templateStyles?.bodyFontFamily || "Roboto, serif",
-                  }}
-                >
-                  <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <CalendarTodayIcon
-                      fontSize="small"
-                      sx={{
-                        mr: 1,
-                        color: templateStyles?.iconColor || "#333335",
-                      }}
-                    />
-                  </Box>{" "}
-                  {fields.eventDate}
-                </Typography>
-              )}
-
-              {visibility.pickupLocation && (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    mb: 1,
-                    color: templateStyles?.textColor || "#333333",
-                    fontFamily:
-                      templateStyles?.bodyFontFamily || "Roboto, serif",
-                  }}
-                >
-                  <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <HotelIcon
-                      fontSize="small"
-                      sx={{
-                        mr: 1,
-                        color: templateStyles?.iconColor || "#333335",
-                      }}
-                    />
-                  </Box>
-                  {fields.pickupLocation}
-                </Typography>
-              )}
-
-              {visibility.eventLocation && (
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 1,
-                    color: templateStyles?.textColor || "#333333",
-                    fontFamily:
-                      templateStyles?.bodyFontFamily || "Roboto, serif",
-                  }}
-                >
-                  <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <LocationOnIcon
-                      fontSize="small"
-                      sx={{
-                        mr: 1,
-                        color: templateStyles?.iconColor || "#333335",
-                      }}
-                    />
-                  </Box>
-                  {fields.eventLocation}
-                </Typography>
-              )}
-
-              {visibility.eventDescription && (
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mb: 2,
-                    color: templateStyles?.textColor || "#333333",
-                    fontFamily:
-                      templateStyles?.bodyFontFamily || "Roboto, serif",
-                    backgroundColor:
-                      templateStyles?.infoBackgroundColor ||
-                      templateStyles?.bodyBackgroundColor,
-                    padding: templateStyles?.iconPadding || "0px",
-                  }}
-                >
-                  <Box component="span" sx={{ fontWeight: "bold" }}>
-                    <InfoIcon
-                      fontSize="small"
-                      sx={{
-                        mr: 1,
-                        color: templateStyles?.iconColor2 || "#333335",
-                      }}
-                    />
-                  </Box>{" "}
-                  <Box component="span" sx={{ whiteSpace: "pre-wrap" }}>
-                    {fields.eventDescription}
-                  </Box>
-                </Typography>
-              )}
-              {renderCustomFieldsInSection([
-                "eventName",
-                "eventDate",
-                "eventLocation",
-                "pickupLocation",
-                "eventDescription",
-              ])}
+              {renderFieldsInSection("eventDetails")}
             </Box>
           </Box>
         </Box>
@@ -543,52 +738,7 @@ const PreviewPanel: React.FC<PreviewPanelProps> = ({
         <Divider sx={{ my: 3 }} />
         {/* Footer */}
         <Box sx={{ textAlign: "center" }}>
-          {visibility.footerText1 && (
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                mb: 1,
-                color: "red",
-                fontWeight: 550,
-                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
-              }}
-            >
-              {fields.footerText1}
-            </Typography>
-          )}
-          {visibility.footerText2 && (
-            <Typography
-              variant="body2"
-              sx={{
-                mb: 1,
-                color: templateStyles?.footerTextColor || "#78909c",
-                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
-              }}
-            >
-              {fields.footerText2}
-            </Typography>
-          )}
-          {visibility.footerText2 && (
-            <Typography
-              variant="body2"
-              sx={{
-                mb: 1,
-                color: templateStyles?.footerTextColor || "#78909c",
-                fontFamily: templateStyles?.bodyFontFamily || "Roboto, serif",
-              }}
-            >
-              <Box component="span" sx={{ fontWeight: "bold" }}>
-                {translations[language]?.poweredBy || "Powered by"}:
-              </Box>{" "}
-              {fields.poweredBy}
-            </Typography>
-          )}
-          {renderCustomFieldsInSection([
-            "footerText1",
-            "footerText2",
-            "poweredBy",
-          ])}
+          {renderFieldsInSection("footer")}
         </Box>
       </Paper>
     </Box>
